@@ -2,6 +2,8 @@
 
 The Qudot project consists of several utilities related to Reddit Collectible Avatars. However, most of them have been sunset or taken down following Reddit's announcement of the program's end of life. The current open source repository was created to preserve public interest and provide creators with a way to showcase their work, as Reddit no longer provides a way to do so.
 
+The logic and utilities are licensed under the MIT License. Files located in `src/data/` (including images, descriptions and metadata) are property of Reddit and the original creators.
+
 If you are a creator and want to update your profile (avatar, display name and/or description), feel free to reach out through any of the socials on my site [uxuz.zip](https://uxuz.zip/) or just submit a pull request.
 
 ### Getting Started
