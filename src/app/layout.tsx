@@ -2,8 +2,6 @@ import type { Metadata } from "next";
 import { Reddit_Sans } from "next/font/google";
 import "./globals.css";
 
-import { Header } from "@/components/custom/Header";
-
 const redditSans = Reddit_Sans({
   variable: "--font-reddit-sans",
   subsets: ["latin"],
@@ -23,8 +21,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${redditSans.variable} antialiased`}>
-        <div className="m-auto flex min-h-dvh max-w-xl flex-col px-6 py-12">
-          <Header />
+        <div className="m-auto flex min-h-dvh max-w-2xl flex-col px-3 py-12 sm:px-0">
+          <header></header>
           <main>{children}</main>
         </div>
       </body>
