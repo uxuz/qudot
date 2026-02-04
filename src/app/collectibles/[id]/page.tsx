@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 
 import collectiblesData from "@/data/collectibles.json";
 import type { Collectible } from "@/data/collectibles.types";
+import CollectibleViewer from "./CollectibleViewer";
 
 interface PageProps {
   params: { id: string };
@@ -25,5 +26,24 @@ export default async function CollectiblePage({ params }: PageProps) {
     notFound();
   }
 
-  return <h1>{collectible.name}</h1>;
+  return (
+    <>
+      <CollectibleViewer collectible={collectible} />
+      <section className="grid gap-3 pt-6">
+        <h1 className="text-2xl font-bold">{collectible.name}</h1>
+        <p>Created by {collectible.creator}</p>
+        <p className="text-dim">{collectible.description}</p>
+        <dl className="flex justify-between">
+          <div>
+            <dt className="sr-only">Price</dt>
+            <dd>${collectible.price / 100}</dd>
+          </div>
+          <div>
+            <dt className="sr-only">Supply</dt>
+            <dd>Series of {collectible.sold}</dd>
+          </div>
+        </dl>
+      </section>
+    </>
+  );
 }
