@@ -1,6 +1,6 @@
 "use client";
 
-import { JSX, useState } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import CollectibleShadow from "@/data/CollectibleShadow";
 import { Trait } from "./Trait";
@@ -18,6 +18,7 @@ import {
   LucideSquareCheck,
   LucideTrees,
 } from "@/components/icons/Lucide";
+import { ColorPicker } from "./ColorPicker";
 
 type TraitKey =
   | "rightHand"
@@ -31,12 +32,6 @@ type TraitKey =
   | "hairBack";
 
 type Traits = Partial<Record<TraitKey, string>>;
-
-type TraitGroup = {
-  label: string;
-  icon: JSX.Element;
-  keys: TraitKey[];
-};
 
 const zIndexMap: Record<TraitKey, number> = {
   rightHand: 9,
@@ -250,7 +245,7 @@ export default function CollectibleViewer({
       </div>
 
       {/* Trait toggles */}
-      <div className="flex flex-col gap-2 overflow-y-scroll sm:col-span-3">
+      <div className="flex flex-col gap-2 overflow-y-scroll sm:col-span-3 sm:overflow-y-clip">
         <div className="flex h-fit grid-cols-3 gap-1 sm:grid sm:gap-2">
           <TraitButton
             onClick={() => toggleGroup(["leftHand"])}
@@ -352,7 +347,9 @@ export default function CollectibleViewer({
             <LucideTrees /> <span>Background</span>
           </TraitButton>
         </div>
-        <div className="bg-dim/5 border-dim/5 hidden h-full w-full rounded-xl border sm:block"></div>
+        <div className="bg-dim/5 border-dim/5 hidden h-full w-full rounded-xl border sm:block">
+          <ColorPicker />
+        </div>
       </div>
     </div>
   );
