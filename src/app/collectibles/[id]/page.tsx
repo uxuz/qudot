@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import { Metadata } from "next";
 
 import collectiblesData from "@/data/collectibles.json";
 import type { Collectible } from "@/data/collectibles.types";
@@ -14,6 +15,27 @@ export async function generateStaticParams() {
   return collectibles.map((collectible) => ({
     id: collectible.productId,
   }));
+}
+
+export async function generateMetadata({
+  params,
+}: PageProps): Promise<Metadata> {
+  const { id } = await params;
+
+  const collectible = collectibles.find(
+    (item: Collectible) => item.productId === id,
+  );
+
+  if (!collectible) {
+    notFound();
+  }
+
+  return {
+    title: collectible.name,
+    openGraph: {
+      images: [collectible.previewUrl, collectible.backgroundUrl],
+    },
+  };
 }
 
 export default async function CollectiblePage({ params }: PageProps) {
