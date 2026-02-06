@@ -218,12 +218,12 @@ export function ColorPicker({
             <button
               key={title}
               onClick={() => setActiveTab(title)}
-              className="relative flex h-8 w-full items-center justify-center text-sm select-none"
+              className="hover:text-foreground relative flex h-8 w-full cursor-pointer items-center justify-center text-sm transition-colors select-none"
             >
               {active && (
                 <motion.div
                   layoutId="tabHighlight"
-                  className="bg-dim/10 absolute inset-0"
+                  className="ring-dim/10 bg-dim/5 absolute inset-0 rounded-md ring-1"
                   transition={{ type: "spring", stiffness: 380, damping: 30 }}
                 />
               )}
@@ -260,7 +260,7 @@ export function ColorPicker({
             marginTop: -8,
             boxShadow: "0 0 0 2px rgba(0,0,0,0.25)",
           }}
-          className="border-foreground absolute size-4 rounded-full border-2"
+          className="border-foreground absolute size-4 cursor-pointer rounded-full border-2 active:cursor-grabbing"
         />
       </div>
 
@@ -290,7 +290,7 @@ export function ColorPicker({
             marginTop: -6,
             boxShadow: "0 0 0 2px rgba(0,0,0,0.25)",
           }}
-          className="bg-foreground absolute h-3 w-3 rounded-full"
+          className="bg-foreground absolute h-3 w-3 rounded-full active:cursor-grabbing"
         />
       </div>
 
