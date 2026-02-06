@@ -298,7 +298,7 @@ export function ColorPicker({
         maxLength={7}
         value={hexInput}
         onChange={handleHexChange}
-        className="border-dim/5 text-dim h-8 shrink-0 rounded-lg border px-2 font-mono text-sm focus:outline-none"
+        className="border-dim/10 text-dim focus:bg-dim/5 h-8 shrink-0 rounded-lg border px-2 font-mono text-sm transition-colors focus:outline-none"
       />
     </div>
   );
