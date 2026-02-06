@@ -154,6 +154,17 @@ export function ColorPicker({
 
   return (
     <div className="flex h-full flex-col gap-2 p-2">
+      <nav className="border-dim/10 text-dim flex overflow-clip rounded-lg border">
+        {["Body", "Eye", "Hair"].map((title) => (
+          <button
+            key={title}
+            className="bg-dim/5 hover:bg-dim/10 border-dim/5 flex h-8 w-full cursor-pointer items-center justify-center text-sm transition-colors select-none even:border-x hover:even:border-transparent"
+          >
+            {title}
+          </button>
+        ))}
+      </nav>
+
       <div
         ref={svRef}
         onMouseDown={(e) => {
@@ -172,8 +183,9 @@ export function ColorPicker({
             top: `${(1 - value) * 100}%`,
             transform: "translate(-50%, -50%)",
             background: `${currentHex}`,
+            boxShadow: "0 0 0 2px rgba(0,0,0,0.25)",
           }}
-          className="border-foreground ring-dim/10 size-5 cursor-pointer rounded-full border-2 ring active:cursor-grabbing"
+          className="border-foreground size-4 cursor-pointer rounded-full border-2 active:cursor-grabbing"
         />
       </div>
 
@@ -199,11 +211,11 @@ export function ColorPicker({
             top: "50%",
             width: 14,
             height: 14,
-            background: "#fff",
             borderRadius: "50%",
             transform: "translate(-50%, -50%)",
             boxShadow: "0 0 0 2px rgba(0,0,0,0.25)",
           }}
+          className="bg-foreground"
         />
       </div>
 
@@ -212,7 +224,7 @@ export function ColorPicker({
         pattern="^#([A-Fa-f0-9]{3}|[A-Fa-f0-9]{6})$"
         value={hexInput}
         onChange={handleHexChange}
-        className="border-dim/5 bg-dim/5 text-dim focus:border-dim/10 focus:bg-dim/10 h-8 shrink-0 rounded-lg border px-2 font-mono text-sm transition-colors focus:outline-none"
+        className="border-dim/5 bg-dim/5 text-dim focus:border-dim/10 hover:border-dim/10 focus:bg-dim/10 hover:bg-dim/10 h-8 shrink-0 rounded-lg border px-2 font-mono text-sm transition-colors focus:outline-none"
       />
     </div>
   );

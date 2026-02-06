@@ -348,7 +348,7 @@ export default function CollectibleViewer({
           </TraitButton>
         </div>
         <div className="bg-dim/5 border-dim/5 hidden h-full w-full rounded-xl border sm:block">
-          <ColorPicker />
+          <ColorPicker onColorChange={setBodyColor} />
         </div>
       </div>
     </div>
