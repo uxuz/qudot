@@ -1,9 +1,24 @@
 import { useState, useEffect, useRef, useCallback } from "react";
+import { motion } from "motion/react";
+
+type Tab = "Body" | "Eye" | "Hair";
 
 interface ColorPickerProps {
-  onColorChange?: (color: string) => void;
-  initialColor?: string;
+  onBodyChange?: (color: string) => void;
+  onEyeChange?: (color: string) => void;
+  onHairChange?: (color: string) => void;
+
+  initialBody?: string;
+  initialEye?: string;
+  initialHair?: string;
 }
+
+type TabColor = {
+  h: number;
+  s: number;
+  v: number;
+  hex: string;
+};
 
 const hsvToRgb = (
   h: number,
@@ -73,65 +88,106 @@ const hexToRgb = (hex: string): [number, number, number] => {
 
 const isValidHex = (hex: string) => /^#?([a-f\d]{6})$/i.test(hex);
 
+const makeState = (hex: string): TabColor => {
+  const [r, g, b] = hexToRgb(hex);
+  const [h, s, v] = rgbToHsv(r, g, b);
+  return { h, s, v, hex };
+};
+
 export function ColorPicker({
-  onColorChange,
-  initialColor = "#00FF00",
+  onBodyChange,
+  onEyeChange,
+  onHairChange,
+  initialBody = "#00ff00",
+  initialEye = "#ffff00",
+  initialHair = "#0000ff",
 }: ColorPickerProps) {
-  const [r, g, b] = hexToRgb(initialColor);
-  const [h0, s0, v0] = rgbToHsv(r, g, b);
+  const tabs: Tab[] = ["Body", "Eye", "Hair"];
 
-  const [hue, setHue] = useState(h0);
-  const [saturation, setSaturation] = useState(s0);
-  const [value, setValue] = useState(v0);
+  const [activeTab, setActiveTab] = useState<Tab>("Body");
 
-  const [hexInput, setHexInput] = useState(initialColor);
-  const [isDragging, setIsDragging] = useState<"hue" | "sv" | null>(null);
+  const [colors, setColors] = useState<Record<Tab, TabColor>>({
+    Body: makeState(initialBody),
+    Eye: makeState(initialEye),
+    Hair: makeState(initialHair),
+  });
+
+  const current = colors[activeTab];
+
+  const setCurrent = (next: Partial<TabColor>) =>
+    setColors((c) => ({
+      ...c,
+      [activeTab]: { ...c[activeTab], ...next },
+    }));
+
+  const hue = current.h;
+  const saturation = current.s;
+  const value = current.v;
+  const hexInput = current.hex;
 
   const svRef = useRef<HTMLDivElement>(null);
   const hueRef = useRef<HTMLDivElement>(null);
+
+  const [isDragging, setIsDragging] = useState<"hue" | "sv" | null>(null);
 
   const [cr, cg, cb] = hsvToRgb(hue, saturation, value);
   const currentHex = rgbToHex(cr, cg, cb);
 
   useEffect(() => {
-    setHexInput(currentHex);
-    onColorChange?.(currentHex);
-  }, [currentHex, onColorChange]);
+    setCurrent({ hex: currentHex });
+  }, [currentHex]);
+
+  useEffect(() => {
+    const hex = current.hex;
+
+    if (activeTab === "Body") onBodyChange?.(hex);
+    if (activeTab === "Eye") onEyeChange?.(hex);
+    if (activeTab === "Hair") onHairChange?.(hex);
+  }, [current.hex, activeTab]);
 
   const handleHexChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const val = e.target.value;
-    setHexInput(val);
+
+    setCurrent({ hex: val });
 
     if (!isValidHex(val)) return;
 
     const [r, g, b] = hexToRgb(val);
     const [h, s, v] = rgbToHsv(r, g, b);
 
-    setHue(h);
-    setSaturation(s);
-    setValue(v);
+    setCurrent({ h, s, v });
   };
 
-  const updateSV = useCallback((x: number, y: number) => {
-    if (!svRef.current) return;
+  const updateSV = useCallback(
+    (x: number, y: number) => {
+      if (!svRef.current) return;
 
-    const rect = svRef.current.getBoundingClientRect();
+      const rect = svRef.current.getBoundingClientRect();
 
-    const nx = Math.max(0, Math.min(x - rect.left, rect.width));
-    const ny = Math.max(0, Math.min(y - rect.top, rect.height));
+      const nx = Math.max(0, Math.min(x - rect.left, rect.width));
+      const ny = Math.max(0, Math.min(y - rect.top, rect.height));
 
-    setSaturation(nx / rect.width);
-    setValue(1 - ny / rect.height);
-  }, []);
+      setCurrent({
+        s: nx / rect.width,
+        v: 1 - ny / rect.height,
+      });
+    },
+    [activeTab],
+  );
 
-  const updateHue = useCallback((x: number) => {
-    if (!hueRef.current) return;
+  const updateHue = useCallback(
+    (x: number) => {
+      if (!hueRef.current) return;
 
-    const rect = hueRef.current.getBoundingClientRect();
-    const nx = Math.max(0, Math.min(x - rect.left, rect.width));
+      const rect = hueRef.current.getBoundingClientRect();
+      const nx = Math.max(0, Math.min(x - rect.left, rect.width));
 
-    setHue((nx / rect.width) * 360);
-  }, []);
+      setCurrent({
+        h: (nx / rect.width) * 360,
+      });
+    },
+    [activeTab],
+  );
 
   useEffect(() => {
     const move = (e: MouseEvent) => {
@@ -154,15 +210,28 @@ export function ColorPicker({
 
   return (
     <div className="flex h-full flex-col gap-2 p-2">
-      <nav className="border-dim/10 text-dim flex overflow-clip rounded-lg border">
-        {["Body", "Eye", "Hair"].map((title) => (
-          <button
-            key={title}
-            className="bg-dim/5 hover:bg-dim/10 border-dim/5 flex h-8 w-full cursor-pointer items-center justify-center text-sm transition-colors select-none even:border-x hover:even:border-transparent"
-          >
-            {title}
-          </button>
-        ))}
+      <nav className="border-dim/10 text-dim relative flex overflow-clip rounded-lg border">
+        {tabs.map((title) => {
+          const active = activeTab === title;
+
+          return (
+            <button
+              key={title}
+              onClick={() => setActiveTab(title)}
+              className="relative flex h-8 w-full items-center justify-center text-sm select-none"
+            >
+              {active && (
+                <motion.div
+                  layoutId="tabHighlight"
+                  className="bg-dim/10 absolute inset-0"
+                  transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                />
+              )}
+
+              <span className="relative z-10">{title}</span>
+            </button>
+          );
+        })}
       </nav>
 
       <div
@@ -176,16 +245,22 @@ export function ColorPicker({
         }}
         className="relative h-full w-full cursor-crosshair rounded-lg"
       >
-        <div
+        <motion.div
+          layoutId="sv-knob"
+          transition={
+            isDragging === "sv"
+              ? { type: "tween", duration: 0 }
+              : { type: "spring", stiffness: 420, damping: 32 }
+          }
           style={{
-            position: "absolute",
             left: `${saturation * 100}%`,
             top: `${(1 - value) * 100}%`,
-            transform: "translate(-50%, -50%)",
-            background: `${currentHex}`,
+            background: currentHex,
+            marginLeft: -8,
+            marginTop: -8,
             boxShadow: "0 0 0 2px rgba(0,0,0,0.25)",
           }}
-          className="border-foreground size-4 cursor-pointer rounded-full border-2 active:cursor-grabbing"
+          className="border-foreground absolute size-4 rounded-full border-2"
         />
       </div>
 
@@ -196,35 +271,34 @@ export function ColorPicker({
           updateHue(e.clientX);
         }}
         style={{
-          width: "100%",
-          cursor: "pointer",
-          position: "relative",
           background:
             "linear-gradient(to right, red, yellow, lime, cyan, blue, magenta, red)",
         }}
-        className="h-2 shrink-0 rounded-lg"
+        className="relative h-2 shrink-0 cursor-pointer rounded-lg"
       >
-        <div
+        <motion.div
+          layoutId="hue-knob"
+          transition={
+            isDragging === "hue"
+              ? { type: "tween", duration: 0 }
+              : { type: "spring", stiffness: 420, damping: 32 }
+          }
           style={{
-            position: "absolute",
             left: `${(hue / 360) * 100}%`,
             top: "50%",
-            width: 14,
-            height: 14,
-            borderRadius: "50%",
-            transform: "translate(-50%, -50%)",
+            marginLeft: -6,
+            marginTop: -6,
             boxShadow: "0 0 0 2px rgba(0,0,0,0.25)",
           }}
-          className="bg-foreground"
+          className="bg-foreground absolute h-3 w-3 rounded-full"
         />
       </div>
 
       <input
         maxLength={7}
-        pattern="^#([A-Fa-f0-9]{3}|[A-Fa-f0-9]{6})$"
         value={hexInput}
         onChange={handleHexChange}
-        className="border-dim/5 bg-dim/5 text-dim focus:border-dim/10 hover:border-dim/10 focus:bg-dim/10 hover:bg-dim/10 h-8 shrink-0 rounded-lg border px-2 font-mono text-sm transition-colors focus:outline-none"
+        className="border-dim/5 text-dim h-8 shrink-0 rounded-lg border px-2 font-mono text-sm focus:outline-none"
       />
     </div>
   );

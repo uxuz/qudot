@@ -348,7 +348,11 @@ export default function CollectibleViewer({
           </TraitButton>
         </div>
         <div className="bg-dim/5 border-dim/5 hidden h-full w-full rounded-xl border sm:block">
-          <ColorPicker onColorChange={setBodyColor} />
+          <ColorPicker
+            onBodyChange={setBodyColor}
+            onEyeChange={setEyeColor}
+            onHairChange={setHairColor}
+          />
         </div>
       </div>
     </div>
