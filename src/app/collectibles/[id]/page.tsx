@@ -1,9 +1,11 @@
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
+import Link from "next/link";
 
 import collectiblesData from "@/data/collectibles.json";
 import type { Collectible } from "@/data/collectibles.types";
 import CollectibleViewer from "./CollectibleViewer";
+import { LucideArrowUpRight } from "@/components/icons/Lucide";
 
 interface PageProps {
   params: { id: string };
@@ -51,20 +53,31 @@ export default async function CollectiblePage({ params }: PageProps) {
   return (
     <>
       <CollectibleViewer collectible={collectible} />
-      <section className="grid gap-3 pt-6">
-        <h1 className="text-2xl font-bold">{collectible.name}</h1>
-        <p>Created by {collectible.creator}</p>
-        <p className="text-dim">{collectible.description}</p>
-        <dl className="flex justify-between">
+      <section className="border-dim/10 px-horizontal grid border-t pt-3">
+        <h1 className="flex h-10 items-center text-xl font-bold">
+          {collectible.name}
+        </h1>
+        <p className="mb-2">Created by {collectible.creator}</p>
+
+        <p className="text-dim mb-3">{collectible.description}</p>
+        <dl className="mb-4 flex justify-between">
           <div>
             <dt className="sr-only">Price</dt>
-            <dd>${collectible.price / 100}</dd>
+            <dd>Listed at ${collectible.price / 100}</dd>
           </div>
           <div>
             <dt className="sr-only">Supply</dt>
             <dd>Series of {collectible.sold}</dd>
           </div>
         </dl>
+        <Link
+          href={`https://opensea.io/item/polygon/${collectible.contractAddress}`}
+          target="_blank"
+          className="border-dim/10 flex h-10 items-center justify-center gap-1 rounded-xl border bg-blue-600 font-medium [&>svg]:text-lg"
+        >
+          Explore Marketplace
+          <LucideArrowUpRight />
+        </Link>
       </section>
     </>
   );

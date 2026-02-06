@@ -28,7 +28,7 @@ export default function RootLayout({
       <body
         className={`${redditSans.variable} ${redditMono.variable} antialiased`}
       >
-        <div className="m-auto flex min-h-dvh max-w-2xl flex-col px-3 py-12 sm:px-0">
+        <div className="m-auto flex min-h-dvh max-w-2xl flex-col py-12">
           <header></header>
           <main>{children}</main>
         </div>

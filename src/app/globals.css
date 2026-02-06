@@ -5,6 +5,8 @@
   --background: var(--color-neutral-950);
   --foreground: #ededed;
 
+  --spacing-horizontal: calc(var(--spacing) * 3);
+
   /* 
   Default shadcn colors, usually overwritten by my own custom colors 
   such as color-dim instead of color-muted in the components themselves 
@@ -50,10 +52,18 @@
   --color-dim: color-mix(in srgb, var(--foreground) 75%, var(--background));
   --font-sans: var(--font-reddit-sans);
   --font-mono: var(--font-reddit-mono);
+  --spacing-horizontal: var(--spacing-horizontal);
+}
+
+/* Remove horizontal padding on desktop */
+@media (min-width: 1024px) {
+  :root {
+    --spacing-horizontal: 0;
+  }
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  @apply font-sans;
+  @apply font-sans text-sm;
 }

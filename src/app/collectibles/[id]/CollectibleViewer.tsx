@@ -196,7 +196,7 @@ export default function CollectibleViewer({
   );
 
   return (
-    <div className="flex flex-col gap-3 sm:grid sm:grid-cols-7">
+    <div className="px-horizontal flex flex-col gap-3 pb-3 sm:grid sm:grid-cols-7">
       <div className="relative col-span-4 flex aspect-3/4 h-fit w-fit flex-col items-center justify-center self-center">
         <Image
           src={collectible.backgroundUrl}
