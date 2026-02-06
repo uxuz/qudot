@@ -1,9 +1,14 @@
 import type { Metadata } from "next";
-import { Reddit_Sans } from "next/font/google";
+import { Reddit_Sans, Reddit_Mono } from "next/font/google";
 import "./globals.css";
 
 const redditSans = Reddit_Sans({
   variable: "--font-reddit-sans",
+  subsets: ["latin"],
+});
+
+const redditMono = Reddit_Mono({
+  variable: "--font-reddit-mono",
   subsets: ["latin"],
 });
 
@@ -20,7 +25,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${redditSans.variable} antialiased`}>
+      <body
+        className={`${redditSans.variable} ${redditMono.variable} antialiased`}
+      >
         <div className="m-auto flex min-h-dvh max-w-2xl flex-col px-3 py-12 sm:px-0">
           <header></header>
           <main>{children}</main>

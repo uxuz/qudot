@@ -49,6 +49,7 @@
   --color-foreground: var(--foreground);
   --color-dim: color-mix(in srgb, var(--foreground) 75%, var(--background));
   --font-sans: var(--font-reddit-sans);
+  --font-mono: var(--font-reddit-mono);
 }
 
 body {
