@@ -53,11 +53,14 @@ export default async function CollectiblePage({ params }: PageProps) {
   return (
     <>
       <CollectibleViewer collectible={collectible} />
-      <section className="border-dim/10 px-horizontal grid border-t pt-3">
+      <section className="border-dim/10 px-horizontal grid border-t py-3">
         <h1 className="flex h-10 items-center text-xl font-bold">
           {collectible.name}
         </h1>
-        <p className="mb-2">Created by {collectible.creator}</p>
+        <p className="mb-2">
+          Created by{" "}
+          <Link href={`/${collectible.creator}`}>{collectible.creator}</Link>
+        </p>
 
         <p className="text-dim mb-3">{collectible.description}</p>
         <dl className="mb-4 flex justify-between">
@@ -73,11 +76,15 @@ export default async function CollectiblePage({ params }: PageProps) {
         <Link
           href={`https://opensea.io/item/polygon/${collectible.contractAddress}`}
           target="_blank"
-          className="border-dim/10 flex h-10 items-center justify-center gap-1 rounded-xl border bg-blue-600 font-medium [&>svg]:text-lg"
+          className="border-dim/5 hover:border-dim/10 flex h-10 items-center justify-center gap-1 rounded-xl border bg-blue-600/85 font-medium transition-colors hover:bg-blue-600 [&>svg]:text-lg"
         >
           Explore Marketplace
           <LucideArrowUpRight />
         </Link>
+      </section>
+
+      <section className="border-dim/10 px-horizontal grid border-t pt-3">
+        {/* TODO: Add other metadata here */}
       </section>
     </>
   );
