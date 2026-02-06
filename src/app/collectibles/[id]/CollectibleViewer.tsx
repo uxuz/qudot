@@ -342,7 +342,7 @@ export default function CollectibleViewer({
             disabled={!loaded}
             data-active={!whiteBackground}
             data-exists={true}
-            className="col-span-3"
+            className="col-span-3 select-none"
           >
             <LucideTrees /> <span>Background</span>
           </TraitButton>
