@@ -6,6 +6,7 @@ import collectiblesData from "@/data/collectibles.json";
 import type { Collectible } from "@/data/collectibles.types";
 import CollectibleViewer from "./CollectibleViewer";
 import { LucideArrowUpRight } from "@/components/icons/Lucide";
+import { FacehashClient } from "@/components/custom/FacehashClient";
 
 interface PageProps {
   params: { id: string };
@@ -57,10 +58,6 @@ export default async function CollectiblePage({ params }: PageProps) {
         <h1 className="flex h-10 items-center text-xl font-bold">
           {collectible.name}
         </h1>
-        <p className="mb-2">
-          Created by{" "}
-          <Link href={`/${collectible.creator}`}>{collectible.creator}</Link>
-        </p>
 
         <p className="text-dim mb-3">{collectible.description}</p>
         <dl className="mb-4 flex justify-between">
@@ -83,8 +80,58 @@ export default async function CollectiblePage({ params }: PageProps) {
         </Link>
       </section>
 
-      <section className="border-dim/10 px-horizontal grid border-t pt-3">
-        {/* TODO: Add other metadata here */}
+      <section className="border-dim/10 px-horizontal grid border-t py-3">
+        {/* TODO: Polish the creator section (and move it down?) */}
+
+        <div className="flex gap-2">
+          <Link href={`/${collectible.creator}`} className="h-fit">
+            <FacehashClient
+              name={collectible.creator}
+              colorClasses={["bg-pink-500", "bg-blue-500", "bg-yellow-500"]}
+              className="text-background shrink-0 rounded-full select-none"
+            />
+          </Link>
+          <div>
+            <Link href={`/${collectible.creator}`}>
+              <span className="font-bold">Blurbury</span>{" "}
+              <span className="text-dim">@{collectible.creator}</span>
+            </Link>
+            <p>
+              Lorem, ipsum dolor sit amet consectetur adipisicing elit. Fuga,
+              architecto quasi exercitationem libero culpa ullam blanditiis
+              dicta rerum ad hic natus saepe dignissimos provident nulla
+              nesciunt quidem distinctio, cum maxime.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section className="border-dim/10 px-horizontal grid border-t py-3">
+        {/* TODO: Polish the metadata area, section label (and polygonscan link?) */}
+
+        <h2 className="text-dim mb-3 hidden font-bold uppercase">
+          Blockchain Details
+        </h2>
+
+        <dl className="grid grid-cols-[1fr_2fr] gap-y-2">
+          <dt className="text-dim">Contract Address</dt>
+          <dd className="text-right font-mono text-balance break-all">
+            {collectible.contractAddress}
+          </dd>
+
+          <dt className="text-dim">Starting Token ID</dt>
+          <dd className="text-right font-mono">
+            {collectible.startingTokenId}
+          </dd>
+
+          <dt className="text-dim">Deployment Date</dt>
+          <dd className="text-right">
+            {new Date(collectible.deployedAt).toLocaleString("en-US", {
+              dateStyle: "medium",
+              timeStyle: "short",
+            })}
+          </dd>
+        </dl>
       </section>
     </>
   );
