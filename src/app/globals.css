@@ -55,6 +55,14 @@
   --spacing-horizontal: var(--spacing-horizontal);
 }
 
+@utility scrollbar-hidden {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
 /* Remove horizontal padding on desktop */
 @media (min-width: 1024px) {
   :root {

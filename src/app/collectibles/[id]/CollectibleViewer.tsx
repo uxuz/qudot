@@ -5,7 +5,6 @@ import Image from "next/image";
 import CollectibleShadow from "@/data/CollectibleShadow";
 import { Trait } from "./Trait";
 import { TraitButton } from "./TraitButton";
-import type { Collectible } from "@/data/collectibles.types";
 import {
   LucideEye,
   LucideHand,
@@ -131,9 +130,11 @@ function parseTraits(traitSlice: string[]): Traits {
 }
 
 export default function CollectibleViewer({
-  collectible,
+  traitIds,
+  backgroundUrl,
 }: {
-  collectible: Collectible;
+  traitIds: string[];
+  backgroundUrl: string;
 }) {
   const [loadedCounter, setLoadedCounter] = useState(0);
   const [visibleTraits, setVisibleTraits] = useState<Record<TraitKey, boolean>>(
@@ -155,7 +156,7 @@ export default function CollectibleViewer({
   const [hairColor, setHairColor] = useState("#0000FF");
   const [whiteBackground, setWhiteBackground] = useState(false);
 
-  const traits = parseTraits(collectible.traits);
+  const traits = parseTraits(traitIds);
   const totalToLoad =
     Object.values(traits).filter((v): v is string => !!v).length + 1;
   const loaded = loadedCounter >= totalToLoad;
@@ -199,7 +200,7 @@ export default function CollectibleViewer({
     <div className="px-horizontal flex flex-col gap-3 pb-3 sm:grid sm:grid-cols-7">
       <div className="relative col-span-4 flex aspect-3/4 h-fit w-fit flex-col items-center justify-center self-center">
         <Image
-          src={collectible.backgroundUrl}
+          src={backgroundUrl}
           alt="background"
           width={552}
           height={736}
@@ -245,7 +246,7 @@ export default function CollectibleViewer({
       </div>
 
       {/* Trait toggles */}
-      <div className="flex flex-col gap-2 overflow-y-scroll sm:col-span-3 sm:overflow-y-clip">
+      <div className="scrollbar-hidden flex flex-col gap-2 overflow-y-scroll sm:col-span-3 sm:overflow-y-clip">
         <div className="flex h-fit grid-cols-3 gap-1 sm:grid sm:gap-2">
           <TraitButton
             onClick={() => toggleGroup(["leftHand"])}

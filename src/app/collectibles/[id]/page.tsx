@@ -6,7 +6,8 @@ import collectiblesData from "@/data/collectibles.json";
 import type { Collectible } from "@/data/collectibles.types";
 import CollectibleViewer from "./CollectibleViewer";
 import { LucideArrowUpRight } from "@/components/icons/Lucide";
-import { FacehashClient } from "@/components/custom/FacehashClient";
+import { Avatar } from "@/components/custom/Avatar";
+import { LinkButton } from "@/components/custom/LinkButton";
 
 interface PageProps {
   params: { id: string };
@@ -53,7 +54,11 @@ export default async function CollectiblePage({ params }: PageProps) {
 
   return (
     <>
-      <CollectibleViewer collectible={collectible} />
+      <CollectibleViewer
+        traitIds={collectible.traits}
+        backgroundUrl={collectible.backgroundUrl}
+      />
+
       <section className="border-dim/10 px-horizontal grid border-t py-3">
         <h1 className="flex h-10 items-center text-xl font-bold">
           {collectible.name}
@@ -63,50 +68,53 @@ export default async function CollectiblePage({ params }: PageProps) {
         <dl className="mb-4 flex justify-between">
           <div>
             <dt className="sr-only">Price</dt>
-            <dd>Listed at ${collectible.price / 100}</dd>
+            <dd>Retailed at ${collectible.price / 100}</dd>
           </div>
           <div>
             <dt className="sr-only">Supply</dt>
             <dd>Series of {collectible.sold}</dd>
           </div>
         </dl>
-        <Link
+        <LinkButton
           href={`https://opensea.io/item/polygon/${collectible.contractAddress}`}
           target="_blank"
-          className="border-dim/5 hover:border-dim/10 flex h-10 items-center justify-center gap-1 rounded-xl border bg-blue-600/85 font-medium transition-colors hover:bg-blue-600 [&>svg]:text-lg"
         >
           Explore Marketplace
           <LucideArrowUpRight />
-        </Link>
+        </LinkButton>
       </section>
 
-      <section className="border-dim/10 px-horizontal grid border-t py-3">
-        {/* TODO: Polish the creator section (and move it down?) */}
-
-        <div className="flex gap-2">
-          <Link href={`/${collectible.creator}`} className="h-fit">
-            <FacehashClient
-              name={collectible.creator}
-              colorClasses={["bg-pink-500", "bg-blue-500", "bg-yellow-500"]}
-              className="text-background shrink-0 rounded-full select-none"
-            />
-          </Link>
-          <div>
-            <Link href={`/${collectible.creator}`}>
-              <span className="font-bold">Blurbury</span>{" "}
-              <span className="text-dim">@{collectible.creator}</span>
-            </Link>
-            <p>
-              Lorem, ipsum dolor sit amet consectetur adipisicing elit. Fuga,
-              architecto quasi exercitationem libero culpa ullam blanditiis
-              dicta rerum ad hic natus saepe dignissimos provident nulla
-              nesciunt quidem distinctio, cum maxime.
-            </p>
+      <section className="border-dim/10 px-horizontal grid grid-cols-2 items-center gap-3 border-t py-3">
+        <Link
+          href={`/${collectible.creator}`}
+          className="flex items-center gap-2"
+        >
+          <Avatar name={collectible.creator} />
+          <div className="flex flex-col">
+            <span className="font-bold">Blurbury</span>
+            <span className="text-dim">@{collectible.creator}</span>
           </div>
+        </Link>
+
+        <div className="text-dim flex flex-wrap justify-end gap-1">
+          {collectible.tags.length > 0 ? (
+            collectible.tags.map((tag) => (
+              <div
+                key={tag}
+                className="border-dim/5 bg-dim/5 flex rounded-lg border px-2"
+              >
+                {tag.toUpperCase()}
+              </div>
+            ))
+          ) : (
+            <div className="border-dim/5 bg-dim/5 flex rounded-lg border px-2">
+              WHAT
+            </div>
+          )}
         </div>
       </section>
 
-      <section className="border-dim/10 px-horizontal grid border-t py-3">
+      <section className="border-dim/10 px-horizontal grid border-t pt-3">
         {/* TODO: Polish the metadata area, section label (and polygonscan link?) */}
 
         <h2 className="text-dim mb-3 hidden font-bold uppercase">
@@ -132,6 +140,14 @@ export default async function CollectiblePage({ params }: PageProps) {
             })}
           </dd>
         </dl>
+
+        <LinkButton
+          href={`https://polygonscan.com/token/${collectible.contractAddress}`}
+          className="mt-4"
+        >
+          PolygonScan
+          <LucideArrowUpRight />
+        </LinkButton>
       </section>
     </>
   );
