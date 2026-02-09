@@ -1,6 +1,13 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { motion } from "motion/react";
 
+import { LucideCircleQuestionMark } from "@/components/icons/Lucide";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+
 type Tab = "Body" | "Eye" | "Hair";
 
 interface ColorPickerProps {
@@ -210,7 +217,7 @@ export function ColorPicker({
 
   return (
     <div className="flex h-full flex-col gap-2 p-2">
-      <nav className="border-dim/10 text-dim relative flex overflow-clip rounded-lg border">
+      <nav className="border-dim/10 text-dim relative flex w-full overflow-clip rounded-lg border">
         {tabs.map((title) => {
           const active = activeTab === title;
 
@@ -294,12 +301,23 @@ export function ColorPicker({
         />
       </div>
 
-      <input
-        maxLength={7}
-        value={hexInput}
-        onChange={handleHexChange}
-        className="border-dim/10 text-dim focus:bg-dim/5 h-8 shrink-0 rounded-lg border px-2 font-mono text-sm transition-colors focus:outline-none"
-      />
+      <div className="flex w-full gap-2">
+        <input
+          maxLength={7}
+          value={hexInput}
+          onChange={handleHexChange}
+          className="border-dim/10 text-dim focus:bg-dim/5 h-8 w-full rounded-lg border px-2 font-mono text-sm transition-colors focus:outline-none"
+        />
+        <Popover>
+          <PopoverTrigger className="text-dim border-dim/10 hover:bg-dim/5 flex size-8 shrink-0 cursor-pointer items-center justify-center rounded-lg border transition-colors">
+            <LucideCircleQuestionMark />
+          </PopoverTrigger>
+
+          <PopoverContent align="end" className="text-dim text-xs">
+            Color customization only works for supported collectibles.
+          </PopoverContent>
+        </Popover>
+      </div>
     </div>
   );
 }
