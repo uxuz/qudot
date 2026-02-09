@@ -1,6 +1,9 @@
-# Qudot
+# Blurbury
 
-The Qudot project consists of several utilities related to Reddit Collectible Avatars. However, most of them have been sunset or taken down following Reddit's announcement of the program's end of life. The current open source repository was created to preserve public interest and provide creators with a way to showcase their work, as Reddit no longer provides a way to do so.
+The Blurbury project exists to preserve the discoverability of Reddit Collectible Avatars after their sunset. It provides a place for creators to showcase their work and for collectors to explore and look up collectibles.
+
+> [!IMPORTANT]
+> Blurbury is not a marketplace and does not support buying, selling or using avatars.
 
 The logic and utilities are licensed under the MIT License. Files located in `src/data/` (including images, descriptions and metadata) are property of Reddit and the original creators.
 
