@@ -260,7 +260,7 @@ export function ColorPicker({
             marginTop: -8,
             boxShadow: "0 0 0 2px rgba(0,0,0,0.25)",
           }}
-          className="border-foreground absolute size-4 cursor-pointer rounded-full border-2 active:cursor-grabbing"
+          className="border-foreground absolute size-4 cursor-pointer rounded-full border-2 select-none active:cursor-grabbing"
         />
       </div>
 
