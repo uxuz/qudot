@@ -3,7 +3,7 @@
 The Blurbury project exists to preserve the discoverability of Reddit Collectible Avatars after their sunset. It provides a place for creators to showcase their work and for collectors to explore and look up collectibles.
 
 > [!IMPORTANT]
-> Blurbury is not a marketplace and does not support buying, selling or using avatars.
+> Blurbury is not a marketplace and does not support buying, selling or using Reddit Collectible Avatars.
 
 The logic and utilities are licensed under the MIT License. Files located in `src/data/` (including images, descriptions and metadata) are property of Reddit and the original creators.
 
