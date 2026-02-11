@@ -35,9 +35,13 @@ export async function generateMetadata({
   }
 
   return {
-    title: collectible.name,
+    title: `${collectible.name} by Blurbury (@${collectible.creator})`,
+    description: collectible.description,
     openGraph: {
       images: [collectible.previewUrl, collectible.backgroundUrl],
+    },
+    twitter: {
+      card: "summary_large_image",
     },
   };
 }
@@ -84,7 +88,7 @@ export default async function CollectiblePage({ params }: PageProps) {
         </LinkButton>
       </section>
 
-      <section className="border-dim/10 px-horizontal grid grid-cols-2 items-center gap-3 border-t py-3">
+      <section className="border-dim/10 px-horizontal flex grid-cols-2 items-center gap-3 border-t py-3 sm:grid">
         <Link
           href={`/${collectible.creator}`}
           className="flex items-center gap-2"
@@ -96,8 +100,8 @@ export default async function CollectiblePage({ params }: PageProps) {
           </div>
         </Link>
 
-        <div className="text-dim flex flex-wrap justify-end gap-1">
-          {collectible.tags.length > 0 ? (
+        <div className="text-dim flex w-full flex-wrap justify-end gap-1">
+          {collectible.tags.length > 0 &&
             collectible.tags.map((tag) => (
               <div
                 key={tag}
@@ -105,22 +109,11 @@ export default async function CollectiblePage({ params }: PageProps) {
               >
                 {tag.toUpperCase()}
               </div>
-            ))
-          ) : (
-            <div className="border-dim/5 bg-dim/5 flex rounded-lg border px-2">
-              WHAT
-            </div>
-          )}
+            ))}
         </div>
       </section>
 
       <section className="border-dim/10 px-horizontal grid border-t pt-3">
-        {/* TODO: Polish the metadata area, section label (and polygonscan link?) */}
-
-        <h2 className="text-dim mb-3 hidden font-bold uppercase">
-          Blockchain Details
-        </h2>
-
         <dl className="grid grid-cols-[1fr_2fr] gap-y-2">
           <dt className="text-dim">Contract Address</dt>
           <dd className="text-right font-mono text-balance break-all">
@@ -143,6 +136,7 @@ export default async function CollectiblePage({ params }: PageProps) {
 
         <LinkButton
           href={`https://polygonscan.com/token/${collectible.contractAddress}`}
+          target="_blank"
           className="mt-4"
         >
           PolygonScan
