@@ -197,7 +197,7 @@ export function ColorPicker({
   );
 
   useEffect(() => {
-    const move = (e: MouseEvent) => {
+    const move = (e: PointerEvent) => {
       if (!isDragging) return;
 
       if (isDragging === "sv") updateSV(e.clientX, e.clientY);
@@ -206,12 +206,12 @@ export function ColorPicker({
 
     const up = () => setIsDragging(null);
 
-    window.addEventListener("mousemove", move);
-    window.addEventListener("mouseup", up);
+    window.addEventListener("pointermove", move);
+    window.addEventListener("pointerup", up);
 
     return () => {
-      window.removeEventListener("mousemove", move);
-      window.removeEventListener("mouseup", up);
+      window.removeEventListener("pointermove", move);
+      window.removeEventListener("pointerup", up);
     };
   }, [isDragging, updateSV, updateHue]);
 
@@ -243,14 +243,16 @@ export function ColorPicker({
 
       <div
         ref={svRef}
-        onMouseDown={(e) => {
+        onPointerDown={(e) => {
+          e.preventDefault();
+          e.currentTarget.setPointerCapture(e.pointerId);
           setIsDragging("sv");
           updateSV(e.clientX, e.clientY);
         }}
         style={{
-          background: `linear-gradient(to top,#000,transparent), linear-gradient(to right,#fff,hsl(${hue},100%,50%))`,
+          background: `linear-gradient(to top,#000,transparent), linear-gradient(to right,#fff,hsl(${hue},100%,50%)) `,
         }}
-        className="relative h-full w-full cursor-crosshair rounded-lg"
+        className="relative h-full w-full cursor-crosshair touch-none rounded-lg"
       >
         <motion.div
           layoutId="sv-knob"
@@ -267,13 +269,15 @@ export function ColorPicker({
             marginTop: -8,
             boxShadow: "0 0 0 2px rgba(0,0,0,0.25)",
           }}
-          className="border-foreground absolute size-4 cursor-pointer rounded-full border-2 select-none active:cursor-grabbing"
+          className="border-foreground absolute size-4 cursor-pointer rounded-full border-2 select-none"
         />
       </div>
 
       <div
         ref={hueRef}
-        onMouseDown={(e) => {
+        onPointerDown={(e) => {
+          e.preventDefault();
+          e.currentTarget.setPointerCapture(e.pointerId);
           setIsDragging("hue");
           updateHue(e.clientX);
         }}
@@ -281,7 +285,7 @@ export function ColorPicker({
           background:
             "linear-gradient(to right, red, yellow, lime, cyan, blue, magenta, red)",
         }}
-        className="relative h-2 shrink-0 cursor-pointer rounded-lg"
+        className="relative h-2 shrink-0 cursor-pointer touch-none rounded-lg"
       >
         <motion.div
           layoutId="hue-knob"
@@ -297,7 +301,7 @@ export function ColorPicker({
             marginTop: -6,
             boxShadow: "0 0 0 2px rgba(0,0,0,0.25)",
           }}
-          className="bg-foreground absolute h-3 w-3 rounded-full active:cursor-grabbing"
+          className="bg-foreground absolute h-3 w-3 rounded-full"
         />
       </div>
 
