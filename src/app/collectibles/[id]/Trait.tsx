@@ -1,4 +1,7 @@
 "use client";
+
+// This is an old component directly used from Blurbury's predecessor Qudot
+
 import { useEffect, useRef, useState, useCallback } from "react";
 
 interface TraitProps {
@@ -201,7 +204,7 @@ export function Trait({
     [traitId],
   );
 
-  // Initial SVG setup - only runs once per trait
+  // Initial SVG setup, only runs once per trait
   useEffect(() => {
     if (!visible || !rawSVG || !containerRef.current || isLoaded) return;
 
