@@ -18,6 +18,13 @@ import {
   LucideTrees,
 } from "@/components/icons/Lucide";
 import { ColorPicker } from "./ColorPicker";
+import {
+  Drawer,
+  DrawerContent,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer";
 
 type TraitKey =
   | "rightHand"
@@ -155,6 +162,8 @@ export default function CollectibleViewer({
   const [eyeColor, setEyeColor] = useState("#FFFF00");
   const [hairColor, setHairColor] = useState("#0000FF");
   const [whiteBackground, setWhiteBackground] = useState(false);
+
+  const [open, setOpen] = useState(false);
 
   const traits = parseTraits(traitIds);
   const totalToLoad =
@@ -329,14 +338,45 @@ export default function CollectibleViewer({
             <LucideSquareCheck />
           </TraitButton>
 
-          <TraitButton
-            onClick={() => setWhiteBackground(!whiteBackground)}
-            disabled={!loaded}
-            data-exists={true}
-            className="sm:hidden"
-          >
-            <LucidePaintbrushVertical />
-          </TraitButton>
+          <Drawer open={open} onOpenChange={setOpen}>
+            <DrawerTrigger asChild>
+              <TraitButton
+                onPointerDownCapture={() => {
+                  // TODO: Update the hardcoded magic number 80 to the actual distance from the top once the header has been designed
+                  window.scrollTo({ top: 80, behavior: "smooth" });
+                  const checkScroll = () => {
+                    if (window.scrollY === 80) {
+                      setOpen(true);
+                    } else {
+                      requestAnimationFrame(checkScroll);
+                    }
+                  };
+                  checkScroll();
+                }}
+                disabled={!loaded}
+                data-exists={true}
+                className="sm:hidden"
+              >
+                <LucidePaintbrushVertical />
+              </TraitButton>
+            </DrawerTrigger>
+            <DrawerContent>
+              <DrawerHeader className="sr-only">
+                <DrawerTitle>Color Picker</DrawerTitle>
+              </DrawerHeader>
+
+              <div className="h-[40vh]">
+                <ColorPicker
+                  onBodyChange={setBodyColor}
+                  onEyeChange={setEyeColor}
+                  onHairChange={setHairColor}
+                  initialBody={bodyColor}
+                  initialEye={eyeColor}
+                  initialHair={hairColor}
+                />
+              </div>
+            </DrawerContent>
+          </Drawer>
 
           <TraitButton
             onClick={() => setWhiteBackground(!whiteBackground)}
