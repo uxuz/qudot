@@ -338,10 +338,10 @@ export default function CollectibleViewer({
             <LucideSquareCheck />
           </TraitButton>
 
-          <Drawer open={open} onOpenChange={setOpen}>
+          <Drawer open={open} onOpenChange={setOpen} handleOnly>
             <DrawerTrigger asChild>
               <TraitButton
-                onPointerDownCapture={() => {
+                onTouchStart={() => {
                   // TODO: Update the hardcoded magic number 80 to the actual distance from the top once the header has been designed
                   window.scrollTo({ top: 80, behavior: "smooth" });
                   const checkScroll = () => {
