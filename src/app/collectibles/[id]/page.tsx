@@ -3,7 +3,8 @@ import { Metadata } from "next";
 import Link from "next/link";
 
 import collectiblesData from "@/data/collectibles.json";
-import type { Collectible } from "@/data/collectibles.types";
+import creatorData from "@/data/creators.json";
+import type { Collectible, Creator } from "@/data/data.types";
 import CollectibleViewer from "./CollectibleViewer";
 import { LucideArrowUpRight } from "@/components/icons/Lucide";
 import { Avatar } from "@/components/custom/Avatar";
@@ -14,6 +15,7 @@ interface PageProps {
 }
 
 const collectibles = collectiblesData as Collectible[];
+const creators = creatorData as Creator[];
 
 export async function generateStaticParams() {
   return collectibles.map((collectible) => ({
@@ -34,8 +36,12 @@ export async function generateMetadata({
     notFound();
   }
 
+  const creator = creators.find(
+    (item: Creator) => item.username === collectible.creator,
+  );
+
   return {
-    title: `${collectible.name} by Blurbury (@${collectible.creator})`,
+    title: `${collectible.name} by ${creator?.displayName} (@${collectible.creator})`,
     description: collectible.description,
     openGraph: {
       images: [collectible.previewUrl, collectible.backgroundUrl],
@@ -54,6 +60,16 @@ export default async function CollectiblePage({ params }: PageProps) {
 
   if (!collectible) {
     notFound();
+  }
+
+  const creator = creators.find(
+    (item: Creator) => item.username === collectible.creator,
+  );
+
+  // Special reddit "Test Gray" handling, as it technically doesn't have any traits to begin with
+  if (creator?.username === "reddit") {
+    collectible.traits = [];
+    collectible.backgroundUrl = collectible.previewUrl;
   }
 
   return (
@@ -95,7 +111,7 @@ export default async function CollectiblePage({ params }: PageProps) {
         >
           <Avatar name={collectible.creator} />
           <div className="flex flex-col">
-            <span className="font-bold">Blurbury</span>
+            <span className="font-bold">{creator?.displayName}</span>
             <span className="text-dim">@{collectible.creator}</span>
           </div>
         </Link>

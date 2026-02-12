@@ -1,7 +1,7 @@
 "use client";
 
 import collectiblesData from "@/data/collectibles.json";
-import type { Collectible } from "@/data/collectibles.types";
+import type { Collectible } from "@/data/data.types";
 
 import Link from "next/link";
 

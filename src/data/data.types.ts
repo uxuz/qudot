@@ -15,3 +15,11 @@ export interface Collectible {
   traits: string[];
   tags: string[];
 }
+
+export interface Creator {
+  username: string;
+  displayName: string;
+  description: string;
+  profileUrl: string;
+  genAi: boolean;
+}
