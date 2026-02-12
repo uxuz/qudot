@@ -163,8 +163,6 @@ export default function CollectibleViewer({
   const [hairColor, setHairColor] = useState("#0000FF");
   const [whiteBackground, setWhiteBackground] = useState(false);
 
-  const [open, setOpen] = useState(false);
-
   const traits = parseTraits(traitIds);
   const totalToLoad =
     Object.values(traits).filter((v): v is string => !!v).length + 1;
@@ -338,21 +336,9 @@ export default function CollectibleViewer({
             <LucideSquareCheck />
           </TraitButton>
 
-          <Drawer open={open} onOpenChange={setOpen} handleOnly>
+          <Drawer handleOnly>
             <DrawerTrigger asChild>
               <TraitButton
-                onTouchEnd={() => {
-                  // TODO: Update the hardcoded magic number 80 to the actual distance from the top once the header has been designed
-                  window.scrollTo({ top: 80, behavior: "smooth" });
-                  const checkScroll = () => {
-                    if (window.scrollY === 80) {
-                      setOpen(true);
-                    } else {
-                      requestAnimationFrame(checkScroll);
-                    }
-                  };
-                  checkScroll();
-                }}
                 disabled={!loaded}
                 data-exists={true}
                 className="sm:hidden"
