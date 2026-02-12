@@ -285,7 +285,7 @@ export function ColorPicker({
           background:
             "linear-gradient(to right, red, yellow, lime, cyan, blue, magenta, red)",
         }}
-        className="relative h-2 shrink-0 cursor-pointer touch-none rounded-lg"
+        className="relative h-3 shrink-0 cursor-pointer touch-none rounded-lg"
       >
         <motion.div
           layoutId="hue-knob"
@@ -297,11 +297,11 @@ export function ColorPicker({
           style={{
             left: `${(hue / 360) * 100}%`,
             top: "50%",
-            marginLeft: -6,
-            marginTop: -6,
+            marginLeft: -8,
+            marginTop: -8,
             boxShadow: "0 0 0 2px rgba(0,0,0,0.25)",
           }}
-          className="bg-foreground absolute h-3 w-3 rounded-full"
+          className="bg-foreground absolute size-4 rounded-lg"
         />
       </div>
 
