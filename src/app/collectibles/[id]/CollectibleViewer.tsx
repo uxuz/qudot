@@ -365,7 +365,7 @@ export default function CollectibleViewer({
                 <DrawerTitle>Color Picker</DrawerTitle>
               </DrawerHeader>
 
-              <div className="h-[40vh]">
+              <div className="h-[40vh] p-1">
                 <ColorPicker
                   onBodyChange={setBodyColor}
                   onEyeChange={setEyeColor}
