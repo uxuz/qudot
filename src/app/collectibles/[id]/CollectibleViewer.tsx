@@ -256,7 +256,7 @@ export default function CollectibleViewer({
 
       {/* Trait toggles */}
       <div className="scrollbar-hidden flex flex-col gap-2 overflow-y-scroll sm:col-span-3 sm:overflow-y-clip">
-        <div className="flex h-fit grid-cols-3 gap-1 sm:grid sm:gap-2">
+        <div className="flex h-fit grid-cols-3 gap-2 sm:grid">
           <TraitButton
             onClick={() => toggleGroup(["leftHand"])}
             disabled={!loaded || !traits.leftHand}
@@ -341,7 +341,7 @@ export default function CollectibleViewer({
           <Drawer open={open} onOpenChange={setOpen} handleOnly>
             <DrawerTrigger asChild>
               <TraitButton
-                onTouchStart={() => {
+                onTouchEnd={() => {
                   // TODO: Update the hardcoded magic number 80 to the actual distance from the top once the header has been designed
                   window.scrollTo({ top: 80, behavior: "smooth" });
                   const checkScroll = () => {
