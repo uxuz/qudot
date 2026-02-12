@@ -54,6 +54,7 @@
   --font-sans: var(--font-reddit-sans);
   --font-mono: var(--font-reddit-mono);
   --spacing-horizontal: var(--spacing-horizontal);
+  --color-dim-5: color-mix(in srgb, var(--color-dim) 5%, var(--background));
 }
 
 @utility scrollbar-hidden {
