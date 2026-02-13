@@ -183,14 +183,14 @@ export function ColorPicker({
   );
 
   const updateHue = useCallback(
-    (x: number) => {
+    (y: number) => {
       if (!hueRef.current) return;
 
       const rect = hueRef.current.getBoundingClientRect();
-      const nx = Math.max(0, Math.min(x - rect.left, rect.width));
+      const ny = Math.max(0, Math.min(y - rect.top, rect.height));
 
       setCurrent({
-        h: (nx / rect.width) * 360,
+        h: (1 - ny / rect.height) * 360,
       });
     },
     [activeTab],
@@ -201,7 +201,7 @@ export function ColorPicker({
       if (!isDragging) return;
 
       if (isDragging === "sv") updateSV(e.clientX, e.clientY);
-      else updateHue(e.clientX);
+      else updateHue(e.clientY);
     };
 
     const up = () => setIsDragging(null);
@@ -241,68 +241,70 @@ export function ColorPicker({
         })}
       </nav>
 
-      <div
-        ref={svRef}
-        onPointerDown={(e) => {
-          e.preventDefault();
-          e.currentTarget.setPointerCapture(e.pointerId);
-          setIsDragging("sv");
-          updateSV(e.clientX, e.clientY);
-        }}
-        style={{
-          background: `linear-gradient(to top,#000,transparent), linear-gradient(to right,#fff,hsl(${hue},100%,50%)) `,
-        }}
-        className="relative h-full w-full cursor-crosshair touch-none rounded-lg"
-      >
-        <motion.div
-          layoutId="sv-knob"
-          transition={
-            isDragging === "sv"
-              ? { type: "tween", duration: 0 }
-              : { type: "spring", stiffness: 420, damping: 32 }
-          }
-          style={{
-            left: `${saturation * 100}%`,
-            top: `${(1 - value) * 100}%`,
-            background: currentHex,
-            marginLeft: -8,
-            marginTop: -8,
-            boxShadow: "0 0 0 2px rgba(0,0,0,0.25)",
+      <div className="flex h-full w-full gap-2">
+        <div
+          ref={svRef}
+          onPointerDown={(e) => {
+            e.preventDefault();
+            e.currentTarget.setPointerCapture(e.pointerId);
+            setIsDragging("sv");
+            updateSV(e.clientX, e.clientY);
           }}
-          className="border-foreground absolute size-4 cursor-pointer rounded-full border-2 select-none"
-        />
-      </div>
+          style={{
+            background: `linear-gradient(to top,#000,transparent), linear-gradient(to right,#fff,hsl(${hue},100%,50%))`,
+          }}
+          className="relative flex-1 cursor-crosshair touch-none rounded-lg"
+        >
+          <motion.div
+            layoutId="sv-knob"
+            transition={
+              isDragging === "sv"
+                ? { type: "tween", duration: 0 }
+                : { type: "spring", stiffness: 420, damping: 32 }
+            }
+            style={{
+              left: `${saturation * 100}%`,
+              top: `${(1 - value) * 100}%`,
+              background: currentHex,
+              marginLeft: -8,
+              marginTop: -8,
+              boxShadow: "0 0 0 2px rgba(0,0,0,0.25)",
+            }}
+            className="border-foreground absolute size-4 rounded-full border-2"
+          />
+        </div>
 
-      <div
-        ref={hueRef}
-        onPointerDown={(e) => {
-          e.preventDefault();
-          e.currentTarget.setPointerCapture(e.pointerId);
-          setIsDragging("hue");
-          updateHue(e.clientX);
-        }}
-        style={{
-          background:
-            "linear-gradient(to right, red, yellow, lime, cyan, blue, magenta, red)",
-        }}
-        className="relative h-3 shrink-0 cursor-pointer touch-none rounded-lg"
-      >
-        <motion.div
-          layoutId="hue-knob"
-          transition={
-            isDragging === "hue"
-              ? { type: "tween", duration: 0 }
-              : { type: "spring", stiffness: 420, damping: 32 }
-          }
-          style={{
-            left: `${(hue / 360) * 100}%`,
-            top: "50%",
-            marginLeft: -8,
-            marginTop: -8,
-            boxShadow: "0 0 0 2px rgba(0,0,0,0.25)",
+        <div
+          ref={hueRef}
+          onPointerDown={(e) => {
+            e.preventDefault();
+            e.currentTarget.setPointerCapture(e.pointerId);
+            setIsDragging("hue");
+            updateHue(e.clientY);
           }}
-          className="bg-foreground absolute size-4 rounded-lg"
-        />
+          style={{
+            background:
+              "linear-gradient(to top, red, yellow, lime, cyan, blue, magenta, red)",
+          }}
+          className="relative w-3 cursor-pointer touch-none rounded-lg"
+        >
+          <motion.div
+            layoutId="hue-knob"
+            transition={
+              isDragging === "hue"
+                ? { type: "tween", duration: 0 }
+                : { type: "spring", stiffness: 420, damping: 32 }
+            }
+            style={{
+              top: `${(1 - hue / 360) * 100}%`,
+              left: "50%",
+              marginLeft: -8,
+              marginTop: -8,
+              boxShadow: "0 0 0 2px rgba(0,0,0,0.25)",
+            }}
+            className="bg-foreground absolute size-4 rounded-lg"
+          />
+        </div>
       </div>
 
       <div className="flex w-full gap-2">
