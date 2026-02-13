@@ -247,6 +247,9 @@ export function ColorPicker({
           onPointerDown={(e) => {
             e.preventDefault();
             e.currentTarget.setPointerCapture(e.pointerId);
+            // Unfocus the hex input when interacting with the color picker
+            document.activeElement instanceof HTMLElement &&
+              document.activeElement.blur();
             setIsDragging("sv");
             updateSV(e.clientX, e.clientY);
           }}
@@ -279,6 +282,9 @@ export function ColorPicker({
           onPointerDown={(e) => {
             e.preventDefault();
             e.currentTarget.setPointerCapture(e.pointerId);
+            // Unfocus the hex input when interacting with the hue slider
+            document.activeElement instanceof HTMLElement &&
+              document.activeElement.blur();
             setIsDragging("hue");
             updateHue(e.clientY);
           }}
