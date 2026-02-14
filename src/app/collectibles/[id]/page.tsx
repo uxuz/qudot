@@ -79,22 +79,51 @@ export default async function CollectiblePage({ params }: PageProps) {
         backgroundUrl={collectible.backgroundUrl}
       />
 
-      <section className="border-dim/10 px-horizontal grid border-t py-3">
+      <section className="border-dim/10 px-horizontal grid border-y py-3">
         <h1 className="flex h-10 items-center text-xl font-bold">
           {collectible.name}
         </h1>
 
-        <p className="text-dim mb-3">{collectible.description}</p>
-        <dl className="mb-4 flex justify-between">
-          <div>
-            <dt className="sr-only">Price</dt>
-            <dd>Retailed at ${collectible.price / 100}</dd>
+        <p className="text-dim">{collectible.description}</p>
+      </section>
+
+      <section className="px-horizontal py-3">
+        <dl className="mb-4 grid grid-cols-2 gap-x-6 gap-y-1">
+          <div className="flex items-baseline justify-between gap-2">
+            <dt className="text-dim">Retailed At</dt>
+            <dd className="tabular-nums">
+              {new Intl.NumberFormat("en-US", {
+                style: "currency",
+                currency: "USD",
+              }).format(collectible.price / 100)}
+            </dd>
           </div>
-          <div>
-            <dt className="sr-only">Supply</dt>
-            <dd>Series of {collectible.sold}</dd>
+
+          <div className="flex items-baseline justify-between gap-2">
+            <dt className="text-dim">Supply Of</dt>
+            <dd className="tabular-nums">
+              {collectible.supply.toLocaleString()}
+            </dd>
+          </div>
+
+          <div className="flex items-baseline justify-between gap-2">
+            <dt className="text-dim">Units Sold</dt>
+            <dd className="tabular-nums">
+              {collectible.sold.toLocaleString()}
+            </dd>
+          </div>
+
+          <div className="flex items-baseline justify-between gap-2">
+            <dt className="text-dim">Revenue</dt>
+            <dd className="tabular-nums">
+              {new Intl.NumberFormat("en-US", {
+                style: "currency",
+                currency: "USD",
+              }).format((collectible.sold * collectible.price) / 100)}
+            </dd>
           </div>
         </dl>
+
         <LinkButton
           href={`https://opensea.io/item/polygon/${collectible.contractAddress}`}
           target="_blank"
@@ -138,7 +167,7 @@ export default async function CollectiblePage({ params }: PageProps) {
 
           <dt className="text-dim">Starting Token ID</dt>
           <dd className="text-right font-mono">
-            {collectible.startingTokenId}
+            {collectible.startingTokenId.toLocaleString()}
           </dd>
 
           <dt className="text-dim">Deployment Date</dt>
