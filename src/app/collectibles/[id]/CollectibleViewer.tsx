@@ -204,8 +204,8 @@ export default function CollectibleViewer({
   );
 
   return (
-    <div className="px-horizontal flex flex-col gap-3 pb-3 sm:grid sm:grid-cols-7">
-      <div className="relative col-span-4 flex aspect-3/4 h-fit w-fit flex-col items-center justify-center self-center">
+    <div className="flex flex-col gap-3 pb-3 sm:grid sm:grid-cols-7">
+      <div className="mx-horizontal relative col-span-4 flex aspect-3/4 h-fit w-fit flex-col items-center justify-center self-center sm:mr-0">
         <Image
           src={backgroundUrl}
           alt="background"
@@ -253,8 +253,8 @@ export default function CollectibleViewer({
       </div>
 
       {/* Trait toggles */}
-      <div className="scrollbar-hidden flex flex-col gap-2 overflow-y-scroll sm:col-span-3 sm:overflow-y-clip">
-        <div className="flex h-fit grid-cols-3 gap-2 sm:grid">
+      <div className="scrollbar-hidden px-horizontal flex w-full gap-2 overflow-x-scroll sm:col-span-3 sm:flex-col sm:overflow-y-clip sm:pl-0">
+        <div className="contents h-fit grid-cols-3 gap-2 sm:grid">
           <TraitButton
             onClick={() => toggleGroup(["leftHand"])}
             disabled={!loaded || !traits.leftHand}
