@@ -5,6 +5,7 @@ import collectiblesData from "@/data/collectibles.json";
 import creatorData from "@/data/creators.json";
 import type { Collectible, Creator } from "@/data/data.types";
 import { Avatar } from "@/components/custom/Avatar";
+import { Linkify } from "@/components/custom/Linkify";
 
 interface PageProps {
   params: { username: string };
@@ -60,7 +61,9 @@ export default async function CollectiblePage({ params }: PageProps) {
             <span className="text-xl font-bold">{creator.displayName}</span>
             <span className="text-dim">@{creator.username}</span>
           </div>
-          <p>{creator.description}</p>
+          <p>
+            <Linkify text={creator.description} />
+          </p>
           <div className="flex gap-3">
             <div>
               <span className="font-bold">{creatorCollectibles.length}</span>{" "}
