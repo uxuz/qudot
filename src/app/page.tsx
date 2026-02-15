@@ -1,9 +1,9 @@
-import CollectiblesPageNotVirtual from "@/components/custom/CollectiblesList";
+import collectiblesData from "@/data/collectibles.json";
+import type { Collectible } from "@/data/data.types";
+import { CollectibleGallery } from "@/components/custom/CollectibleGallery";
+
+const collectibles = collectiblesData as Collectible[];
 
 export default function Home() {
-  return (
-    <>
-      <CollectiblesPageNotVirtual />
-    </>
-  );
+  return <CollectibleGallery collectibles={collectibles} />;
 }

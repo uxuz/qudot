@@ -6,6 +6,7 @@ import creatorData from "@/data/creators.json";
 import type { Collectible, Creator } from "@/data/data.types";
 import { Avatar } from "@/components/custom/Avatar";
 import { Linkify } from "@/components/custom/Linkify";
+import { CollectibleGallery } from "@/components/custom/CollectibleGallery";
 
 interface PageProps {
   params: { username: string };
@@ -89,6 +90,10 @@ export default async function CollectiblePage({ params }: PageProps) {
             </div>
           </div>
         </div>
+      </section>
+
+      <section className="pt-3">
+        <CollectibleGallery collectibles={creatorCollectibles} />
       </section>
     </>
   );
