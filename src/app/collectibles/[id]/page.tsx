@@ -100,16 +100,16 @@ export default async function CollectiblePage({ params }: PageProps) {
           </div>
 
           <div className="flex items-baseline justify-between gap-2">
-            <dt className="text-dim">Supply Of</dt>
+            <dt className="text-dim">Units Sold</dt>
             <dd className="tabular-nums">
-              {collectible.supply.toLocaleString()}
+              {collectible.sold.toLocaleString()}
             </dd>
           </div>
 
           <div className="flex items-baseline justify-between gap-2">
-            <dt className="text-dim">Units Sold</dt>
+            <dt className="text-dim">Supply Of</dt>
             <dd className="tabular-nums">
-              {collectible.sold.toLocaleString()}
+              {collectible.supply.toLocaleString()}
             </dd>
           </div>
 
