@@ -47,9 +47,12 @@ export default async function CollectiblePage({ params }: PageProps) {
     notFound();
   }
 
-  const creatorCollectibles = collectibles.filter(
-    (collectible) => collectible.creator === creator.username,
-  );
+  const creatorCollectibles = collectibles
+    .filter((collectible) => collectible.creator === creator.username)
+    .sort(
+      (a, b) =>
+        new Date(b.deployedAt).getTime() - new Date(a.deployedAt).getTime(),
+    );
 
   return (
     <>
