@@ -9,7 +9,7 @@ const creators = creatorData as Creator[];
 
 export const baseUrl = "https://blurbury.com";
 
-export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+export default function sitemap(): MetadataRoute.Sitemap {
   const creatorUrls: MetadataRoute.Sitemap = creators.map((creator) => ({
     url: `${baseUrl}/${creator.username}`,
     lastModified: new Date(),
