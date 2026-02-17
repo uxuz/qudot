@@ -1,9 +1,7 @@
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
 
-import collectiblesData from "@/data/collectibles.json";
-import creatorData from "@/data/creators.json";
-import type { Collectible, Creator } from "@/data/data.types";
+import { collectibles, creators } from "@/data/data";
 import { Avatar } from "@/components/custom/Avatar";
 import { Linkify } from "@/components/custom/Linkify";
 import { CollectibleGallery } from "@/components/custom/CollectibleGallery";
@@ -11,9 +9,6 @@ import { CollectibleGallery } from "@/components/custom/CollectibleGallery";
 interface PageProps {
   params: { username: string };
 }
-
-const collectibles = collectiblesData as Collectible[];
-const creators = creatorData as Creator[];
 
 export async function generateStaticParams() {
   return creators.map((creator) => ({
@@ -26,7 +21,7 @@ export async function generateMetadata({
 }: PageProps): Promise<Metadata> {
   const { username } = await params;
 
-  const creator = creators.find((item: Creator) => item.username === username);
+  const creator = creators.find((item) => item.username === username);
 
   if (!creator) {
     notFound();
@@ -41,7 +36,7 @@ export async function generateMetadata({
 export default async function CollectiblePage({ params }: PageProps) {
   const { username } = await params;
 
-  const creator = creators.find((item: Creator) => item.username === username);
+  const creator = creators.find((item) => item.username === username);
 
   if (!creator) {
     notFound();

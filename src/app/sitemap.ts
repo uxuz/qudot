@@ -1,11 +1,6 @@
 import type { MetadataRoute } from "next";
 
-import collectiblesData from "@/data/collectibles.json";
-import creatorData from "@/data/creators.json";
-import type { Collectible, Creator } from "@/data/data.types";
-
-const collectibles = collectiblesData as Collectible[];
-const creators = creatorData as Creator[];
+import { collectibles, creators } from "@/data/data";
 
 export const baseUrl = "https://blurbury.com";
 

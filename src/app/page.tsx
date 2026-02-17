@@ -1,9 +1,7 @@
-import collectiblesData from "@/data/collectibles.json";
-import type { Collectible } from "@/data/data.types";
+import { collectibles } from "@/data/data";
 import { CollectibleGallery } from "@/components/custom/CollectibleGallery";
 
-const collectibles = collectiblesData as Collectible[];
-
 export default function Home() {
-  return <CollectibleGallery collectibles={collectibles} />;
+  // Reduce the array to just 100 collectibles for development, since rendering 7k collectibles tanks the performance to hell
+  return <CollectibleGallery collectibles={collectibles.slice(0, 100)} />;
 }

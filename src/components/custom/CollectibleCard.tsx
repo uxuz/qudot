@@ -1,13 +1,12 @@
 import Link from "next/link";
 import Image from "next/image";
-import type { Collectible, Creator } from "@/data/data.types";
-import creatorData from "@/data/creators.json";
+import type { Collectible } from "@/data/data.types";
+import { creators } from "@/data/data";
 
-const creatorsByUsername: Record<string, Creator> = Object.fromEntries(
-  creatorData.map((creator) => [creator.username, creator]),
+const creatorsByUsername = Object.fromEntries(
+  creators.map((creator) => [creator.username, creator]),
 );
 
-// TODO: Ported from qudot.app, redesign and new props needed (creator data is no longer part of a collectible)
 export function CollectibleCard({ collectible }: { collectible: Collectible }) {
   return (
     <div className="border-dim/10 relative aspect-4/5 overflow-hidden rounded-xl border">

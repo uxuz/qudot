@@ -2,9 +2,7 @@ import { notFound } from "next/navigation";
 import { Metadata } from "next";
 import Link from "next/link";
 
-import collectiblesData from "@/data/collectibles.json";
-import creatorData from "@/data/creators.json";
-import type { Collectible, Creator } from "@/data/data.types";
+import { collectibles, creators } from "@/data/data";
 import CollectibleViewer from "./CollectibleViewer";
 import { LucideArrowUpRight } from "@/components/icons/Lucide";
 import { Avatar } from "@/components/custom/Avatar";
@@ -13,9 +11,6 @@ import { LinkButton } from "@/components/custom/LinkButton";
 interface PageProps {
   params: { id: string };
 }
-
-const collectibles = collectiblesData as Collectible[];
-const creators = creatorData as Creator[];
 
 export async function generateStaticParams() {
   return collectibles.map((collectible) => ({
@@ -28,16 +23,14 @@ export async function generateMetadata({
 }: PageProps): Promise<Metadata> {
   const { id } = await params;
 
-  const collectible = collectibles.find(
-    (item: Collectible) => item.productId === id,
-  );
+  const collectible = collectibles.find((item) => item.productId === id);
 
   if (!collectible) {
     notFound();
   }
 
   const creator = creators.find(
-    (item: Creator) => item.username === collectible.creator,
+    (item) => item.username === collectible.creator,
   );
 
   return {
@@ -54,16 +47,14 @@ export async function generateMetadata({
 
 export default async function CollectiblePage({ params }: PageProps) {
   const { id } = await params;
-  const collectible = collectibles.find(
-    (item: Collectible) => item.productId === id,
-  );
+  const collectible = collectibles.find((item) => item.productId === id);
 
   if (!collectible) {
     notFound();
   }
 
   const creator = creators.find(
-    (item: Creator) => item.username === collectible.creator,
+    (item) => item.username === collectible.creator,
   );
 
   // Special reddit "Test Gray" handling, as it technically doesn't have any traits to begin with
