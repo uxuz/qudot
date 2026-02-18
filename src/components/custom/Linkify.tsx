@@ -1,7 +1,9 @@
 import { Fragment, ReactNode } from "react";
 
-const urlRegex = /(https?:\/\/[^\s]+|www\.[^\s]+)/g;
-const urlCheckRegex = /^(https?:\/\/[^\s]+|www\.[^\s]+)$/;
+const urlRegex = /((?:https?:\/\/|www\.|[a-zA-Z0-9-]+\.[a-zA-Z]{2,})[^\s]*)/g;
+
+const urlCheckRegex =
+  /^(?:https?:\/\/|www\.|[a-zA-Z0-9-]+\.[a-zA-Z]{2,})[^\s]*$/;
 
 function splitTrailingPunctuation(url: string): {
   clean: string;
@@ -9,9 +11,7 @@ function splitTrailingPunctuation(url: string): {
 } {
   const match = url.match(/^(.*?)([),.!?;:]*)$/);
 
-  if (!match) {
-    return { clean: url, trailing: "" };
-  }
+  if (!match) return { clean: url, trailing: "" };
 
   return {
     clean: match[1],
@@ -31,6 +31,7 @@ export function Linkify({ text }: LinkifyProps): ReactNode {
       {parts.map((part, i) => {
         if (urlCheckRegex.test(part)) {
           const { clean, trailing } = splitTrailingPunctuation(part);
+
           const href = clean.startsWith("http") ? clean : `https://${clean}`;
 
           return (
