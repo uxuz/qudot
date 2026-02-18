@@ -5,6 +5,8 @@ import { collectibles, creators } from "@/data/data";
 import { Avatar } from "@/components/custom/Avatar";
 import { Linkify } from "@/components/custom/Linkify";
 import { CollectibleGallery } from "@/components/custom/CollectibleGallery";
+import { LinkButton } from "@/components/custom/LinkButton";
+import { LucideArrowUpRight } from "@/components/icons/Lucide";
 
 interface PageProps {
   params: { username: string };
@@ -53,9 +55,14 @@ export default async function CollectiblePage({ params }: PageProps) {
     <>
       <section className="px-horizontal border-dim/10 flex flex-col gap-3 border-b pt-12 pb-3 sm:flex-row sm:gap-x-6">
         <div className="flex items-center gap-3">
-          <Avatar name={creator.username} size={128} />
+          <div className="hidden sm:block">
+            <Avatar name={creator.username} size={160} />
+          </div>
+          <div className="sm:hidden">
+            <Avatar name={creator.username} size={80} />
+          </div>
         </div>
-        <div className="space-y-3 sm:self-center">
+        <div className="w-full space-y-3 sm:self-center">
           <div className="flex flex-col">
             <span className="text-xl font-bold">{creator.displayName}</span>
             <span className="text-dim">@{creator.username}</span>
@@ -87,10 +94,17 @@ export default async function CollectiblePage({ params }: PageProps) {
               <span className="text-dim">Revenue</span>
             </div>
           </div>
+
+          <LinkButton
+            href={`https://www.reddit.com/user/${creator.username}/`}
+            target="_blank"
+          >
+            Reddit <LucideArrowUpRight />
+          </LinkButton>
         </div>
       </section>
 
-      <section className="pt-3">
+      <section className="pt-4">
         <CollectibleGallery collectibles={creatorCollectibles} />
       </section>
     </>
