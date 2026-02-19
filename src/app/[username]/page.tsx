@@ -14,7 +14,7 @@ interface PageProps {
 
 export async function generateStaticParams() {
   return creators.map((creator) => ({
-    username: creator.username,
+    username: creator.username.toLowerCase(),
   }));
 }
 
@@ -23,7 +23,9 @@ export async function generateMetadata({
 }: PageProps): Promise<Metadata> {
   const { username } = await params;
 
-  const creator = creators.find((item) => item.username === username);
+  const creator = creators.find(
+    (item) => item.username.toLowerCase() === username,
+  );
 
   if (!creator) {
     notFound();
@@ -38,7 +40,9 @@ export async function generateMetadata({
 export default async function CollectiblePage({ params }: PageProps) {
   const { username } = await params;
 
-  const creator = creators.find((item) => item.username === username);
+  const creator = creators.find(
+    (item) => item.username.toLowerCase() === username,
+  );
 
   if (!creator) {
     notFound();

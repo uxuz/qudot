@@ -126,7 +126,7 @@ export default async function CollectiblePage({ params }: PageProps) {
 
       <section className="border-dim/10 px-horizontal flex grid-cols-2 items-center gap-3 border-t py-3 sm:grid">
         <Link
-          href={`/${collectible.creator}`}
+          href={`/${collectible.creator.toLowerCase()}`}
           className="flex items-center gap-2"
         >
           <Avatar name={collectible.creator} />

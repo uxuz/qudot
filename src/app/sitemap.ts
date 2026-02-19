@@ -6,7 +6,7 @@ export const baseUrl = "https://blurbury.com";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const creatorUrls: MetadataRoute.Sitemap = creators.map((creator) => ({
-    url: `${baseUrl}/${creator.username}`,
+    url: `${baseUrl}/${creator.username.toLowerCase()}`,
     lastModified: new Date(),
     changeFrequency: "monthly",
     priority: 0.7,

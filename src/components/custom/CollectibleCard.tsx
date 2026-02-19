@@ -28,7 +28,7 @@ export function CollectibleCard({ collectible }: { collectible: Collectible }) {
         </span>
         <div className="flex items-center justify-between">
           <Link
-            href={`/${collectible.creator}`}
+            href={`/${collectible.creator.toLowerCase()}`}
             className="text-dim pointer-events-auto inline-block w-fit max-w-[calc(100%)] cursor-pointer truncate"
           >
             <span className="text-foreground">
