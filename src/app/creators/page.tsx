@@ -5,21 +5,54 @@ import { Avatar } from "@/components/custom/Avatar";
 
 // TODO: Actual styling, revenue, collectible amount and ability to sort by name, revenue and collectible amount
 export default function Creators() {
+  const stats = collectibles.reduce(
+    (acc, item) => {
+      const key = item.creator;
+
+      if (!acc[key]) {
+        acc[key] = { count: 0, revenue: 0 };
+      }
+
+      acc[key].count += 1;
+      acc[key].revenue += (item.sold * item.price) / 100;
+
+      return acc;
+    },
+    {} as Record<string, { count: number; revenue: number }>,
+  );
+
   return (
     <div className="px-horizontal grid gap-2 sm:grid-cols-2">
-      {creators.map((creator) => (
-        <Link
-          key={creator.username}
-          href={`/${creator.username.toLocaleLowerCase()}`}
-          className="flex gap-2"
-        >
-          <Avatar name={creator.username} />
-          <div>
-            <div className="font-bold">{creator.displayName}</div>
-            <div className="text-dim">{creator.username}</div>
-          </div>
-        </Link>
-      ))}
+      {creators.map((creator) => {
+        const creatorStats = stats[creator.username] ?? {
+          count: 0,
+          revenue: 0,
+        };
+
+        return (
+          <Link
+            key={creator.username}
+            href={`/${creator.username.toLowerCase()}`}
+            className="flex gap-2"
+          >
+            <Avatar name={creator.username} />
+
+            <div>
+              <div className="font-bold">{creator.displayName}</div>
+              <div className="text-dim">{creator.username}</div>
+
+              <div>{creatorStats.count} Collectibles</div>
+              <div>
+                {new Intl.NumberFormat("en-US", {
+                  style: "currency",
+                  currency: "USD",
+                }).format(creatorStats.revenue)}{" "}
+                Revenue
+              </div>
+            </div>
+          </Link>
+        );
+      })}
     </div>
   );
 }
