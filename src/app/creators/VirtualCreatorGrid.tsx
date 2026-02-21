@@ -16,7 +16,7 @@ export function VirtualCreatorGrid({
 
   const virtualizer = useWindowVirtualizer({
     count: rows.length,
-    estimateSize: () => 96,
+    estimateSize: () => 76,
     overscan: 5,
     scrollMargin: containerRef.current?.offsetTop ?? 0,
   });
@@ -59,28 +59,30 @@ export function VirtualCreatorGrid({
                     href={`/${creator.username.toLowerCase()}`}
                     className="flex gap-3"
                   >
-                    <Avatar name={creator.username} size={80} />
+                    <Avatar name={creator.username} size={60} />
                     <div className="overflow-y-hidden">
                       <div className="truncate font-bold">
                         {creator.displayName}
                       </div>
                       <div className="text-dim">@{creator.username}</div>
-                      <div className="text-dim">
-                        <span className="text-foreground font-bold">
-                          {creatorStats.collectiblesCount}
-                        </span>{" "}
-                        {creatorStats.collectiblesCount === 1
-                          ? "Collectible"
-                          : "Collectibles"}
-                      </div>
-                      <div className="text-dim">
-                        <span className="text-foreground font-bold">
-                          {new Intl.NumberFormat("en-US", {
-                            style: "currency",
-                            currency: "USD",
-                          }).format(creatorStats.revenue)}{" "}
-                        </span>
-                        Revenue
+                      <div className="flex gap-3">
+                        <div className="text-dim">
+                          <span className="text-foreground font-bold">
+                            {creatorStats.collectiblesCount}
+                          </span>{" "}
+                          {creatorStats.collectiblesCount === 1
+                            ? "Collectible"
+                            : "Collectibles"}
+                        </div>
+                        <div className="text-dim">
+                          <span className="text-foreground font-bold">
+                            {new Intl.NumberFormat("en-US", {
+                              style: "currency",
+                              currency: "USD",
+                            }).format(creatorStats.revenue)}{" "}
+                          </span>
+                          Revenue
+                        </div>
                       </div>
                     </div>
                   </Link>

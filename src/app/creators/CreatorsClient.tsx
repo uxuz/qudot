@@ -51,16 +51,16 @@ export default function Creators({
   }
 
   return (
-    <div className="px-horizontal space-y-6">
-      <section className="space-y-2">
-        <div className="border-dim/10 text-dim relative flex w-full items-center gap-2 rounded-xl border px-3">
+    <div>
+      <section className="border-dim/10 px-horizontal mb-3 space-y-2 border-b pb-3">
+        <div className="border-dim/5 text-dim bg-dim/5 focus-within:border-dim/10 focus-within:bg-dim/10 relative flex w-full items-center gap-2 rounded-xl border px-3">
           <LucideSearch />
           <input
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            placeholder="Search creators..."
-            className="text-foreground placeholder:text-dim h-10 w-full bg-transparent text-sm outline-none"
+            placeholder="Search Creators"
+            className="text-foreground placeholder:text-dim h-10 w-full text-sm outline-none"
           />
           {search && (
             <button
@@ -73,7 +73,7 @@ export default function Creators({
           )}
         </div>
 
-        <nav className="border-dim/10 text-dim relative grid w-full grid-cols-3 overflow-clip rounded-xl border">
+        <nav className="border-dim/10 text-dim bg-dim/5 relative grid w-full grid-cols-3 overflow-clip rounded-xl border">
           {(["revenue", "collectibles", "name"] as SortKey[]).map((key) => (
             <button
               key={key}
@@ -93,11 +93,13 @@ export default function Creators({
         </nav>
       </section>
 
-      <VirtualCreatorGrid
-        key={`${columns}-${query}`}
-        rows={rows}
-        stats={creatorStats}
-      />
+      <section className="px-horizontal">
+        <VirtualCreatorGrid
+          key={`${columns}-${query}`}
+          rows={rows}
+          stats={creatorStats}
+        />
+      </section>
     </div>
   );
 }
