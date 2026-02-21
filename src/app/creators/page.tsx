@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { motion } from "motion/react";
-import { useWindowVirtualizer } from "@tanstack/react-virtual";
 import { useMediaQuery } from "usehooks-ts";
 
 import { collectibles, creators } from "@/data/data";
@@ -41,19 +40,10 @@ export default function Creators() {
     return 0;
   });
 
-  // Group creators into rows based on column count
   const rows: (typeof sorted)[] = [];
   for (let i = 0; i < sorted.length; i += columns) {
     rows.push(sorted.slice(i, i + columns));
   }
-
-  const virtualizer = useWindowVirtualizer({
-    count: rows.length,
-    // 80 + 16 = 96
-    estimateSize: () => 96,
-    overscan: 5,
-    scrollMargin: 0,
-  });
 
   return (
     <div className="px-horizontal space-y-6">
