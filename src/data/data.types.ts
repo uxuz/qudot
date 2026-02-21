@@ -23,3 +23,8 @@ export interface Creator {
   profileUrl: string;
   genAi: boolean;
 }
+
+export type CreatorStats = Record<
+  string,
+  { collectiblesCount: number; revenue: number }
+>;

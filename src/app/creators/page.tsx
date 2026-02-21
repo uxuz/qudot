@@ -4,7 +4,7 @@ import { useState } from "react";
 import { motion } from "motion/react";
 import { useMediaQuery } from "usehooks-ts";
 
-import { collectibles, creators } from "@/data/data";
+import { creators, creatorStats } from "@/data/data";
 import { VirtualCreatorGrid } from "./VirtualCreatorGrid";
 import { LucideSearch, LucideX } from "@/components/icons/Lucide";
 
@@ -17,19 +17,6 @@ export default function Creators() {
     initializeWithValue: false,
   });
   const columns = isSmUp ? 2 : 1;
-
-  const stats = collectibles.reduce(
-    (acc, item) => {
-      const key = item.creator;
-      if (!acc[key]) {
-        acc[key] = { count: 0, revenue: 0 };
-      }
-      acc[key].count += 1;
-      acc[key].revenue += (item.sold * item.price) / 100;
-      return acc;
-    },
-    {} as Record<string, { count: number; revenue: number }>,
-  );
 
   const query = search.trim().toLowerCase();
   const filtered = query
@@ -44,9 +31,10 @@ export default function Creators() {
     if (sort === "name") {
       return a.displayName.localeCompare(b.displayName);
     }
-    const aStats = stats[a.username] ?? { count: 0, revenue: 0 };
-    const bStats = stats[b.username] ?? { count: 0, revenue: 0 };
-    if (sort === "collectibles") return bStats.count - aStats.count;
+    const aStats = creatorStats[a.username] ?? { count: 0, revenue: 0 };
+    const bStats = creatorStats[b.username] ?? { count: 0, revenue: 0 };
+    if (sort === "collectibles")
+      return bStats.collectiblesCount - aStats.collectiblesCount;
     if (sort === "revenue") return bStats.revenue - aStats.revenue;
     return 0;
   });
@@ -102,7 +90,7 @@ export default function Creators() {
       <VirtualCreatorGrid
         key={`${columns}-${query}`}
         rows={rows}
-        stats={stats}
+        stats={creatorStats}
       />
     </div>
   );

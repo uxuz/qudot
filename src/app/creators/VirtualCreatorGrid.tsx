@@ -2,7 +2,7 @@ import { useRef } from "react";
 import Link from "next/link";
 import { useWindowVirtualizer } from "@tanstack/react-virtual";
 
-import type { Creator } from "@/data/data.types";
+import type { Creator, CreatorStats } from "@/data/data.types";
 import { Avatar } from "@/components/custom/Avatar";
 
 export function VirtualCreatorGrid({
@@ -10,7 +10,7 @@ export function VirtualCreatorGrid({
   stats,
 }: {
   rows: Creator[][];
-  stats: Record<string, { count: number; revenue: number }>;
+  stats: CreatorStats;
 }) {
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -67,9 +67,9 @@ export function VirtualCreatorGrid({
                       <div className="text-dim">@{creator.username}</div>
                       <div className="text-dim">
                         <span className="text-foreground font-bold">
-                          {creatorStats.count}
+                          {creatorStats.collectiblesCount}
                         </span>{" "}
-                        {creatorStats.count === 1
+                        {creatorStats.collectiblesCount === 1
                           ? "Collectible"
                           : "Collectibles"}
                       </div>
