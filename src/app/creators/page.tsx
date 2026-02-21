@@ -1,16 +1,21 @@
 "use client";
 
-import Link from "next/link";
 import { useState } from "react";
 import { motion } from "motion/react";
+import { useWindowVirtualizer } from "@tanstack/react-virtual";
+import { useMediaQuery } from "usehooks-ts";
 
 import { collectibles, creators } from "@/data/data";
-import { Avatar } from "@/components/custom/Avatar";
+import { VirtualCreatorGrid } from "./VirtualCreatorGrid";
 
 type SortKey = "name" | "collectibles" | "revenue";
 
 export default function Creators() {
   const [sort, setSort] = useState<SortKey>("revenue");
+  const isSmUp = useMediaQuery("(min-width: 640px)", {
+    initializeWithValue: false,
+  });
+  const columns = isSmUp ? 2 : 1;
 
   const stats = collectibles.reduce(
     (acc, item) => {
@@ -36,6 +41,20 @@ export default function Creators() {
     return 0;
   });
 
+  // Group creators into rows based on column count
+  const rows: (typeof sorted)[] = [];
+  for (let i = 0; i < sorted.length; i += columns) {
+    rows.push(sorted.slice(i, i + columns));
+  }
+
+  const virtualizer = useWindowVirtualizer({
+    count: rows.length,
+    // 80 + 16 = 96
+    estimateSize: () => 96,
+    overscan: 5,
+    scrollMargin: 0,
+  });
+
   return (
     <div className="px-horizontal space-y-6">
       <nav className="border-dim/10 text-dim relative inline-flex overflow-clip rounded-lg border">
@@ -57,42 +76,7 @@ export default function Creators() {
         ))}
       </nav>
 
-      <div className="grid gap-4 sm:grid-cols-2">
-        {sorted.map((creator) => {
-          const creatorStats = stats[creator.username] ?? {
-            count: 0,
-            revenue: 0,
-          };
-          return (
-            <Link
-              key={creator.username}
-              href={`/${creator.username.toLowerCase()}`}
-              className="flex gap-3"
-            >
-              <Avatar name={creator.username} size={80} />
-              <div className="overflow-y-hidden">
-                <div className="truncate font-bold">{creator.displayName}</div>
-                <div className="text-dim">@{creator.username}</div>
-                <div className="text-dim">
-                  <span className="text-foreground font-bold">
-                    {creatorStats.count}
-                  </span>{" "}
-                  {creatorStats.count === 1 ? "Collectible" : "Collectibles"}
-                </div>
-                <div className="text-dim">
-                  <span className="text-foreground font-bold">
-                    {new Intl.NumberFormat("en-US", {
-                      style: "currency",
-                      currency: "USD",
-                    }).format(creatorStats.revenue)}{" "}
-                  </span>
-                  Revenue
-                </div>
-              </div>
-            </Link>
-          );
-        })}
-      </div>
+      <VirtualCreatorGrid key={columns} rows={rows} stats={stats} />
     </div>
   );
 }
