@@ -10,7 +10,13 @@ export function Avatar({ className, ...props }: FacehashProps) {
         "shrink-0 rounded-full font-mono font-bold text-black select-none",
         className,
       )}
-      colorClasses={["bg-pink-500", "bg-blue-500", "bg-yellow-500"]}
+      colorClasses={[
+        "bg-red-500",
+        "bg-green-500",
+        "bg-blue-500",
+        "bg-yellow-500",
+        "bg-pink-500",
+      ]}
       variant="solid"
       {...props}
     />
