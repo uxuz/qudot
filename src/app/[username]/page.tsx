@@ -108,7 +108,7 @@ export default async function CollectiblePage({ params }: PageProps) {
         </div>
       </section>
 
-      <section className="pt-4">
+      <section className="pt-3">
         <CollectibleGallery collectibles={creatorCollectibles} />
       </section>
     </>
