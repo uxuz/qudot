@@ -6,11 +6,13 @@ import { useMediaQuery } from "usehooks-ts";
 
 import { collectibles, creators } from "@/data/data";
 import { VirtualCreatorGrid } from "./VirtualCreatorGrid";
+import { LucideSearch, LucideX } from "@/components/icons/Lucide";
 
 type SortKey = "name" | "collectibles" | "revenue";
 
 export default function Creators() {
   const [sort, setSort] = useState<SortKey>("revenue");
+  const [search, setSearch] = useState("");
   const isSmUp = useMediaQuery("(min-width: 640px)", {
     initializeWithValue: false,
   });
@@ -29,7 +31,16 @@ export default function Creators() {
     {} as Record<string, { count: number; revenue: number }>,
   );
 
-  const sorted = [...creators].sort((a, b) => {
+  const query = search.trim().toLowerCase();
+  const filtered = query
+    ? creators.filter(
+        (c) =>
+          c.displayName.toLowerCase().includes(query) ||
+          c.username.toLowerCase().includes(query),
+      )
+    : creators;
+
+  const sorted = [...filtered].sort((a, b) => {
     if (sort === "name") {
       return a.displayName.localeCompare(b.displayName);
     }
@@ -47,26 +58,52 @@ export default function Creators() {
 
   return (
     <div className="px-horizontal space-y-6">
-      <nav className="border-dim/10 text-dim relative inline-flex overflow-clip rounded-lg border">
-        {(["revenue", "collectibles", "name"] as SortKey[]).map((key) => (
-          <button
-            key={key}
-            onClick={() => setSort(key)}
-            className="hover:text-foreground relative flex h-8 cursor-pointer items-center justify-center px-3 capitalize transition-colors select-none"
-          >
-            {sort === key && (
-              <motion.div
-                layoutId="sortHighlight"
-                className="ring-dim/10 bg-dim/5 absolute inset-0 rounded-md ring"
-                transition={{ type: "spring", stiffness: 380, damping: 30 }}
-              />
-            )}
-            <span className="relative z-10">{key}</span>
-          </button>
-        ))}
-      </nav>
+      <section className="space-y-2">
+        <div className="border-dim/10 text-dim relative flex w-full items-center gap-2 rounded-xl border px-3">
+          <LucideSearch />
+          <input
+            type="text"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="Search creators..."
+            className="text-foreground placeholder:text-dim h-10 w-full bg-transparent text-sm outline-none"
+          />
+          {search && (
+            <button
+              onClick={() => setSearch("")}
+              className="text-dim hover:text-foreground cursor-pointer transition-colors"
+              aria-label="Clear search"
+            >
+              <LucideX />
+            </button>
+          )}
+        </div>
 
-      <VirtualCreatorGrid key={columns} rows={rows} stats={stats} />
+        <nav className="border-dim/10 text-dim relative grid w-full grid-cols-3 overflow-clip rounded-xl border">
+          {(["revenue", "collectibles", "name"] as SortKey[]).map((key) => (
+            <button
+              key={key}
+              onClick={() => setSort(key)}
+              className="hover:text-foreground relative flex h-9 cursor-pointer items-center justify-center px-3 capitalize transition-colors select-none"
+            >
+              {sort === key && (
+                <motion.div
+                  layoutId="sortHighlight"
+                  className="ring-dim/10 bg-dim/5 absolute inset-0 rounded-xl ring"
+                  transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                />
+              )}
+              <span className="relative z-10">{key}</span>
+            </button>
+          ))}
+        </nav>
+      </section>
+
+      <VirtualCreatorGrid
+        key={`${columns}-${query}`}
+        rows={rows}
+        stats={stats}
+      />
     </div>
   );
 }
