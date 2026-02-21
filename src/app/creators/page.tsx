@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { motion } from "motion/react";
 
 import { collectibles, creators } from "@/data/data";
 import { Avatar } from "@/components/custom/Avatar";
@@ -37,21 +38,24 @@ export default function Creators() {
 
   return (
     <div className="px-horizontal space-y-6">
-      <div className="flex gap-2">
+      <nav className="border-dim/10 text-dim relative inline-flex overflow-clip rounded-lg border">
         {(["revenue", "collectibles", "name"] as SortKey[]).map((key) => (
           <button
             key={key}
             onClick={() => setSort(key)}
-            className={`h-9 rounded-xl px-2 font-medium capitalize transition-colors ${
-              sort === key
-                ? "bg-foreground text-background"
-                : "text-dim hover:text-foreground"
-            }`}
+            className="hover:text-foreground relative flex h-8 cursor-pointer items-center justify-center px-3 capitalize transition-colors select-none"
           >
-            {key}
+            {sort === key && (
+              <motion.div
+                layoutId="sortHighlight"
+                className="ring-dim/10 bg-dim/5 absolute inset-0 rounded-md ring"
+                transition={{ type: "spring", stiffness: 380, damping: 30 }}
+              />
+            )}
+            <span className="relative z-10">{key}</span>
           </button>
         ))}
-      </div>
+      </nav>
 
       <div className="grid gap-4 sm:grid-cols-2">
         {sorted.map((creator) => {
@@ -66,8 +70,8 @@ export default function Creators() {
               className="flex gap-3"
             >
               <Avatar name={creator.username} size={80} />
-              <div>
-                <div className="font-bold">{creator.displayName}</div>
+              <div className="overflow-y-hidden">
+                <div className="truncate font-bold">{creator.displayName}</div>
                 <div className="text-dim">@{creator.username}</div>
                 <div className="text-dim">
                   <span className="text-foreground font-bold">
