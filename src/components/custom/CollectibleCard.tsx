@@ -1,13 +1,17 @@
 import Link from "next/link";
 import Image from "next/image";
-import type { Collectible } from "@/data/data.types";
+import type { CollectiblePreview } from "@/data/data.types";
 import { creators } from "@/data/data";
 
 const creatorsByUsername = Object.fromEntries(
   creators.map((creator) => [creator.username, creator]),
 );
 
-export function CollectibleCard({ collectible }: { collectible: Collectible }) {
+export function CollectibleCard({
+  collectible,
+}: {
+  collectible: CollectiblePreview;
+}) {
   return (
     <div className="border-dim/10 relative aspect-4/5 overflow-hidden rounded-xl border">
       <Link href={`/collectibles/${collectible.productId}`}>

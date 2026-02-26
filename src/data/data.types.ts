@@ -16,6 +16,18 @@ export interface Collectible {
   tags: string[];
 }
 
+export type CollectiblePreview = Pick<
+  Collectible,
+  | "name"
+  | "productId"
+  | "deployedAt"
+  | "creator"
+  | "sold"
+  | "price"
+  | "supply"
+  | "previewUrl"
+>;
+
 export interface Creator {
   username: string;
   displayName: string;
