@@ -1,6 +1,6 @@
 "use client";
 
-import { collectiblesPreview as collectibles } from "@/data/data";
+import type { CollectiblePreview } from "@/data/data.types";
 import { CollectibleCard } from "./CollectibleCard";
 import { cn } from "@/lib/utils";
 import { useWindowVirtualizer, useVirtualizer } from "@tanstack/react-virtual";
@@ -21,9 +21,12 @@ function getItemHeight(itemWidth: number) {
 }
 
 export function CollectibleGallery({
+  collectibles,
   className,
   ...props
-}: {} & React.ComponentProps<"div">) {
+}: {
+  collectibles: CollectiblePreview[];
+} & React.ComponentProps<"div">) {
   const containerRef = useRef<HTMLDivElement>(null);
 
   const [columns, setColumns] = useState(2);
