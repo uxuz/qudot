@@ -1,4 +1,4 @@
-import { HomeCollectibleGallery } from "@/components/custom/HomeCollectibleGallery";
+import { HomeCollectibleGallery } from "@/components/shared/HomeCollectibleGallery";
 
 export default function Home() {
   return (

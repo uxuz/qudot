@@ -5,8 +5,8 @@ import Link from "next/link";
 import { collectibles, creators } from "@/data/data";
 import CollectibleViewer from "./CollectibleViewer";
 import { LucideArrowUpRight } from "@/components/icons/Lucide";
-import { Avatar } from "@/components/custom/Avatar";
-import { LinkButton } from "@/components/custom/LinkButton";
+import { Avatar } from "@/components/shared/Avatar";
+import { LinkButton } from "@/components/shared/LinkButton";
 
 interface PageProps {
   params: { id: string };

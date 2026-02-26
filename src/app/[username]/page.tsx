@@ -2,10 +2,10 @@ import { notFound } from "next/navigation";
 import { Metadata } from "next";
 
 import { collectibles, creators } from "@/data/data";
-import { Avatar } from "@/components/custom/Avatar";
-import { Linkify } from "@/components/custom/Linkify";
-import { CollectibleGallery } from "@/components/custom/CollectibleGallery";
-import { LinkButton } from "@/components/custom/LinkButton";
+import { Avatar } from "@/components/shared/Avatar";
+import { Linkify } from "@/app/[username]/Linkify";
+import { CollectibleGallery } from "@/components/shared/CollectibleGallery";
+import { LinkButton } from "@/components/shared/LinkButton";
 import { LucideArrowUpRight } from "@/components/icons/Lucide";
 
 interface PageProps {

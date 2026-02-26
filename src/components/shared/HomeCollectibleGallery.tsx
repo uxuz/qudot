@@ -3,11 +3,6 @@
 import { collectiblesPreview } from "@/data/data";
 import { CollectibleGallery } from "./CollectibleGallery";
 
-type Props = Omit<
-  React.ComponentProps<typeof CollectibleGallery>,
-  "collectibles"
->;
-
-export function HomeCollectibleGallery(props: Props) {
+export function HomeCollectibleGallery(props: React.ComponentProps<"div">) {
   return <CollectibleGallery {...props} collectibles={collectiblesPreview} />;
 }

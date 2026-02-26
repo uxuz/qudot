@@ -3,7 +3,7 @@ import Link from "next/link";
 import { useWindowVirtualizer } from "@tanstack/react-virtual";
 
 import type { Creator, CreatorStats } from "@/data/data.types";
-import { Avatar } from "@/components/custom/Avatar";
+import { Avatar } from "@/components/shared/Avatar";
 
 export function VirtualCreatorGrid({
   rows,
