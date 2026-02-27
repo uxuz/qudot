@@ -4,9 +4,9 @@ import { Metadata } from "next";
 import { collectibles, creators } from "@/data/data";
 import { Avatar } from "@/components/shared/Avatar";
 import { Linkify } from "@/app/[username]/Linkify";
-import { CollectibleGallery } from "@/components/shared/CollectibleGallery";
 import { LinkButton } from "@/components/shared/LinkButton";
 import { LucideArrowUpRight } from "@/components/icons/Lucide";
+import { CollectibleCard } from "@/components/shared/CollectibleCard";
 
 interface PageProps {
   params: { username: string };
@@ -108,8 +108,16 @@ export default async function CollectiblePage({ params }: PageProps) {
         </div>
       </section>
 
-      <section className="pt-3">
-        <CollectibleGallery collectibles={creatorCollectibles} />
+      <section className="px-horizontal grid grid-cols-2 gap-2 pt-3 sm:grid-cols-3">
+        {/* Whilst it is possible to just resuse CollectibleGallery, however 
+        it makes more sense to just render all the cards with no other 
+        dependency such as virtualization as there is only a few of them */}
+        {creatorCollectibles.map((collectible) => (
+          <CollectibleCard
+            key={collectible.productId}
+            collectible={collectible}
+          />
+        ))}
       </section>
     </>
   );
