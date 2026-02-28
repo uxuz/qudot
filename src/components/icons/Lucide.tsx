@@ -326,3 +326,47 @@ export function LucideX(props: SVGProps<SVGSVGElement>) {
     </svg>
   );
 }
+
+export function LucideArrowUpNarrowWide(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="1em"
+      height="1em"
+      viewBox="0 0 24 24"
+      {...props}
+    >
+      {/* Icon from Lucide by Lucide Contributors - https://github.com/lucide-icons/lucide/blob/main/LICENSE */}
+      <path
+        fill="none"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
+        d="m3 8l4-4l4 4M7 4v16m4-8h4m-4 4h7m-7 4h10"
+      />
+    </svg>
+  );
+}
+
+export function LucideArrowDownNarrowWide(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="1em"
+      height="1em"
+      viewBox="0 0 24 24"
+      {...props}
+    >
+      {/* Icon from Lucide by Lucide Contributors - https://github.com/lucide-icons/lucide/blob/main/LICENSE */}
+      <path
+        fill="none"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
+        d="m3 16l4 4l4-4m-4 4V4m4 0h4m-4 4h7m-7 4h10"
+      />
+    </svg>
+  );
+}
