@@ -3,7 +3,7 @@ import { HomeCollectibleGallery } from "@/components/shared/HomeCollectibleGalle
 export default function Home() {
   return (
     <>
-      <HomeCollectibleGallery />;
+      <HomeCollectibleGallery />
     </>
   );
 }
