@@ -78,7 +78,7 @@ export default function Creators({
             <button
               key={key}
               onClick={() => setSort(key)}
-              className="hover:text-foreground relative flex h-9 cursor-pointer items-center justify-center px-3 capitalize transition-colors select-none"
+              className="hover:text-foreground relative flex h-10 cursor-pointer items-center justify-center px-3 capitalize transition-colors select-none"
             >
               {sort === key && (
                 <motion.div
