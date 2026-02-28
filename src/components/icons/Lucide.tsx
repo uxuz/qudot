@@ -349,7 +349,7 @@ export function LucideArrowUpNarrowWide(props: SVGProps<SVGSVGElement>) {
   );
 }
 
-export function LucideArrowDownNarrowWide(props: SVGProps<SVGSVGElement>) {
+export function LucideArrowDownWideNarrow(props: SVGProps<SVGSVGElement>) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -365,7 +365,7 @@ export function LucideArrowDownNarrowWide(props: SVGProps<SVGSVGElement>) {
         strokeLinecap="round"
         strokeLinejoin="round"
         strokeWidth="2"
-        d="m3 16l4 4l4-4m-4 4V4m4 0h4m-4 4h7m-7 4h10"
+        d="m3 16l4 4l4-4m-4 4V4m4 0h10M11 8h7m-7 4h4"
       />
     </svg>
   );

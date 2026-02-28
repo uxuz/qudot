@@ -5,7 +5,7 @@ import {
   LucideSearch,
   LucideX,
   LucideArrowUpNarrowWide,
-  LucideArrowDownNarrowWide,
+  LucideArrowDownWideNarrow,
 } from "@/components/icons/Lucide";
 
 export type SortDir = "asc" | "desc";
@@ -99,7 +99,7 @@ export function FilterBar<T extends string>({
           {dir === "asc" ? (
             <LucideArrowUpNarrowWide />
           ) : (
-            <LucideArrowDownNarrowWide />
+            <LucideArrowDownWideNarrow />
           )}
         </button>
       </div>
