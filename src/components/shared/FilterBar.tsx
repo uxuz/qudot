@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "motion/react";
+import { AnimatePresence, motion } from "motion/react";
 import {
   LucideSearch,
   LucideX,
@@ -73,14 +73,14 @@ export function FilterBar<T extends string>({
       </div>
 
       <div className="px-horizontal flex gap-2">
-        <div className="border-dim/5 text-dim bg-dim/5 focus-within:border-dim/10 focus-within:bg-dim/10 relative flex w-full items-center gap-2 rounded-xl border px-3">
-          <LucideSearch />
+        <div className="border-dim/5 text-dim bg-dim/5 focus-within:border-dim/10 focus-within:bg-dim/10 relative flex h-10 flex-1 items-center gap-2 rounded-xl border px-3">
+          <LucideSearch className="shrink-0" />
           <input
             type="text"
             value={search}
             onChange={(e) => onSearchChange(e.target.value)}
             placeholder={searchPlaceholder}
-            className="text-foreground placeholder:text-dim h-10 w-full text-sm outline-none"
+            className="text-foreground placeholder:text-dim w-full text-sm outline-none"
           />
           {search && (
             <button
@@ -94,14 +94,28 @@ export function FilterBar<T extends string>({
         </div>
         <button
           onClick={() => onDirChange(dir === "asc" ? "desc" : "asc")}
-          className={`border-dim/10 bg-dim/5 text-dim hover:text-foreground } flex size-10 shrink-0 cursor-pointer items-center justify-center rounded-xl border transition-opacity [&>svg]:text-xl`}
+          className="border-dim/10 bg-dim/5 text-dim hover:text-foreground hover:bg-dim/10 flex size-10 shrink-0 cursor-pointer items-center justify-center rounded-xl border transition-colors [&_svg]:text-xl"
           aria-label={dir === "asc" ? "Sort ascending" : "Sort descending"}
         >
-          {dir === "asc" ? (
-            <LucideArrowUpNarrowWide />
-          ) : (
-            <LucideArrowDownWideNarrow />
-          )}
+          <AnimatePresence mode="popLayout" initial={false}>
+            <motion.div
+              key={dir}
+              initial={{ opacity: 0, scale: 0.25, filter: "blur(4px)" }}
+              animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
+              exit={{ opacity: 0, scale: 0.25, filter: "blur(4px)" }}
+              transition={{
+                type: "spring",
+                duration: 0.3,
+                bounce: 0,
+              }}
+            >
+              {dir === "asc" ? (
+                <LucideArrowUpNarrowWide />
+              ) : (
+                <LucideArrowDownWideNarrow />
+              )}
+            </motion.div>
+          </AnimatePresence>
         </button>
       </div>
     </section>
