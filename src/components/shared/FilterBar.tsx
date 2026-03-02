@@ -44,41 +44,21 @@ export function FilterBar<T extends string>({
   const activeSortOption = sortOptions.find((o) => o.key === activeSort);
 
   return (
-    <section className="border-dim/10 px-horizontal mb-3 space-y-2 border-b pb-3">
-      <div className="border-dim/5 text-dim bg-dim/5 focus-within:border-dim/10 focus-within:bg-dim/10 relative flex w-full items-center gap-2 rounded-xl border px-3">
-        <LucideSearch />
-        <input
-          type="text"
-          value={search}
-          onChange={(e) => onSearchChange(e.target.value)}
-          placeholder={searchPlaceholder}
-          className="text-foreground placeholder:text-dim h-10 w-full text-sm outline-none"
-        />
-        {search && (
-          <button
-            onClick={() => onSearchChange("")}
-            className="text-dim hover:text-foreground cursor-pointer transition-colors"
-            aria-label="Clear search"
-          >
-            <LucideX />
-          </button>
-        )}
-      </div>
-
-      <div className="flex items-center gap-2">
-        <nav className="border-dim/10 text-dim bg-dim/5 relative flex min-w-0 flex-1 overflow-clip rounded-xl border">
+    <section className="mb-3 space-y-3">
+      <div className="border-dim/10 px-horizontal flex items-center gap-2 border-b">
+        <nav className="text-dim relative flex w-full overflow-clip font-semibold">
           {sortOptions.map(({ key, label }) => (
             <button
               key={key}
               onClick={() => {
                 onSortChange(key);
               }}
-              className="hover:text-foreground relative flex h-10 flex-1 cursor-pointer items-center justify-center px-2 text-sm transition-colors select-none"
+              className="hover:text-foreground relative mx-2 flex h-10 flex-1 cursor-pointer items-center justify-center text-sm transition-colors select-none"
             >
               {activeSort === key && (
                 <motion.div
                   layoutId={highlightId}
-                  className="ring-dim/10 bg-dim/5 absolute inset-0 rounded-xl ring"
+                  className="absolute inset-0 border-b-2 border-blue-500"
                   transition={{ type: "spring", stiffness: 380, damping: 30 }}
                 />
               )}
@@ -90,7 +70,28 @@ export function FilterBar<T extends string>({
             </button>
           ))}
         </nav>
+      </div>
 
+      <div className="px-horizontal flex gap-2">
+        <div className="border-dim/5 text-dim bg-dim/5 focus-within:border-dim/10 focus-within:bg-dim/10 relative flex w-full items-center gap-2 rounded-xl border px-3">
+          <LucideSearch />
+          <input
+            type="text"
+            value={search}
+            onChange={(e) => onSearchChange(e.target.value)}
+            placeholder={searchPlaceholder}
+            className="text-foreground placeholder:text-dim h-10 w-full text-sm outline-none"
+          />
+          {search && (
+            <button
+              onClick={() => onSearchChange("")}
+              className="text-dim hover:text-foreground cursor-pointer transition-colors"
+              aria-label="Clear search"
+            >
+              <LucideX />
+            </button>
+          )}
+        </div>
         <button
           onClick={() => onDirChange(dir === "asc" ? "desc" : "asc")}
           className={`border-dim/10 bg-dim/5 text-dim hover:text-foreground } flex size-10 shrink-0 cursor-pointer items-center justify-center rounded-xl border transition-opacity [&>svg]:text-xl`}

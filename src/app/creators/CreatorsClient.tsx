@@ -81,7 +81,7 @@ export default function Creators({
         highlightId="creators-sort"
       />
 
-      <section className="px-horizontal">
+      <section className="px-horizontal mt-4">
         <VirtualCreatorGrid
           key={`${columns}-${query}`}
           rows={rows}
