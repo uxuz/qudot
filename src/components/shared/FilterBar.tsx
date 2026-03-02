@@ -41,8 +41,6 @@ export function FilterBar<T extends string>({
   onDirChange,
   highlightId = "sortHighlight",
 }: FilterBarProps<T>) {
-  const activeSortOption = sortOptions.find((o) => o.key === activeSort);
-
   return (
     <section className="mb-3 space-y-3">
       <div className="border-dim/10 px-horizontal flex items-center gap-2 border-b">
