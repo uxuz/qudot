@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useMediaQuery } from "usehooks-ts";
 
-import { VirtualCreatorGrid } from "./VirtualCreatorGrid";
+import { VirtualCreatorsGrid } from "./VirtualCreatorsGrid";
 import { FilterBar, SortDir, SortOption } from "@/components/shared/FilterBar";
 import { Creator, CreatorStats } from "@/data/data.types";
 
@@ -82,7 +82,7 @@ export default function Creators({
       />
 
       <section className="px-horizontal mt-4">
-        <VirtualCreatorGrid
+        <VirtualCreatorsGrid
           key={`${columns}-${query}`}
           rows={rows}
           stats={creatorStats}

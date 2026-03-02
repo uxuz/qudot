@@ -5,7 +5,7 @@ import { useWindowVirtualizer } from "@tanstack/react-virtual";
 import type { Creator, CreatorStats } from "@/data/data.types";
 import { Avatar } from "@/components/shared/Avatar";
 
-export function VirtualCreatorGrid({
+export function VirtualCreatorsGrid({
   rows,
   stats,
 }: {
