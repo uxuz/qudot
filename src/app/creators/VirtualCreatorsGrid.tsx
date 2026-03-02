@@ -65,7 +65,7 @@ export function VirtualCreatorsGrid({
                         {creator.displayName}
                       </div>
                       <div className="text-dim">@{creator.username}</div>
-                      <div className="flex gap-3">
+                      <div className="flex gap-2.5">
                         <div className="text-dim">
                           <span className="text-foreground font-bold">
                             {creatorStats.collectiblesCount}
