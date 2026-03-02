@@ -13,9 +13,9 @@ const redditMono = Reddit_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Blurbury | Reddit Collectible Avatars Catalog",
+  title: "Blurbury | Reddit Collectible Avatars Shop Catalog",
   description:
-    "Explore the most complete catalog of Reddit Collectible Avatars. Browse collectibles, creators and traits in one place.",
+    "Explore the complete Reddit Collectible Avatars shop catalog. Browse avatars, creators and traits all in one place.",
 };
 
 export default function RootLayout({
