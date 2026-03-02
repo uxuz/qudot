@@ -16,19 +16,22 @@ const SORT_OPTIONS: SortOption<SortCategory>[] = [
   { key: "date", label: "Date" },
 ];
 
+const normalize = (str: string | undefined) =>
+  (str ?? "").toLowerCase().replace(/•/g, "");
+
 export function CollectiblesClient(props: React.ComponentProps<"div">) {
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState<SortCategory>("default");
   const [dir, setDir] = useState<SortDir>("desc");
 
   const filtered = useMemo(() => {
-    const query = search.trim().toLowerCase();
+    const query = normalize(search.trim());
 
     let result = query
       ? collectiblesPreview.filter(
           (c) =>
-            c.name?.toLowerCase().includes(query) ||
-            c.creator?.toLowerCase().includes(query),
+            normalize(c.name).includes(query) ||
+            normalize(c.creator).includes(query),
         )
       : collectiblesPreview;
 
@@ -40,7 +43,7 @@ export function CollectiblesClient(props: React.ComponentProps<"div">) {
     const getValue = (c: (typeof collectiblesPreview)[number]) => {
       switch (category) {
         case "revenue":
-          return (c.price ?? 0) * (c.sold ?? 0); // ⭐ computed
+          return (c.price ?? 0) * (c.sold ?? 0);
         case "price":
           return c.price ?? 0;
         case "supply":
