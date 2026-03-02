@@ -11,7 +11,7 @@ type SortKey = "name" | "collectibles" | "revenue";
 
 const SORT_OPTIONS: SortOption<SortKey>[] = [
   { key: "revenue", label: "Revenue" },
-  { key: "collectibles", label: "Collectibles" },
+  { key: "collectibles", label: "Collection Size" },
   { key: "name", label: "Name" },
 ];
 
@@ -44,7 +44,7 @@ export default function Creators({
     let delta = 0;
 
     if (sort === "name") {
-      delta = a.displayName.localeCompare(b.displayName);
+      delta = a.username.localeCompare(b.username);
     } else {
       const aStats = creatorStats[a.username] ?? {
         collectiblesCount: 0,
