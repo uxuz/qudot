@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import CollectibleShadow from "@/data/CollectibleShadow";
+import CollectibleShadow from "@/app/collectibles/[id]/CollectibleShadow";
 import { Trait } from "./Trait";
 import { TraitButton } from "./TraitButton";
 import {
