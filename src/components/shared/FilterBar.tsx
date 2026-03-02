@@ -94,7 +94,7 @@ export function FilterBar<T extends string>({
         </div>
         <button
           onClick={() => onDirChange(dir === "asc" ? "desc" : "asc")}
-          className="border-dim/10 bg-dim/5 text-dim hover:text-foreground hover:bg-dim/10 flex size-10 shrink-0 cursor-pointer items-center justify-center rounded-xl border transition-colors [&_svg]:text-xl"
+          className="border-dim/5 bg-dim/5 text-dim hover:text-foreground hover:bg-dim/10 flex size-10 shrink-0 cursor-pointer items-center justify-center rounded-xl border transition-colors [&_svg]:text-xl"
           aria-label={dir === "asc" ? "Sort ascending" : "Sort descending"}
         >
           <AnimatePresence mode="popLayout" initial={false}>
