@@ -74,7 +74,7 @@ export function FilterBar<T extends string>({
         <div className="border-dim/5 text-dim bg-dim/5 focus-within:border-dim/10 focus-within:bg-dim/10 relative flex h-10 flex-1 items-center gap-2 rounded-xl border px-3">
           <LucideSearch className="shrink-0" />
           <input
-            type="text"
+            type="search"
             value={search}
             onChange={(e) => onSearchChange(e.target.value)}
             placeholder={searchPlaceholder}
