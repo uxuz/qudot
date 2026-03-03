@@ -10,5 +10,20 @@ export const metadata: Metadata = {
 };
 
 export default function CreatorsPage() {
-  return <Creators creators={creators} creatorStats={creatorStats} />;
+  return (
+    <>
+      <section className="px-horizontal my-12 space-y-3">
+        <h1 className="text-xl font-bold tracking-tight text-balance">
+          Creators
+        </h1>
+        <p className="text-dim">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet omnis ab
+          enim doloremque iste laboriosam excepturi, sed accusamus saepe
+          eligendi recusandae porro cum voluptates culpa, ratione consequatur a
+          ullam? Impedit.
+        </p>
+      </section>
+      <Creators creators={creators} creatorStats={creatorStats} />;
+    </>
+  );
 }
