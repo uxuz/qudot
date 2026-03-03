@@ -57,7 +57,7 @@ export default async function CollectiblePage({ params }: PageProps) {
 
   return (
     <>
-      <section className="px-horizontal border-dim/10 flex flex-col gap-3 border-b pt-12 pb-3 sm:flex-row sm:gap-x-6">
+      <section className="px-horizontal border-dim/10 flex flex-col gap-3 border-b py-6 sm:flex-row sm:gap-x-6">
         <div className="flex items-center gap-3">
           <div className="hidden sm:block">
             <Avatar name={creator.username} size={160} />

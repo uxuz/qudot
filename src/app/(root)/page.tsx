@@ -5,7 +5,7 @@ import { LinkButton } from "@/components/shared/LinkButton";
 export default function Home() {
   return (
     <>
-      <section className="px-horizontal space-y-3 pt-12 pb-6">
+      <section className="px-horizontal my-12 space-y-3">
         <h1 className="text-xl font-bold tracking-tight text-balance">
           Find every Reddit Collectible Avatar ever released in the shop.
         </h1>
