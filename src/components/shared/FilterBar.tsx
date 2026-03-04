@@ -44,7 +44,7 @@ export function FilterBar<T extends string>({
   return (
     <section className="mb-3 space-y-3">
       <div className="border-dim/10 px-horizontal flex items-center gap-2 border-b">
-        <nav className="text-dim relative flex w-full overflow-clip font-semibold">
+        <nav className="text-dim scrollbar-hidden relative flex w-full overflow-clip overflow-x-scroll font-semibold">
           {sortOptions.map(({ key, label }) => (
             <button
               key={key}
