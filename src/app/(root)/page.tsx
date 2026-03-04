@@ -1,3 +1,5 @@
+import { Suspense } from "react";
+
 import { CollectiblesClient } from "@/app/(root)/CollectiblesClient";
 import { LucideArrowRight } from "@/components/icons/Lucide";
 import { LinkButton } from "@/components/shared/LinkButton";
@@ -18,7 +20,9 @@ export default function Home() {
           Explore Creators <LucideArrowRight />
         </LinkButton>
       </section>
-      <CollectiblesClient />
+      <Suspense>
+        <CollectiblesClient />
+      </Suspense>
     </>
   );
 }

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 
 import { creators, creatorStats } from "@/data/data";
 import Creators from "./CreatorsClient";
@@ -23,7 +24,9 @@ export default function CreatorsPage() {
           ullam? Impedit.
         </p>
       </section>
-      <Creators creators={creators} creatorStats={creatorStats} />;
+      <Suspense>
+        <Creators creators={creators} creatorStats={creatorStats} />
+      </Suspense>
     </>
   );
 }

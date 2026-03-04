@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useCallback, useEffect } from "react";
+import { usePathname } from "next/navigation";
 import { useMediaQuery } from "usehooks-ts";
 
 import { VirtualCreatorsGrid } from "./VirtualCreatorsGrid";
@@ -15,6 +16,8 @@ const SORT_OPTIONS: SortOption<SortKey>[] = [
   { key: "name", label: "Name" },
 ];
 
+const VALID_SORT_KEYS = new Set<SortKey>(["name", "collectibles", "revenue"]);
+
 export default function Creators({
   creators,
   creatorStats,
@@ -22,14 +25,69 @@ export default function Creators({
   creators: Creator[];
   creatorStats: CreatorStats;
 }) {
+  const pathname = usePathname();
+
+  // Always start with defaults to match SSR output, then sync from URL after mount
+  const [search, setSearch] = useState("");
   const [sort, setSort] = useState<SortKey>("revenue");
   const [dir, setDir] = useState<SortDir>("desc");
-  const [search, setSearch] = useState("");
+
+  useEffect(() => {
+    const p = new URLSearchParams(window.location.search);
+    const rawSort = p.get("sort") ?? "revenue";
+    setSearch(p.get("q") ?? "");
+    setSort(
+      VALID_SORT_KEYS.has(rawSort as SortKey)
+        ? (rawSort as SortKey)
+        : "revenue",
+    );
+    setDir(p.get("dir") === "asc" ? "asc" : "desc");
+  }, []);
 
   const isSmUp = useMediaQuery("(min-width: 640px)", {
     initializeWithValue: false,
   });
   const columns = isSmUp ? 2 : 1;
+
+  const updateURL = useCallback(
+    (q: string, s: SortKey, d: SortDir) => {
+      const params = new URLSearchParams();
+      if (q) params.set("q", q);
+      if (s !== "revenue") params.set("sort", s);
+      if (d !== "desc") params.set("dir", d);
+      const query = params.toString();
+      window.history.replaceState(
+        null,
+        "",
+        `${pathname}${query ? `?${query}` : ""}`,
+      );
+    },
+    [pathname],
+  );
+
+  const handleSearchChange = useCallback(
+    (value: string) => {
+      setSearch(value);
+      updateURL(value, sort, dir);
+    },
+    [sort, dir, updateURL],
+  );
+
+  const handleSortChange = useCallback(
+    (key: SortKey) => {
+      setSort(key);
+      updateURL(search, key, dir);
+    },
+    [search, dir, updateURL],
+  );
+
+  const handleDirChange = useCallback(
+    (newDir: SortDir) => {
+      setDir(newDir);
+      updateURL(search, sort, newDir);
+    },
+    [search, sort, updateURL],
+  );
 
   const query = search.trim().toLowerCase();
   const filtered = query
@@ -71,13 +129,13 @@ export default function Creators({
     <div>
       <FilterBar
         search={search}
-        onSearchChange={setSearch}
+        onSearchChange={handleSearchChange}
         searchPlaceholder="Search Creators"
         sortOptions={SORT_OPTIONS}
         activeSort={sort}
-        onSortChange={setSort}
+        onSortChange={handleSortChange}
         dir={dir}
-        onDirChange={setDir}
+        onDirChange={handleDirChange}
         highlightId="creators-sort"
       />
 
