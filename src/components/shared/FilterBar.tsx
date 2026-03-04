@@ -74,21 +74,13 @@ export function FilterBar<T extends string>({
         <div className="border-dim/5 text-dim bg-dim/5 focus-within:border-dim/10 focus-within:bg-dim/10 relative flex h-10 flex-1 items-center gap-2 rounded-xl border px-3">
           <LucideSearch className="shrink-0" />
           <input
+            maxLength={24}
             type="search"
             value={search}
             onChange={(e) => onSearchChange(e.target.value)}
             placeholder={searchPlaceholder}
             className="text-foreground placeholder:text-dim w-full text-sm outline-none"
           />
-          {search && (
-            <button
-              onClick={() => onSearchChange("")}
-              className="text-dim hover:text-foreground cursor-pointer transition-colors"
-              aria-label="Clear search"
-            >
-              <LucideX />
-            </button>
-          )}
         </div>
         <button
           onClick={() => onDirChange(dir === "asc" ? "desc" : "asc")}
