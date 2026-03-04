@@ -3,7 +3,6 @@
 import { AnimatePresence, motion } from "motion/react";
 import {
   LucideSearch,
-  LucideX,
   LucideArrowUpNarrowWide,
   LucideArrowDownWideNarrow,
 } from "@/components/icons/Lucide";
