@@ -1,6 +1,6 @@
 "use client";
 
-// This is an old component directly used from Blurbury's predecessor Qudot
+// This is an old component directly used from Qudot beta
 
 import { useEffect, useRef, useState, useCallback } from "react";
 

@@ -1,14 +1,14 @@
-import type { Metadata } from "next";
 import { Suspense } from "react";
 
 import { creators, creatorStats } from "@/data/data";
 import Creators from "./CreatorsClient";
+import { createPageMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
-  title: "Creators | Blurbury",
+export const metadata = createPageMetadata({
+  title: "Creators | Qudot",
   description:
     "Every creator behind Reddit Collectible Avatars, all in one organized place.",
-};
+});
 
 export default function CreatorsPage() {
   return (

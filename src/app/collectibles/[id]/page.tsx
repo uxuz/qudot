@@ -7,6 +7,7 @@ import CollectibleViewer from "./CollectibleViewer";
 import { LucideArrowUpRight } from "@/components/icons/Lucide";
 import { Avatar } from "@/components/shared/Avatar";
 import { LinkButton } from "@/components/shared/LinkButton";
+import { createPageMetadata } from "@/lib/metadata";
 
 interface PageProps {
   params: { id: string };
@@ -33,16 +34,13 @@ export async function generateMetadata({
     (item) => item.username === collectible.creator,
   );
 
-  return {
+  return createPageMetadata({
     title: `${collectible.name} by ${creator?.displayName} (@${collectible.creator})`,
     description: collectible.description,
     openGraph: {
       images: [collectible.previewUrl, collectible.backgroundUrl],
     },
-    twitter: {
-      card: "summary_large_image",
-    },
-  };
+  });
 }
 
 export default async function CollectiblePage({ params }: PageProps) {

@@ -1,7 +1,8 @@
 import Link from "next/link";
-import type { Metadata } from "next";
 import { Reddit_Sans, Reddit_Mono } from "next/font/google";
 import "./globals.css";
+
+import { createPageMetadata } from "@/lib/metadata";
 
 const redditSans = Reddit_Sans({
   variable: "--font-reddit-sans",
@@ -13,11 +14,11 @@ const redditMono = Reddit_Mono({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: "Blurbury | Reddit Collectible Avatars Shop Catalog",
+export const metadata = createPageMetadata({
+  title: "Qudot | Reddit Collectible Avatars Shop Catalog",
   description:
     "Explore the complete Reddit Collectible Avatars shop catalog. Browse avatars, creators and traits all in one place.",
-};
+});
 
 export default function RootLayout({
   children,

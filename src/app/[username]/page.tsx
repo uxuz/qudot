@@ -7,6 +7,7 @@ import { Linkify } from "@/app/[username]/Linkify";
 import { LinkButton } from "@/components/shared/LinkButton";
 import { LucideArrowUpRight } from "@/components/icons/Lucide";
 import { CollectibleCard } from "@/components/shared/CollectibleCard";
+import { createPageMetadata } from "@/lib/metadata";
 
 interface PageProps {
   params: { username: string };
@@ -31,10 +32,10 @@ export async function generateMetadata({
     notFound();
   }
 
-  return {
+  return createPageMetadata({
     title: `${creator.displayName} (@${creator.username})`,
     description: creator.description,
-  };
+  });
 }
 
 export default async function CollectiblePage({ params }: PageProps) {
