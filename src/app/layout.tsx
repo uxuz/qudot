@@ -3,6 +3,7 @@ import { Reddit_Sans, Reddit_Mono } from "next/font/google";
 import "./globals.css";
 
 import { createPageMetadata } from "@/lib/metadata";
+import { LucideCoffee, LucideGithub } from "@/components/icons/Lucide";
 
 const redditSans = Reddit_Sans({
   variable: "--font-reddit-sans",
@@ -34,8 +35,24 @@ export default function RootLayout({
           <header className="px-horizontal border-dim/10 flex h-16 items-center border-b">
             <Link
               href="/"
-              className="bg-dim/5 border-dim/5 size-10 rounded-xl border"
-            />
+              className="bg-dim/5 border-dim/5 text-dim hover:bg-dim/10 flex size-10 items-center justify-center rounded-xl border transition-colors [&>svg]:text-xl"
+            ></Link>
+            <div className="ml-auto flex gap-2">
+              <Link
+                href="https://github.com/uxuz/qudot"
+                target="_blank"
+                className="bg-dim/5 border-dim/5 text-dim hover:bg-dim/10 ml-auto flex size-10 items-center justify-center rounded-xl border transition-colors [&>svg]:text-xl"
+              >
+                <LucideGithub />
+              </Link>
+              <Link
+                href="https://ko-fi.com/uxuz"
+                target="_blank"
+                className="bg-dim/5 border-dim/5 text-dim hover:bg-dim/10 ml-auto flex size-10 items-center justify-center rounded-xl border transition-colors [&>svg]:text-xl"
+              >
+                <LucideCoffee />
+              </Link>
+            </div>
           </header>
           <main>{children}</main>
         </div>
