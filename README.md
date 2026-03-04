@@ -9,7 +9,13 @@ It provides a place for interested users to have a transparent view of the progr
 
 The logic and utilities are licensed under the MIT License. Files located in `src/data/` (including images, descriptions and metadata) are property of Reddit and the original creators.
 
-If you are a creator and want to update your profile, feel free to reach out through any of the socials on my site [uxuz.zip](https://uxuz.zip/) or just submit a pull request.
+If you are a creator and want to update your display, username or bio (profile description), feel free to reach out through any of the socials on my site [uxuz.zip](https://uxuz.zip/) or just submit a pull request.
+
+## Agentic Coding
+
+LLMs have come a long way and have gotten really (really!) good with coding, this is especially true for React and using them greatly reduced the time spent on implementing the features for this project.
+
+While the generated code _work_, they are by no means perfect, in fact most of the time far from ideal (iykyk, LLMs love useEffect). However, since this is **not** a commercial product and the goal is to minimize the development time, the trade off is worth it, as there are no plans to extend or improve it in the future.
 
 ### Getting Started
 
