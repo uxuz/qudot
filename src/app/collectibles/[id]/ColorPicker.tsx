@@ -308,6 +308,7 @@ export function ColorPicker({
 
       <input
         maxLength={7}
+        autoComplete="off"
         value={hexInput}
         onChange={handleHexChange}
         className="border-dim/10 text-dim focus:bg-dim/5 h-8 w-full shrink-0 rounded-lg border px-2 font-mono text-sm transition-colors focus:outline-none"
