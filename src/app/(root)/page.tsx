@@ -11,7 +11,7 @@ export default function Home() {
         <h1 className="text-xl font-bold tracking-tight text-balance">
           Find every Reddit Collectible Avatar ever released in the shop.
         </h1>
-        <p className="text-dim">
+        <p className="text-dim text-pretty">
           Free, static and open source. Looking for a specific creator or want
           to search by display name? Head to the creators page to search and
           explore every creator.

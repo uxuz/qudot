@@ -15,13 +15,12 @@ export default function CreatorsPage() {
     <>
       <section className="px-horizontal my-12 space-y-3">
         <h1 className="text-xl font-bold tracking-tight text-balance">
-          Creators
+          Just the creators, all of them and at one place.
         </h1>
-        <p className="text-dim">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet omnis ab
-          enim doloremque iste laboriosam excepturi, sed accusamus saepe
-          eligendi recusandae porro cum voluptates culpa, ratione consequatur a
-          ullam? Impedit.
+        <p className="text-dim text-pretty">
+          Browse and explore every creator with ease. Search by display name or
+          username, sort and reorder the results to find exactly who you are
+          looking for.
         </p>
       </section>
       <Suspense>
