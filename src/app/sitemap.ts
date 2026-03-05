@@ -2,7 +2,7 @@ import type { MetadataRoute } from "next";
 
 import { collectibles, creators } from "@/data/data";
 
-export const baseUrl = "https://blurbury.com";
+export const baseUrl = "https://qudot.app";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const creatorUrls: MetadataRoute.Sitemap = creators.map((creator) => ({
