@@ -3,7 +3,10 @@ import { Reddit_Sans, Reddit_Mono } from "next/font/google";
 import "./globals.css";
 
 import { createPageMetadata } from "@/lib/metadata";
-import { LucideCoffee, LucideGithub } from "@/components/icons/Lucide";
+import {
+  SimpleIconsGithub,
+  SimpleIconsKofi,
+} from "@/components/icons/SimpleIcons";
 
 const redditSans = Reddit_Sans({
   variable: "--font-reddit-sans",
@@ -33,24 +36,45 @@ export default function RootLayout({
       >
         <div className="m-auto flex min-h-dvh max-w-2xl flex-col pb-12">
           <header className="px-horizontal border-dim/10 flex h-16 items-center border-b">
-            <Link
-              href="/"
-              className="bg-dim/5 border-dim/5 text-dim hover:bg-dim/10 flex size-10 items-center justify-center rounded-xl border transition-colors [&>svg]:text-xl"
-            ></Link>
+            <Link href="/" className="flex items-center">
+              <svg
+                width="100%"
+                height="100%"
+                viewBox="0 0 64 64"
+                version="1.1"
+                xmlns="http://www.w3.org/2000/svg"
+                xmlnsXlink="http://www.w3.org/1999/xlink"
+                xmlSpace="preserve"
+                style={{
+                  fillRule: "evenodd",
+                  clipRule: "evenodd",
+                  strokeLinejoin: "round",
+                  strokeMiterlimit: 2,
+                }}
+                className="size-10"
+              >
+                <path d="M32,0C49.673,0 64,14.327 64,32C64,32 64,32 64,32C64,49.673 49.673,64 32,64C32,64 32,64 32,64C14.327,64 0,49.673 0,32C0,32 0,32 0,32C0,14.327 14.327,0 32,0Z" />
+                <path
+                  d="M24,40C19.582,40 16,36.418 16,32L16,24C16,19.582 19.582,16 24,16L40,16C44.418,16 48,19.582 48,24L48,44C48,46.209 46.209,48 44,48C41.791,48 40,46.209 40,44C40,42.939 39.579,41.922 38.828,41.172C38.078,40.421 37.061,40 36,40C32.739,40 28.03,40 24,40ZM40,28C40,25.791 38.209,24 36,24C33.557,24 30.443,24 28,24C25.791,24 24,25.791 24,28C24,30.209 25.791,32 28,32C30.443,32 33.557,32 36,32C38.209,32 40,30.209 40,28Z"
+                  style={{ fill: "rgb(237,237,237)" }}
+                />
+              </svg>
+              <span className="text-xl font-bold tracking-tight">Qudot</span>
+            </Link>
             <div className="ml-auto flex gap-2">
               <Link
                 href="https://github.com/uxuz/qudot"
                 target="_blank"
                 className="bg-dim/5 border-dim/5 text-dim hover:bg-dim/10 ml-auto flex size-10 items-center justify-center rounded-xl border transition-colors [&>svg]:text-xl"
               >
-                <LucideGithub />
+                <SimpleIconsGithub />
               </Link>
               <Link
                 href="https://ko-fi.com/uxuz"
                 target="_blank"
                 className="bg-dim/5 border-dim/5 text-dim hover:bg-dim/10 ml-auto flex size-10 items-center justify-center rounded-xl border transition-colors [&>svg]:text-xl"
               >
-                <LucideCoffee />
+                <SimpleIconsKofi />
               </Link>
             </div>
           </header>
