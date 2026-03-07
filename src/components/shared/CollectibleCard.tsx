@@ -44,13 +44,13 @@ export function CollectibleCard({
       </div>
 
       <div className="pointer-events-none absolute flex w-full justify-between gap-1 p-2 text-xs">
-        <span className="border-dim/10 bg-background/85 rounded-lg border px-1">
+        <span className="border-dim/10 bg-background/80 rounded-lg border px-1">
           {new Intl.NumberFormat("en-US", {
             style: "currency",
             currency: "USD",
           }).format(collectible.price / 100)}
         </span>
-        <span className="border-dim/10 bg-background/85 rounded-lg border px-1">
+        <span className="border-dim/10 bg-background/80 rounded-lg border px-1">
           {collectible.sold}/{collectible.supply}
         </span>
       </div>
