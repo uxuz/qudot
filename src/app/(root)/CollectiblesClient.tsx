@@ -10,7 +10,7 @@ import { FilterBar, SortDir, SortOption } from "@/components/shared/FilterBar";
 type SortCategory = "default" | "revenue" | "price" | "supply" | "date";
 
 const SORT_OPTIONS: SortOption<SortCategory>[] = [
-  { key: "default", label: "Popular" },
+  { key: "default", label: "Featured" },
   { key: "revenue", label: "Revenue" },
   { key: "price", label: "Price" },
   { key: "supply", label: "Supply" },
