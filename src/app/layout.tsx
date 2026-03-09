@@ -44,7 +44,7 @@ export default function RootLayout({
         className={`${redditSans.variable} ${redditMono.variable} antialiased`}
       >
         <div className="m-auto flex min-h-dvh max-w-2xl flex-col pb-12">
-          <header className="px-horizontal border-dim/10 flex h-16 items-center border-b">
+          <header className="px-horizontal border-dim/10 bg-background sticky top-0 z-50 flex h-16 items-center border-b">
             <Link href="/" className="flex items-center">
               <svg
                 width="100%"
