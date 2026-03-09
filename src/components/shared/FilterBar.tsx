@@ -41,7 +41,7 @@ export function FilterBar<T extends string>({
   highlightId = "sortHighlight",
 }: FilterBarProps<T>) {
   return (
-    <section className="mb-3 space-y-3">
+    <section className="bg-background sticky top-16 isolate z-50 space-y-3 pb-3">
       <div className="border-dim/10 px-horizontal flex items-center gap-2 border-b">
         <nav className="text-dim scrollbar-hidden relative flex w-full overflow-clip overflow-x-scroll font-semibold">
           {sortOptions.map(({ key, label }) => (
