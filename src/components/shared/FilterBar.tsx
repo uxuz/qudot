@@ -41,34 +41,7 @@ export function FilterBar<T extends string>({
   highlightId = "sortHighlight",
 }: FilterBarProps<T>) {
   return (
-    <section className="bg-background sticky top-16 isolate z-50 space-y-3 pb-3">
-      <div className="border-dim/10 px-horizontal flex items-center gap-2 border-b">
-        <nav className="text-dim scrollbar-hidden relative flex w-full overflow-clip overflow-x-scroll font-semibold">
-          {sortOptions.map(({ key, label }) => (
-            <button
-              key={key}
-              onClick={() => {
-                onSortChange(key);
-              }}
-              className="hover:text-foreground relative mx-2 flex h-10 flex-1 cursor-pointer items-center justify-center text-sm transition-colors select-none"
-            >
-              {activeSort === key && (
-                <motion.div
-                  layoutId={highlightId}
-                  className="absolute inset-0 border-b-2 border-blue-500"
-                  transition={{ type: "spring", stiffness: 380, damping: 30 }}
-                />
-              )}
-              <span
-                className={`relative z-10 transition-colors ${activeSort === key ? "text-foreground" : ""}`}
-              >
-                {label}
-              </span>
-            </button>
-          ))}
-        </nav>
-      </div>
-
+    <section className="bg-background sticky top-16 isolate z-30 -mt-3 mb-3 space-y-3 pt-3">
       <div className="px-horizontal flex gap-2">
         <div className="border-dim/5 text-dim bg-dim/5 focus-within:border-dim/10 focus-within:bg-dim/10 relative flex h-10 flex-1 items-center gap-2 rounded-xl border px-3">
           <LucideSearch className="shrink-0" />
@@ -106,6 +79,33 @@ export function FilterBar<T extends string>({
             </motion.div>
           </AnimatePresence>
         </button>
+      </div>
+
+      <div className="border-dim/10 px-horizontal flex items-center gap-2 border-b">
+        <nav className="text-dim scrollbar-hidden relative flex w-full overflow-clip overflow-x-scroll font-semibold">
+          {sortOptions.map(({ key, label }) => (
+            <button
+              key={key}
+              onClick={() => {
+                onSortChange(key);
+              }}
+              className="hover:text-foreground relative mx-2 flex h-10 flex-1 cursor-pointer items-center justify-center text-sm transition-colors select-none"
+            >
+              {activeSort === key && (
+                <motion.div
+                  layoutId={highlightId}
+                  className="absolute inset-0 border-b-2 border-blue-500"
+                  transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                />
+              )}
+              <span
+                className={`relative z-10 transition-colors ${activeSort === key ? "text-foreground" : ""}`}
+              >
+                {label}
+              </span>
+            </button>
+          ))}
+        </nav>
       </div>
     </section>
   );
