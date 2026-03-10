@@ -30,6 +30,7 @@ export function VirtualCreatorsGrid({
         height: `${virtualizer.getTotalSize()}px`,
         position: "relative",
       }}
+      className="min-h-[calc(100vh-105px-64px-12px-48px)]"
     >
       {items.map((virtualRow) => {
         const offsetTop = virtualRow.start - virtualizer.options.scrollMargin;

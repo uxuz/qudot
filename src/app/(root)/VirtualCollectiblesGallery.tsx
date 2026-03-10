@@ -81,7 +81,10 @@ export function VirtualCollectiblesGallery({
   return (
     <div
       ref={containerRef}
-      className={cn("px-horizontal", className)}
+      className={cn(
+        "px-horizontal min-h-[calc(100vh-105px-64px-12px-48px)]",
+        className,
+      )}
       {...props}
     >
       <div
