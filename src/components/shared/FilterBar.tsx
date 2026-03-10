@@ -76,7 +76,7 @@ export function FilterBar<T extends string>({
             <AnimatePresence mode="popLayout" initial={false}>
               <motion.div
                 key={dir}
-                onClick={scrollToFilter}
+                onClick={() => scrollToFilter()}
                 initial={{ opacity: 0, scale: 0.25, filter: "blur(4px)" }}
                 animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
                 exit={{ opacity: 0, scale: 0.25, filter: "blur(4px)" }}
