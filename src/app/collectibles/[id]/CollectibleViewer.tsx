@@ -256,19 +256,19 @@ export default function CollectibleViewer({
       <div className="scrollbar-hidden px-horizontal flex w-full gap-2 overflow-x-scroll sm:col-span-3 sm:flex-col sm:overflow-y-clip sm:pl-0">
         <div className="contents h-fit grid-cols-3 gap-2 sm:grid">
           <TraitButton
-            onClick={() => toggleGroup(["leftHand"])}
-            disabled={!loaded || !traits.leftHand}
-            data-active={visibleTraits.leftHand}
-            data-exists={!!traits.leftHand}
+            onClick={() => toggleGroup(["rightHand"])}
+            disabled={!loaded || !traits.rightHand}
+            data-active={visibleTraits.rightHand}
+            data-exists={!!traits.rightHand}
           >
             <LucideHand className="-scale-x-100" />
           </TraitButton>
 
           <TraitButton
-            onClick={() => toggleGroup(["rightHand"])}
-            disabled={!loaded || !traits.rightHand}
-            data-active={visibleTraits.rightHand}
-            data-exists={!!traits.rightHand}
+            onClick={() => toggleGroup(["leftHand"])}
+            disabled={!loaded || !traits.leftHand}
+            data-active={visibleTraits.leftHand}
+            data-exists={!!traits.leftHand}
           >
             <LucideHand />
           </TraitButton>
@@ -336,6 +336,16 @@ export default function CollectibleViewer({
             <LucideSquareCheck />
           </TraitButton>
 
+          <TraitButton
+            onClick={() => setWhiteBackground(!whiteBackground)}
+            disabled={!loaded}
+            data-active={!whiteBackground}
+            data-exists={true}
+            className="col-span-3 select-none"
+          >
+            <LucideTrees /> <span>Background</span>
+          </TraitButton>
+
           <Drawer handleOnly repositionInputs={false}>
             <DrawerTrigger asChild>
               <TraitButton
@@ -363,16 +373,6 @@ export default function CollectibleViewer({
               </div>
             </DrawerContent>
           </Drawer>
-
-          <TraitButton
-            onClick={() => setWhiteBackground(!whiteBackground)}
-            disabled={!loaded}
-            data-active={!whiteBackground}
-            data-exists={true}
-            className="col-span-3 select-none"
-          >
-            <LucideTrees /> <span>Background</span>
-          </TraitButton>
         </div>
         <div className="bg-dim/5 border-dim/5 hidden h-full w-full rounded-xl border sm:block">
           <ColorPicker
