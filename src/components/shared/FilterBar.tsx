@@ -110,6 +110,7 @@ export function FilterBar<T extends string>({
                 {activeSort === key && (
                   <motion.div
                     layoutId={highlightId}
+                    layoutDependency={activeSort}
                     className="absolute inset-0 border-b-2 border-blue-500"
                     transition={{ type: "spring", stiffness: 380, damping: 30 }}
                   />
