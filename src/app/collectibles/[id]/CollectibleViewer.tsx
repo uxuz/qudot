@@ -336,7 +336,7 @@ export default function CollectibleViewer({
             <LucideSquareCheck />
           </TraitButton>
 
-          <Drawer handleOnly>
+          <Drawer handleOnly repositionInputs={false}>
             <DrawerTrigger asChild>
               <TraitButton
                 disabled={!loaded}
