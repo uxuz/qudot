@@ -308,8 +308,9 @@ export function ColorPicker({
 
       <input
         maxLength={7}
-        // "search" to disable autofill with passwords and credit cards
+        // type "search" to disable autofill with passwords and credit cards, I wish I was joking, but this is the easiest way to do so
         type="search"
+        placeholder="#ffffff"
         value={hexInput}
         onChange={handleHexChange}
         className="border-dim/10 text-dim focus:bg-dim/5 h-8 w-full shrink-0 rounded-lg border px-2 font-mono text-sm transition-colors focus:outline-none"
