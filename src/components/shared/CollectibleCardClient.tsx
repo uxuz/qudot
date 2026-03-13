@@ -42,10 +42,12 @@ export function CollectibleCardClient({
       {blur && !revealed && (
         <button
           onClick={() => setRevealed(true)}
-          className="text-foreground absolute inset-0 z-10 flex cursor-pointer flex-col items-center justify-center gap-1 bg-black/50 text-balance backdrop-blur-sm [&>svg]:text-xl"
+          className="text-dim absolute inset-0 z-10 flex cursor-pointer flex-col items-center justify-center gap-1 bg-black/60 px-6 text-xs text-balance backdrop-blur-sm [&>svg]:text-xl"
         >
-          <LucideBotOff />
-          <span className="text-balance">Generative AI</span>
+          <span className="text-4xl">✦</span>
+          <span className="font-medium text-balance">
+            Content warning: Generative AI
+          </span>
         </button>
       )}
     </>

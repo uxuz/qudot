@@ -8,6 +8,7 @@ import { LinkButton } from "@/components/shared/LinkButton";
 import { LucideArrowUpRight } from "@/components/icons/Lucide";
 import { CollectibleCard } from "@/components/shared/CollectibleCard";
 import { createPageMetadata } from "@/lib/metadata";
+import { GenAIBadge } from "@/components/shared/Badges";
 
 interface PageProps {
   params: { username: string };
@@ -69,7 +70,9 @@ export default async function CollectiblePage({ params }: PageProps) {
         </div>
         <div className="w-full space-y-3 sm:self-center">
           <div className="flex flex-col">
-            <span className="text-xl font-bold">{creator.displayName}</span>
+            <span className="text-xl font-bold">
+              {creator.displayName} {creator.genAi && <GenAIBadge />}
+            </span>
             <span className="text-dim">@{creator.username}</span>
           </div>
           <p>

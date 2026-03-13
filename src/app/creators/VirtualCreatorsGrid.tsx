@@ -4,6 +4,7 @@ import { useWindowVirtualizer } from "@tanstack/react-virtual";
 
 import type { Creator, CreatorStats } from "@/data/data.types";
 import { Avatar } from "@/components/shared/Avatar";
+import { GenAIBadge } from "@/components/shared/Badges";
 
 export function VirtualCreatorsGrid({
   rows,
@@ -63,7 +64,7 @@ export function VirtualCreatorsGrid({
                     <Avatar name={creator.username} size={60} />
                     <div className="overflow-y-hidden">
                       <div className="truncate font-bold">
-                        {creator.displayName}
+                        {creator.displayName} {creator.genAi && <GenAIBadge />}
                       </div>
                       <div className="text-dim">@{creator.username}</div>
                       <div className="flex gap-2.5">
