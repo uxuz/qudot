@@ -14,6 +14,7 @@ export interface Collectible {
   price: 249 | 499 | 999 | 2499 | 4999 | 7499 | 9999 | 19999;
   traits: string[];
   tags: string[];
+  featuredWeight: number;
 }
 
 export type CollectiblePreview = Pick<

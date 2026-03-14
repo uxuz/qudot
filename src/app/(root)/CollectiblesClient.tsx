@@ -3,7 +3,7 @@
 import { useState, useMemo, useCallback, useEffect } from "react";
 import { usePathname } from "next/navigation";
 
-import { collectiblesPreview } from "@/data/data";
+import { collectibles } from "@/data/data";
 import { VirtualCollectiblesGallery } from "./VirtualCollectiblesGallery";
 import { FilterBar, SortDir, SortOption } from "@/components/shared/FilterBar";
 
@@ -92,19 +92,23 @@ export function CollectiblesClient(props: React.ComponentProps<"div">) {
     const query = normalize(search.trim());
 
     let result = query
-      ? collectiblesPreview.filter(
+      ? collectibles.filter(
           (c) =>
             normalize(c.name).includes(query) ||
             normalize(c.creator).includes(query),
         )
-      : collectiblesPreview;
+      : collectibles;
 
     if (category === "default") {
-      if (dir === "desc") result = [...result].reverse();
-      return result;
+      const featured = result.filter((c) => c.featuredWeight !== 0);
+      return [...featured].sort((a, b) =>
+        dir === "desc"
+          ? b.featuredWeight - a.featuredWeight
+          : a.featuredWeight - b.featuredWeight,
+      );
     }
 
-    const getValue = (c: (typeof collectiblesPreview)[number]) => {
+    const getValue = (c: (typeof collectibles)[number]) => {
       switch (category) {
         case "revenue":
           return (c.price ?? 0) * (c.sold ?? 0);
@@ -139,7 +143,7 @@ export function CollectiblesClient(props: React.ComponentProps<"div">) {
 
       <div className="min-h-[calc(100vh-105px-64px-12px-48px)]">
         <VirtualCollectiblesGallery collectibles={filtered} />
-        {category === "default" && (
+        {search && category === "default" && (
           <div className="px-horizontal text-dim pt-1 text-center text-xs text-balance">
             Only a small selection is shown here. Try a different category to
             find all collectibles!
