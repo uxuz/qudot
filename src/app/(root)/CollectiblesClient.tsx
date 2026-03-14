@@ -137,7 +137,15 @@ export function CollectiblesClient(props: React.ComponentProps<"div">) {
         highlightId="collectibles-sort"
       />
 
-      <VirtualCollectiblesGallery collectibles={filtered} />
+      <div className="min-h-[calc(100vh-105px-64px-12px-48px)]">
+        <VirtualCollectiblesGallery collectibles={filtered} />
+        {category === "default" && (
+          <div className="px-horizontal text-dim pt-1 text-center text-xs text-balance">
+            Only a small selection is shown here. Try a different category to
+            find all collectibles!
+          </div>
+        )}
+      </div>
     </div>
   );
 }
