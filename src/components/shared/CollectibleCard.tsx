@@ -2,7 +2,7 @@ import Link from "next/link";
 import type { CollectiblePreview } from "@/data/data.types";
 import { creators } from "@/data/data";
 import { CollectibleCardClient } from "./CollectibleCardClient";
-import { GenAIBadge } from "./Badges";
+import { BadgeGenAI } from "./Badges";
 
 const creatorsByUsername = Object.fromEntries(
   creators.map((creator) => [creator.username, creator]),
@@ -38,7 +38,7 @@ export function CollectibleCard({
             <span className="text-foreground">{creator.displayName}</span> @
             {collectible.creator}
           </Link>
-          {creator.genAi && <GenAIBadge />}
+          {creator.genAi && <BadgeGenAI />}
         </div>
       </div>
 
