@@ -11,6 +11,7 @@ const defaultMetadata: Metadata = {
   openGraph: {
     type: "website",
     siteName: "Qudot",
+    images: "/og.png",
   },
   twitter: {
     card: "summary_large_image",
