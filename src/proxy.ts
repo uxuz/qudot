@@ -15,7 +15,7 @@ export function proxy(req: NextRequest) {
 
   if (username !== lower) {
     url.pathname = `/${lower}`;
-    return NextResponse.redirect(url, 308);
+    return NextResponse.redirect(url, 301);
   }
 
   return NextResponse.next();
