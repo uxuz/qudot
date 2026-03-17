@@ -34,7 +34,6 @@ export function CollectibleCard({
           <Link
             href={`/${collectible.creator.toLowerCase()}`}
             className="text-dim pointer-events-auto inline-block w-fit max-w-[calc(100%)] cursor-pointer truncate"
-            prefetch={false}
           >
             <span className="text-foreground">{creator.displayName}</span> @
             {collectible.creator}
