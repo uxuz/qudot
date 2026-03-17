@@ -3,7 +3,6 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
-import { LucideBotOff } from "../icons/Lucide";
 
 export function CollectibleCardClient({
   productId,
