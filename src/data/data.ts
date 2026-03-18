@@ -1,34 +1,8 @@
 import collectiblesData from "@/data/collectibles.json";
 import creatorsData from "@/data/creators.json";
-import type {
-  Collectible,
-  CollectiblePreview,
-  Creator,
-  CreatorStats,
-} from "@/data/data.types";
+import type { Collectible, Creator, CreatorStats } from "@/data/data.types";
 
 export const collectibles = collectiblesData as Collectible[];
-export const collectiblesPreview: CollectiblePreview[] = collectibles.map(
-  ({
-    name,
-    productId,
-    deployedAt,
-    creator,
-    sold,
-    price,
-    supply,
-    previewUrl,
-  }) => ({
-    name,
-    productId,
-    deployedAt,
-    creator,
-    sold,
-    price,
-    supply,
-    previewUrl,
-  }),
-);
 
 export const creators = creatorsData as Creator[];
 export const creatorStats = collectibles.reduce((acc, item) => {

@@ -1,6 +1,6 @@
 "use client";
 
-import type { CollectiblePreview } from "@/data/data.types";
+import type { Collectible } from "@/data/data.types";
 import { CollectibleCard } from "../../components/shared/CollectibleCard";
 import { cn } from "@/lib/utils";
 import { useWindowVirtualizer, useVirtualizer } from "@tanstack/react-virtual";
@@ -25,7 +25,7 @@ export function VirtualCollectiblesGallery({
   className,
   ...props
 }: {
-  collectibles: CollectiblePreview[];
+  collectibles: Collectible[];
 } & React.ComponentProps<"div">) {
   const containerRef = useRef<HTMLDivElement>(null);
 

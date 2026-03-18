@@ -1,5 +1,5 @@
 import Link from "next/link";
-import type { CollectiblePreview } from "@/data/data.types";
+import type { Collectible } from "@/data/data.types";
 import { creators } from "@/data/data";
 import { CollectibleCardClient } from "./CollectibleCardClient";
 import { BadgeGenAI } from "./Badges";
@@ -8,11 +8,7 @@ const creatorsByUsername = Object.fromEntries(
   creators.map((creator) => [creator.username, creator]),
 );
 
-export function CollectibleCard({
-  collectible,
-}: {
-  collectible: CollectiblePreview;
-}) {
+export function CollectibleCard({ collectible }: { collectible: Collectible }) {
   const creator = creatorsByUsername[collectible.creator];
 
   return (
