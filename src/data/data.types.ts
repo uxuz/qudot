@@ -33,7 +33,6 @@ export interface Creator {
   username: string;
   displayName: string;
   description: string;
-  profileUrl: string;
   genAi: boolean;
 }
 
