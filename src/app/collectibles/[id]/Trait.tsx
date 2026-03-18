@@ -1,8 +1,6 @@
 "use client";
 
-// This is an old component directly used from Qudot beta
-
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useRef, useState, useCallback, useMemo } from "react";
 
 interface TraitProps {
   src: string;
@@ -55,6 +53,11 @@ class OptimizedColorScheduler {
 }
 
 const colorScheduler = new OptimizedColorScheduler();
+
+async function fetchSvgText(url: string) {
+  const response = await fetch(url);
+  return response.text();
+}
 
 // Color throttling, not even sure if it works, since changing it to a higher delay doesn't really make it any slower
 const createThrottledColorUpdate = (fn: () => void, delay = 16) => {
@@ -160,8 +163,7 @@ export function Trait({
 
     const fetchSVG = async () => {
       try {
-        const res = await fetch(src);
-        const svgText = await res.text();
+        const svgText = await fetchSvgText(src);
 
         if (!isCancelled) {
           svgCache.set(traitId, svgText);
@@ -282,8 +284,8 @@ export function Trait({
   }, [bodyColor, eyeColor, hairColor, hasColorableContent]);
 
   // Throttled color update function
-  const throttledUpdate = useCallback(
-    createThrottledColorUpdate(updateColors),
+  const throttledUpdate = useMemo(
+    () => createThrottledColorUpdate(updateColors),
     [updateColors],
   );
 

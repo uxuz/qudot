@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion } from "motion/react";
 
 type Tab = "Body" | "Eye" | "Hair";
@@ -134,10 +134,6 @@ export function ColorPicker({
   const currentHex = rgbToHex(cr, cg, cb);
 
   useEffect(() => {
-    setCurrent({ hex: currentHex });
-  }, [currentHex]);
-
-  useEffect(() => {
     const hex = current.hex;
 
     if (activeTab === "Body") onBodyChange?.(hex);
@@ -158,36 +154,38 @@ export function ColorPicker({
     setCurrent({ h, s, v });
   };
 
-  const updateSV = useCallback(
-    (x: number, y: number) => {
-      if (!svRef.current) return;
+  const updateSV = (x: number, y: number) => {
+    if (!svRef.current) return;
 
-      const rect = svRef.current.getBoundingClientRect();
+    const rect = svRef.current.getBoundingClientRect();
 
-      const nx = Math.max(0, Math.min(x - rect.left, rect.width));
-      const ny = Math.max(0, Math.min(y - rect.top, rect.height));
+    const nx = Math.max(0, Math.min(x - rect.left, rect.width));
+    const ny = Math.max(0, Math.min(y - rect.top, rect.height));
 
-      setCurrent({
-        s: nx / rect.width,
-        v: 1 - ny / rect.height,
-      });
-    },
-    [activeTab],
-  );
+    const nextS = nx / rect.width;
+    const nextV = 1 - ny / rect.height;
+    const [r, g, b] = hsvToRgb(hue, nextS, nextV);
 
-  const updateHue = useCallback(
-    (y: number) => {
-      if (!hueRef.current) return;
+    setCurrent({
+      s: nextS,
+      v: nextV,
+      hex: rgbToHex(r, g, b),
+    });
+  };
 
-      const rect = hueRef.current.getBoundingClientRect();
-      const ny = Math.max(0, Math.min(y - rect.top, rect.height));
+  const updateHue = (y: number) => {
+    if (!hueRef.current) return;
 
-      setCurrent({
-        h: (1 - ny / rect.height) * 360,
-      });
-    },
-    [activeTab],
-  );
+    const rect = hueRef.current.getBoundingClientRect();
+    const ny = Math.max(0, Math.min(y - rect.top, rect.height));
+    const nextH = (1 - ny / rect.height) * 360;
+    const [r, g, b] = hsvToRgb(nextH, saturation, value);
+
+    setCurrent({
+      h: nextH,
+      hex: rgbToHex(r, g, b),
+    });
+  };
 
   useEffect(() => {
     const move = (e: PointerEvent) => {

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback } from "react";
 import { usePathname } from "next/navigation";
 import { useMediaQuery } from "usehooks-ts";
 
@@ -18,6 +18,32 @@ const SORT_OPTIONS: SortOption<SortKey>[] = [
 
 const VALID_SORT_KEYS = new Set<SortKey>(["name", "collectibles", "revenue"]);
 
+type ViewState = {
+  search: string;
+  sort: SortKey;
+  dir: SortDir;
+};
+
+function getInitialState(): ViewState {
+  if (typeof window === "undefined") {
+    return {
+      search: "",
+      sort: "revenue",
+      dir: "desc",
+    };
+  }
+
+  const p = new URLSearchParams(window.location.search);
+  const rawSort = p.get("sort") ?? "revenue";
+  return {
+    search: p.get("q") ?? "",
+    sort: VALID_SORT_KEYS.has(rawSort as SortKey)
+      ? (rawSort as SortKey)
+      : "revenue",
+    dir: p.get("dir") === "asc" ? "asc" : "desc",
+  };
+}
+
 export default function Creators({
   creators,
   creatorStats,
@@ -26,23 +52,8 @@ export default function Creators({
   creatorStats: CreatorStats;
 }) {
   const pathname = usePathname();
-
-  // Always start with defaults to match SSR output, then sync from URL after mount
-  const [search, setSearch] = useState("");
-  const [sort, setSort] = useState<SortKey>("revenue");
-  const [dir, setDir] = useState<SortDir>("desc");
-
-  useEffect(() => {
-    const p = new URLSearchParams(window.location.search);
-    const rawSort = p.get("sort") ?? "revenue";
-    setSearch(p.get("q") ?? "");
-    setSort(
-      VALID_SORT_KEYS.has(rawSort as SortKey)
-        ? (rawSort as SortKey)
-        : "revenue",
-    );
-    setDir(p.get("dir") === "asc" ? "asc" : "desc");
-  }, []);
+  const [view, setView] = useState<ViewState>(getInitialState);
+  const { search, sort, dir } = view;
 
   const isSmUp = useMediaQuery("(min-width: 640px)", {
     initializeWithValue: false,
@@ -67,26 +78,38 @@ export default function Creators({
 
   const handleSearchChange = useCallback(
     (value: string) => {
-      setSearch(value);
-      updateURL(value, sort, dir);
+      const next: ViewState = {
+        ...view,
+        search: value,
+      };
+      setView(next);
+      updateURL(next.search, next.sort, next.dir);
     },
-    [sort, dir, updateURL],
+    [view, updateURL],
   );
 
   const handleSortChange = useCallback(
     (key: SortKey) => {
-      setSort(key);
-      updateURL(search, key, dir);
+      const next: ViewState = {
+        ...view,
+        sort: key,
+      };
+      setView(next);
+      updateURL(next.search, next.sort, next.dir);
     },
-    [search, dir, updateURL],
+    [view, updateURL],
   );
 
   const handleDirChange = useCallback(
     (newDir: SortDir) => {
-      setDir(newDir);
-      updateURL(search, sort, newDir);
+      const next: ViewState = {
+        ...view,
+        dir: newDir,
+      };
+      setView(next);
+      updateURL(next.search, next.sort, next.dir);
     },
-    [search, sort, updateURL],
+    [view, updateURL],
   );
 
   const query = search.trim().toLowerCase();

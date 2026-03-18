@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo, useCallback, useEffect } from "react";
+import { useState, useMemo, useCallback } from "react";
 import { usePathname } from "next/navigation";
 
 import { collectibles } from "@/data/data";
@@ -25,28 +25,40 @@ const VALID_CATEGORIES = new Set<SortCategory>([
   "date",
 ]);
 
+type ViewState = {
+  search: string;
+  category: SortCategory;
+  dir: SortDir;
+};
+
+function getInitialState(): ViewState {
+  if (typeof window === "undefined") {
+    return {
+      search: "",
+      category: "default",
+      dir: "desc",
+    };
+  }
+
+  const p = new URLSearchParams(window.location.search);
+  const rawSort = p.get("sort") ?? "default";
+
+  return {
+    search: p.get("q") ?? "",
+    category: VALID_CATEGORIES.has(rawSort as SortCategory)
+      ? (rawSort as SortCategory)
+      : "default",
+    dir: p.get("dir") === "asc" ? "asc" : "desc",
+  };
+}
+
 const normalize = (str: string | undefined) =>
   (str ?? "").toLowerCase().replace(/•/g, "");
 
 export function CollectiblesClient(props: React.ComponentProps<"div">) {
   const pathname = usePathname();
-
-  // Always start with defaults to match SSR output, then sync from URL after mount
-  const [search, setSearch] = useState("");
-  const [category, setCategory] = useState<SortCategory>("default");
-  const [dir, setDir] = useState<SortDir>("desc");
-
-  useEffect(() => {
-    const p = new URLSearchParams(window.location.search);
-    const rawSort = p.get("sort") ?? "default";
-    setSearch(p.get("q") ?? "");
-    setCategory(
-      VALID_CATEGORIES.has(rawSort as SortCategory)
-        ? (rawSort as SortCategory)
-        : "default",
-    );
-    setDir(p.get("dir") === "asc" ? "asc" : "desc");
-  }, []);
+  const [view, setView] = useState<ViewState>(getInitialState);
+  const { search, category, dir } = view;
 
   const updateURL = useCallback(
     (q: string, sort: SortCategory, d: SortDir) => {
@@ -66,26 +78,38 @@ export function CollectiblesClient(props: React.ComponentProps<"div">) {
 
   const handleSearchChange = useCallback(
     (value: string) => {
-      setSearch(value);
-      updateURL(value, category, dir);
+      const next: ViewState = {
+        ...view,
+        search: value,
+      };
+      setView(next);
+      updateURL(next.search, next.category, next.dir);
     },
-    [category, dir, updateURL],
+    [view, updateURL],
   );
 
   const handleSortChange = useCallback(
     (key: SortCategory) => {
-      setCategory(key);
-      updateURL(search, key, dir);
+      const next: ViewState = {
+        ...view,
+        category: key,
+      };
+      setView(next);
+      updateURL(next.search, next.category, next.dir);
     },
-    [search, dir, updateURL],
+    [view, updateURL],
   );
 
   const handleDirChange = useCallback(
     (newDir: SortDir) => {
-      setDir(newDir);
-      updateURL(search, category, newDir);
+      const next: ViewState = {
+        ...view,
+        dir: newDir,
+      };
+      setView(next);
+      updateURL(next.search, next.category, next.dir);
     },
-    [search, category, updateURL],
+    [view, updateURL],
   );
 
   const filtered = useMemo(() => {
