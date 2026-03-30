@@ -6,6 +6,6 @@ For example, a specific preview image on Reddit would be https://i.redd.it/snoov
 
 The same applies to background, e.g. https://i.redd.it/snoovatar/snoo_assets/J3Zku-C3wXE_Artboard_157.png and https://static.qudot.app/collectibles/backgrounds/J3Zku-C3wXE_Artboard_157.png.
 
-When looking for traits, Reddit has changed the path throughout the programm with both `https://i.redd.it/snoovatar/snoo_assets/${id}.svg` and `https://i.redd.it/snoovatar/snoo_assets/submissions/${id}.svg` being used depending on when the Collectible was made.
+When looking for traits, Reddit has changed the path throughout the program with both `https://i.redd.it/snoovatar/snoo_assets/${id}.svg` and `https://i.redd.it/snoovatar/snoo_assets/submissions/${id}.svg` being used depending on when the Collectible was made.
 
 For the sake of simplicity, the mirror will have all the traits available at one path, meaning that all the traits can be found at `static.qudot.app/collectibles/traits/{id}.svg`. The trait `id` is parsed using the `parseTraits(string[])` function in `src/app/collectibles/[id]/CollectibleViewer.tsx`.
