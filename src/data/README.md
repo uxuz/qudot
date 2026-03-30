@@ -1,6 +1,6 @@
-A mirror of every asset retrieved by the client from Reddit can also can be found at `static.qudot.app/collectibles/*`.
+A mirror of every asset retrieved by the client from Reddit can also can be found at `static.qudot.app/collectibles/*`. The mirror serves as a backup in case Reddit deletes the assets.
 
-All previews (renders of the collectible in the PNG format) can be found at `static.qudot.app/collectibles/previews/{id}.png` and backgrounds at `static.qudot.app/collectibles/backgrounds/{id}.png`.
+All preview mirrors (renders of the collectible in the PNG format) can be found at `static.qudot.app/collectibles/previews/{id}.png` and backgrounds at `static.qudot.app/collectibles/backgrounds/{id}.png`.
 
 For example, a specific preview image on Reddit would be https://i.redd.it/snoovatar/avatars/basic/f04e6639-5aa5-4a34-9f88-e7d65d7b7dbe.png, which means that the mirror is at https://static.qudot.app/collectibles/previews/f04e6639-5aa5-4a34-9f88-e7d65d7b7dbe.png.
 
