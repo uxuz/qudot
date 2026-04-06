@@ -260,6 +260,7 @@ export default function CollectibleViewer({
             disabled={!loaded || !traits.rightHand}
             data-active={visibleTraits.rightHand}
             data-exists={!!traits.rightHand}
+            aria-label="Right hand"
           >
             <LucideHand className="-scale-x-100" />
           </TraitButton>
@@ -269,6 +270,7 @@ export default function CollectibleViewer({
             disabled={!loaded || !traits.leftHand}
             data-active={visibleTraits.leftHand}
             data-exists={!!traits.leftHand}
+            aria-label="Left hand"
           >
             <LucideHand />
           </TraitButton>
@@ -278,6 +280,7 @@ export default function CollectibleViewer({
             disabled={!loaded || !traits.hat}
             data-active={visibleTraits.hat}
             data-exists={!!traits.hat}
+            aria-label="Hat"
           >
             <LucideHeadphones />
           </TraitButton>
@@ -287,6 +290,7 @@ export default function CollectibleViewer({
             disabled={!loaded || (!traits.hairFront && !traits.hairBack)}
             data-active={visibleTraits.hairFront && visibleTraits.hairBack}
             data-exists={!!traits.hairFront || !!traits.hairBack}
+            aria-label="Hair"
           >
             <LucideLabScissorsHairComb />
           </TraitButton>
@@ -296,6 +300,7 @@ export default function CollectibleViewer({
             disabled={!loaded || !traits.eyes}
             data-active={visibleTraits.eyes}
             data-exists={!!traits.eyes}
+            aria-label="Eyes"
           >
             <LucideEye />
           </TraitButton>
@@ -305,6 +310,7 @@ export default function CollectibleViewer({
             disabled={!loaded || !traits.face}
             data-active={visibleTraits.face}
             data-exists={!!traits.face}
+            aria-label="Face"
           >
             <LucideSmile />
           </TraitButton>
@@ -314,6 +320,7 @@ export default function CollectibleViewer({
             disabled={!loaded || !traits.top}
             data-active={visibleTraits.top}
             data-exists={!!traits.top}
+            aria-label="Top"
           >
             <LucideShirt />
           </TraitButton>
@@ -323,6 +330,7 @@ export default function CollectibleViewer({
             disabled={!loaded || !traits.bottom}
             data-active={visibleTraits.bottom}
             data-exists={!!traits.bottom}
+            aria-label="Bottom"
           >
             <LucideLabTrousers />
           </TraitButton>
@@ -332,6 +340,7 @@ export default function CollectibleViewer({
             disabled={!loaded}
             data-active={hasAnyVisibleTrait}
             data-exists={true}
+            aria-label="Toggle all traits"
           >
             <LucideSquareCheck />
           </TraitButton>
@@ -342,6 +351,7 @@ export default function CollectibleViewer({
             data-active={!whiteBackground}
             data-exists={true}
             className="col-span-3 select-none"
+            aria-label="Toggle background"
           >
             <LucideTrees /> <span>Background</span>
           </TraitButton>
@@ -352,6 +362,7 @@ export default function CollectibleViewer({
                 disabled={!loaded}
                 data-exists={true}
                 className="sm:hidden"
+                aria-label="Open color picker"
               >
                 <LucidePaintbrushVertical />
               </TraitButton>

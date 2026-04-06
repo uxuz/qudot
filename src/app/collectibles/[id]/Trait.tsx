@@ -224,6 +224,11 @@ export function Trait({
       shadowRootRef.current.innerHTML = structure.processedSVG;
       svgElementRef.current = shadowRootRef.current.querySelector("svg");
 
+      // Apply aria-label to the SVG element
+      if (svgElementRef.current) {
+        svgElementRef.current.setAttribute("aria-label", alt);
+      }
+
       setHasColorableContent(structure.hasColorableContent);
 
       // Set initial colors if colorable
@@ -315,7 +320,6 @@ export function Trait({
   return (
     <div
       ref={containerRef}
-      aria-label={alt}
       className={className}
       style={{
         zIndex,

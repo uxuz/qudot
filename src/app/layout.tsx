@@ -72,6 +72,7 @@ export default function RootLayout({
             <div className="ml-auto flex gap-2">
               <Link
                 href="https://github.com/uxuz/qudot"
+                aria-label="GitHub repository"
                 target="_blank"
                 className="bg-dim/5 border-dim/5 text-dim hover:bg-dim/10 ml-auto flex size-10 items-center justify-center rounded-xl border transition-colors [&>svg]:text-xl"
               >
@@ -79,6 +80,7 @@ export default function RootLayout({
               </Link>
               <Link
                 href="https://ko-fi.com/uxuz"
+                aria-label="Ko-Fi"
                 target="_blank"
                 className="bg-dim/5 border-dim/5 text-dim hover:bg-dim/10 ml-auto flex size-10 items-center justify-center rounded-xl border transition-colors [&>svg]:text-xl"
               >
