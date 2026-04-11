@@ -75,7 +75,7 @@ export default async function CollectiblePage({ params }: PageProps) {
             </span>
             <span className="text-dim">@{creator.username}</span>
           </div>
-          <p>
+          <p className="hyphens-auto">
             <Linkify text={creator.description} />
           </p>
           <div className="flex gap-3">
