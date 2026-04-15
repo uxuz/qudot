@@ -67,7 +67,9 @@ export default function RootLayout({
                   style={{ fill: "rgb(237,237,237)" }}
                 />
               </svg>
-              <span className="text-xl font-bold tracking-tight">Qudot</span>
+              <span className="pr-2.5 text-xl font-bold tracking-tight">
+                Qudot
+              </span>
             </Link>
             <div className="ml-auto flex gap-2">
               <Link
