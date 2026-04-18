@@ -12,7 +12,7 @@ export function CollectibleCard({ collectible }: { collectible: Collectible }) {
   const creator = creatorsByUsername[collectible.creator];
 
   return (
-    <div className="border-dim/10 relative aspect-4/5 overflow-hidden rounded-xl border [&:has(:focus:not([data-skip-parent-focus]))]:[outline:5px_auto_Highlight] [&:has(:focus:not([data-skip-parent-focus]))]:outline-[-webkit-focus-ring-color]">
+    <div className="collectible-card-focus-within border-dim/10 relative aspect-4/5 overflow-hidden rounded-xl border">
       <CollectibleCardClient
         productId={collectible.productId}
         name={collectible.name}
@@ -30,7 +30,6 @@ export function CollectibleCard({ collectible }: { collectible: Collectible }) {
           <Link
             href={`/${collectible.creator.toLowerCase()}`}
             className="text-dim pointer-events-auto inline-block w-fit max-w-[calc(100%)] cursor-pointer truncate"
-            data-skip-parent-focus
           >
             <span className="text-foreground">{creator.displayName}</span> @
             {collectible.creator}
