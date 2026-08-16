@@ -13,9 +13,7 @@ If you are a creator and want to update your display, username or bio (profile d
 
 ## Agentic Coding
 
-LLMs have come a long way and have gotten really (really!) good with coding, this is especially true for React and using them greatly reduced the time spent on implementing the features for this project.
-
-While the generated code _work_, they are by no means perfect, in fact most of the time far from ideal (iykyk, LLMs love useEffect). However, since this is **not** a commercial product and the goal is to minimize the development time, the trade off is worth it, as there are no plans to extend or improve it in the future.
+Agentic coding was used in the creation and development of this project.
 
 ### Getting Started
 
