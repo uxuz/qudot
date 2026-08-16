@@ -120,7 +120,7 @@ export function CollectiblesClient({
       if (gen !== "all") params.set("gen", gen);
       const query = params.toString();
       const nextUrl = `${pathname}${query ? `?${query}` : ""}`;
-      window.history.pushState(null, "", nextUrl);
+      window.history.replaceState(null, "", nextUrl);
     },
     [pathname],
   );

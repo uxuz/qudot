@@ -78,7 +78,7 @@ export default function Creators({
       if (d !== "desc") params.set("dir", d);
       const query = params.toString();
       const nextUrl = `${pathname}${query ? `?${query}` : ""}`;
-      window.history.pushState(null, "", nextUrl);
+      window.history.replaceState(null, "", nextUrl);
     },
     [pathname],
   );
