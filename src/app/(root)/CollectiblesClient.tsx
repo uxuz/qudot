@@ -7,7 +7,7 @@ import { collectibles } from "@/data/data";
 import { VirtualCollectiblesGallery } from "./VirtualCollectiblesGallery";
 import { FilterBar, SortDir, SortOption } from "@/components/shared/FilterBar";
 
-type SortCategory = "default" | "revenue" | "price" | "supply" | "date";
+export type SortCategory = "default" | "revenue" | "price" | "supply" | "date";
 
 const SORT_OPTIONS: SortOption<SortCategory>[] = [
   { key: "default", label: "Featured" },
@@ -31,33 +31,38 @@ type ViewState = {
   dir: SortDir;
 };
 
-function getInitialState(): ViewState {
-  if (typeof window === "undefined") {
-    return {
-      search: "",
-      category: "default",
-      dir: "desc",
-    };
-  }
+export type CollectiblesViewState = ViewState;
 
-  const p = new URLSearchParams(window.location.search);
-  const rawSort = p.get("sort") ?? "default";
-
-  return {
-    search: p.get("q") ?? "",
-    category: VALID_CATEGORIES.has(rawSort as SortCategory)
-      ? (rawSort as SortCategory)
-      : "default",
-    dir: p.get("dir") === "asc" ? "asc" : "desc",
-  };
+interface CollectiblesClientProps extends React.ComponentProps<"div"> {
+  initialView?: ViewState;
 }
+
+const DEFAULT_VIEW: ViewState = {
+  search: "",
+  category: "default",
+  dir: "desc",
+};
 
 const normalize = (str: string | undefined) =>
   (str ?? "").toLowerCase().replace(/•/g, "");
 
-export function CollectiblesClient(props: React.ComponentProps<"div">) {
+export function CollectiblesClient({
+  initialView,
+  ...divProps
+}: CollectiblesClientProps) {
   const pathname = usePathname();
-  const [view, setView] = useState<ViewState>(getInitialState);
+
+  const safeInitialView: ViewState = initialView
+    ? {
+        search: initialView.search ?? DEFAULT_VIEW.search,
+        category: VALID_CATEGORIES.has(initialView.category)
+          ? initialView.category
+          : DEFAULT_VIEW.category,
+        dir: initialView.dir === "asc" ? "asc" : "desc",
+      }
+    : DEFAULT_VIEW;
+
+  const [view, setView] = useState<ViewState>(safeInitialView);
   const { search, category, dir } = view;
 
   const updateURL = useCallback(
@@ -152,7 +157,7 @@ export function CollectiblesClient(props: React.ComponentProps<"div">) {
   }, [search, category, dir]);
 
   return (
-    <div {...props}>
+    <div {...divProps}>
       <FilterBar
         search={search}
         onSearchChange={handleSearchChange}

@@ -1,10 +1,46 @@
 import { Suspense } from "react";
 
-import { CollectiblesClient } from "@/app/(root)/CollectiblesClient";
+import {
+  CollectiblesClient,
+  type CollectiblesViewState,
+  type SortCategory,
+} from "@/app/(root)/CollectiblesClient";
 import { LucideArrowRight } from "@/components/icons/Lucide";
 import { LinkButton } from "@/components/shared/LinkButton";
 
-export default function Home() {
+type HomeSearchParams = {
+  q?: string | string[];
+  sort?: string | string[];
+  dir?: string | string[];
+};
+
+const VALID_SORTS = new Set<SortCategory>([
+  "default",
+  "revenue",
+  "price",
+  "supply",
+  "date",
+]);
+
+const firstValue = (value: string | string[] | undefined) =>
+  Array.isArray(value) ? value[0] : value;
+
+export default async function Home({
+  searchParams,
+}: {
+  searchParams: Promise<HomeSearchParams>;
+}) {
+  const params = await searchParams;
+  const rawSort = firstValue(params.sort);
+  const initialView: CollectiblesViewState = {
+    search: firstValue(params.q) ?? "",
+    category:
+      rawSort && VALID_SORTS.has(rawSort as SortCategory)
+        ? (rawSort as SortCategory)
+        : "default",
+    dir: firstValue(params.dir) === "asc" ? "asc" : "desc",
+  };
+
   return (
     <>
       <section className="px-horizontal my-12 space-y-3">
@@ -21,7 +57,7 @@ export default function Home() {
         </LinkButton>
       </section>
       <Suspense>
-        <CollectiblesClient />
+        <CollectiblesClient initialView={initialView} />
       </Suspense>
     </>
   );
