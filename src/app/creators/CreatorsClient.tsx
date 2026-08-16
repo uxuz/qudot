@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { useMediaQuery } from "usehooks-ts";
 
@@ -55,6 +55,16 @@ export default function Creators({
   const [view, setView] = useState<ViewState>(getInitialState);
   const { search, sort, dir } = view;
 
+  useEffect(() => {
+    const syncViewFromLocation = () => {
+      setView(getInitialState());
+    };
+
+    syncViewFromLocation();
+    window.addEventListener("popstate", syncViewFromLocation);
+    return () => window.removeEventListener("popstate", syncViewFromLocation);
+  }, [pathname]);
+
   const isSmUp = useMediaQuery("(min-width: 640px)", {
     initializeWithValue: false,
   });
@@ -67,11 +77,8 @@ export default function Creators({
       if (s !== "revenue") params.set("sort", s);
       if (d !== "desc") params.set("dir", d);
       const query = params.toString();
-      window.history.replaceState(
-        null,
-        "",
-        `${pathname}${query ? `?${query}` : ""}`,
-      );
+      const nextUrl = `${pathname}${query ? `?${query}` : ""}`;
+      window.history.pushState(null, "", nextUrl);
     },
     [pathname],
   );

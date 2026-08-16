@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo, useCallback } from "react";
+import { useState, useMemo, useCallback, useEffect } from "react";
 import { usePathname } from "next/navigation";
 
 import { collectibles } from "@/data/data";
@@ -30,6 +30,14 @@ const VALID_CATEGORIES = new Set<SortCategory>([
   "date",
 ]);
 
+const VALID_GENERATIONS = new Set<Generation>([
+  "all",
+  "gen1",
+  "gen2",
+  "gen3",
+  "gen4",
+]);
+
 type ViewState = {
   search: string;
   category: SortCategory;
@@ -53,6 +61,26 @@ const DEFAULT_VIEW: ViewState = {
 const normalize = (str: string | undefined) =>
   (str ?? "").toLowerCase().replace(/•/g, "");
 
+const parseViewFromLocation = (): ViewState => {
+  if (typeof window === "undefined") return DEFAULT_VIEW;
+
+  const params = new URLSearchParams(window.location.search);
+  const rawSort = params.get("sort") ?? "default";
+  const rawGeneration = params.get("gen") ?? "all";
+
+  return {
+    search: params.get("q") ?? "",
+    category: VALID_CATEGORIES.has(rawSort as SortCategory)
+      ? (rawSort as SortCategory)
+      : DEFAULT_VIEW.category,
+    dir: params.get("dir") === "asc" ? "asc" : DEFAULT_VIEW.dir,
+    generation:
+      rawGeneration && VALID_GENERATIONS.has(rawGeneration as Generation)
+        ? (rawGeneration as Generation)
+        : DEFAULT_VIEW.generation,
+  };
+};
+
 export function CollectiblesClient({
   initialView,
   ...divProps
@@ -73,6 +101,16 @@ export function CollectiblesClient({
   const [view, setView] = useState<ViewState>(safeInitialView);
   const { search, category, dir, generation } = view;
 
+  useEffect(() => {
+    const syncViewFromLocation = () => {
+      setView(parseViewFromLocation());
+    };
+
+    syncViewFromLocation();
+    window.addEventListener("popstate", syncViewFromLocation);
+    return () => window.removeEventListener("popstate", syncViewFromLocation);
+  }, [pathname]);
+
   const updateURL = useCallback(
     (q: string, sort: SortCategory, d: SortDir, gen: Generation) => {
       const params = new URLSearchParams();
@@ -81,11 +119,8 @@ export function CollectiblesClient({
       if (d !== "desc") params.set("dir", d);
       if (gen !== "all") params.set("gen", gen);
       const query = params.toString();
-      window.history.replaceState(
-        null,
-        "",
-        `${pathname}${query ? `?${query}` : ""}`,
-      );
+      const nextUrl = `${pathname}${query ? `?${query}` : ""}`;
+      window.history.pushState(null, "", nextUrl);
     },
     [pathname],
   );
