@@ -12,6 +12,7 @@ type HomeSearchParams = {
   q?: string | string[];
   sort?: string | string[];
   dir?: string | string[];
+  gen?: string | string[];
 };
 
 const VALID_SORTS = new Set<SortCategory>([
@@ -21,6 +22,16 @@ const VALID_SORTS = new Set<SortCategory>([
   "supply",
   "date",
 ]);
+
+const VALID_GENERATIONS = new Set(["all", "gen1", "gen2", "gen3", "gen4"]);
+
+const isGeneration = (
+  value: string | undefined,
+): value is CollectiblesViewState["generation"] =>
+  Boolean(
+    value &&
+    VALID_GENERATIONS.has(value as CollectiblesViewState["generation"]),
+  );
 
 const firstValue = (value: string | string[] | undefined) =>
   Array.isArray(value) ? value[0] : value;
@@ -32,6 +43,7 @@ export default async function Home({
 }) {
   const params = await searchParams;
   const rawSort = firstValue(params.sort);
+  const rawGeneration = firstValue(params.gen);
   const initialView: CollectiblesViewState = {
     search: firstValue(params.q) ?? "",
     category:
@@ -39,6 +51,7 @@ export default async function Home({
         ? (rawSort as SortCategory)
         : "default",
     dir: firstValue(params.dir) === "asc" ? "asc" : "desc",
+    generation: isGeneration(rawGeneration) ? rawGeneration : "all",
   };
 
   return (
