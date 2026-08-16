@@ -9,6 +9,7 @@ import {
 } from "@/components/icons/Lucide";
 
 export type SortDir = "asc" | "desc";
+export type Generation = "all" | "gen1" | "gen2" | "gen3" | "gen4";
 
 export interface SortOption<T extends string> {
   key: T;
@@ -27,6 +28,9 @@ interface FilterBarProps<T extends string> {
   dir: SortDir;
   onDirChange: (dir: SortDir) => void;
 
+  generation?: Generation;
+  onGenerationChange?: (generation: Generation) => void;
+
   highlightId?: string;
 }
 
@@ -39,6 +43,8 @@ export function FilterBar<T extends string>({
   onSortChange,
   dir,
   onDirChange,
+  generation,
+  onGenerationChange,
   highlightId = "sortHighlight",
 }: FilterBarProps<T>) {
   const anchorRef = useRef<HTMLDivElement>(null);
@@ -65,9 +71,25 @@ export function FilterBar<T extends string>({
               value={search}
               onChange={(e) => onSearchChange(e.target.value)}
               placeholder={searchPlaceholder}
-              className="text-foreground placeholder:text-dim w-full text-sm outline-none"
+              className="text-foreground placeholder:text-dim w-full outline-none"
             />
           </div>
+
+          {generation !== undefined && (
+            <select
+              value={generation}
+              onChange={(e) =>
+                onGenerationChange?.(e.target.value as Generation)
+              }
+              className="border-dim/5 bg-dim/5 text-dim hover:text-foreground hover:bg-dim/10 h-10 shrink-0 cursor-pointer appearance-none rounded-xl border px-3 text-center outline-0 transition-colors"
+            >
+              <option value="all">All</option>
+              <option value="gen1">Gen 1</option>
+              <option value="gen2">Gen 2</option>
+              <option value="gen3">Gen 3</option>
+              <option value="gen4">Gen 4</option>
+            </select>
+          )}
           <button
             onClick={() => onDirChange(dir === "asc" ? "desc" : "asc")}
             className="border-dim/5 bg-dim/5 text-dim hover:text-foreground hover:bg-dim/10 flex size-10 shrink-0 cursor-pointer items-center justify-center rounded-xl border transition-colors [&_svg]:text-xl"

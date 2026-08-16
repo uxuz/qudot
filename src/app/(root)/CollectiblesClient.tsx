@@ -5,7 +5,12 @@ import { usePathname } from "next/navigation";
 
 import { collectibles } from "@/data/data";
 import { VirtualCollectiblesGallery } from "./VirtualCollectiblesGallery";
-import { FilterBar, SortDir, SortOption } from "@/components/shared/FilterBar";
+import {
+  FilterBar,
+  SortDir,
+  SortOption,
+  Generation,
+} from "@/components/shared/FilterBar";
 
 export type SortCategory = "default" | "revenue" | "price" | "supply" | "date";
 
@@ -29,6 +34,7 @@ type ViewState = {
   search: string;
   category: SortCategory;
   dir: SortDir;
+  generation: Generation;
 };
 
 export type CollectiblesViewState = ViewState;
@@ -41,6 +47,7 @@ const DEFAULT_VIEW: ViewState = {
   search: "",
   category: "default",
   dir: "desc",
+  generation: "all",
 };
 
 const normalize = (str: string | undefined) =>
@@ -59,18 +66,20 @@ export function CollectiblesClient({
           ? initialView.category
           : DEFAULT_VIEW.category,
         dir: initialView.dir === "asc" ? "asc" : "desc",
+        generation: initialView.generation ?? DEFAULT_VIEW.generation,
       }
     : DEFAULT_VIEW;
 
   const [view, setView] = useState<ViewState>(safeInitialView);
-  const { search, category, dir } = view;
+  const { search, category, dir, generation } = view;
 
   const updateURL = useCallback(
-    (q: string, sort: SortCategory, d: SortDir) => {
+    (q: string, sort: SortCategory, d: SortDir, gen: Generation) => {
       const params = new URLSearchParams();
       if (q) params.set("q", q);
       if (sort !== "default") params.set("sort", sort);
       if (d !== "desc") params.set("dir", d);
+      if (gen !== "all") params.set("gen", gen);
       const query = params.toString();
       window.history.replaceState(
         null,
@@ -88,7 +97,7 @@ export function CollectiblesClient({
         search: value,
       };
       setView(next);
-      updateURL(next.search, next.category, next.dir);
+      updateURL(next.search, next.category, next.dir, next.generation);
     },
     [view, updateURL],
   );
@@ -100,7 +109,7 @@ export function CollectiblesClient({
         category: key,
       };
       setView(next);
-      updateURL(next.search, next.category, next.dir);
+      updateURL(next.search, next.category, next.dir, next.generation);
     },
     [view, updateURL],
   );
@@ -112,7 +121,19 @@ export function CollectiblesClient({
         dir: newDir,
       };
       setView(next);
-      updateURL(next.search, next.category, next.dir);
+      updateURL(next.search, next.category, next.dir, next.generation);
+    },
+    [view, updateURL],
+  );
+
+  const handleGenerationChange = useCallback(
+    (newGen: Generation) => {
+      const next: ViewState = {
+        ...view,
+        generation: newGen,
+      };
+      setView(next);
+      updateURL(next.search, next.category, next.dir, next.generation);
     },
     [view, updateURL],
   );
@@ -127,6 +148,19 @@ export function CollectiblesClient({
             normalize(c.creator).includes(query),
         )
       : collectibles;
+
+    // Filter by generation
+    if (generation !== "all") {
+      const genTag =
+        generation === "gen1"
+          ? "cp1"
+          : generation === "gen2"
+            ? "cp2"
+            : generation === "gen3"
+              ? "cp3"
+              : "cp4";
+      result = result.filter((c) => c.tags?.includes(genTag));
+    }
 
     if (category === "default") {
       const featured = result.filter((c) => c.featuredWeight !== 0);
@@ -154,7 +188,7 @@ export function CollectiblesClient({
       const delta = getValue(a) - getValue(b);
       return dir === "asc" ? delta : -delta;
     });
-  }, [search, category, dir]);
+  }, [search, category, dir, generation]);
 
   return (
     <div {...divProps}>
@@ -167,6 +201,8 @@ export function CollectiblesClient({
         onSortChange={handleSortChange}
         dir={dir}
         onDirChange={handleDirChange}
+        generation={generation}
+        onGenerationChange={handleGenerationChange}
         highlightId="collectibles-sort"
       />
 
