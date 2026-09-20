@@ -11,7 +11,7 @@ import { createPageMetadata } from "@/lib/metadata";
 import { BadgeGenAI } from "@/components/shared/Badges";
 
 interface PageProps {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }
 
 export async function generateStaticParams() {
@@ -56,18 +56,18 @@ export default async function CollectiblePage({ params }: PageProps) {
     (item) => item.username === collectible.creator,
   );
 
-  // Special reddit "Test Gray" handling, as it technically doesn't have any traits to begin with
-  if (creator?.username === "reddit") {
-    collectible.traits = [];
-    collectible.backgroundUrl = collectible.previewUrl;
-  }
+  // Special reddit "Test Gray" handling, as it technically doesn't have any traits
+  // to begin with. Derived rather than assigned: `collectible` is a shared object
+  // owned by the dataset module, so mutating it leaks into every other consumer.
+  const isTestGray = creator?.username === "reddit";
+  const traitIds = isTestGray ? [] : collectible.traits;
+  const backgroundUrl = isTestGray
+    ? collectible.previewUrl
+    : collectible.backgroundUrl;
 
   return (
     <>
-      <CollectibleViewer
-        traitIds={collectible.traits}
-        backgroundUrl={collectible.backgroundUrl}
-      />
+      <CollectibleViewer traitIds={traitIds} backgroundUrl={backgroundUrl} />
 
       <section className="border-dim/10 px-horizontal grid border-y py-3">
         <h1 className="flex h-10 items-center text-xl font-bold">

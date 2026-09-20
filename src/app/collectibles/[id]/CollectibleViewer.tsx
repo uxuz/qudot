@@ -211,7 +211,7 @@ export default function CollectibleViewer({
           alt="background"
           width={552}
           height={736}
-          className={`${!loaded ? "op acity-0" : "opacity-100"} ${
+          className={`${!loaded ? "opacity-0" : "opacity-100"} ${
             whiteBackground ? "brightness-0 invert" : ""
           }`}
           onLoad={incrementLoadedCounter}

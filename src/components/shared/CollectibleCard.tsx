@@ -17,7 +17,7 @@ export function CollectibleCard({ collectible }: { collectible: Collectible }) {
         productId={collectible.productId}
         name={collectible.name}
         creatorUsername={creator.username}
-        ceratorDisplayName={creator.displayName}
+        creatorDisplayName={creator.displayName}
         previewUrl={collectible.previewUrl}
         blur={creator.genAi}
       />

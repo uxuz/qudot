@@ -11,7 +11,7 @@ import { createPageMetadata } from "@/lib/metadata";
 import { BadgeGenAI } from "@/components/shared/Badges";
 
 interface PageProps {
-  params: { username: string };
+  params: Promise<{ username: string }>;
 }
 
 export async function generateStaticParams() {
