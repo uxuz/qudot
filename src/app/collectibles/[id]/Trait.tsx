@@ -7,7 +7,6 @@ interface TraitProps {
   traitId: string;
   alt: string;
   zIndex: number;
-  visible?: boolean;
   className: string;
   onLoad?: () => void;
   bodyColor?: string;
@@ -133,7 +132,6 @@ export function Trait({
   traitId,
   alt,
   zIndex,
-  visible = true,
   className,
   onLoad,
   bodyColor = "lime",
@@ -152,7 +150,7 @@ export function Trait({
 
   // Fetch SVG with caching
   useEffect(() => {
-    if (!visible || !src || !traitId) return;
+    if (!src || !traitId) return;
 
     if (svgCache.has(traitId)) {
       setRawSVG(svgCache.get(traitId)!);
@@ -181,7 +179,7 @@ export function Trait({
     return () => {
       isCancelled = true;
     };
-  }, [traitId, visible, src]);
+  }, [traitId, src]);
 
   // Process SVG structure once
   const processSVGStructure = useCallback(
@@ -208,7 +206,7 @@ export function Trait({
 
   // Initial SVG setup, only runs once per trait
   useEffect(() => {
-    if (!visible || !rawSVG || !containerRef.current || isLoaded) return;
+    if (!rawSVG || !containerRef.current || isLoaded) return;
 
     try {
       const structure = processSVGStructure(rawSVG);
@@ -247,7 +245,6 @@ export function Trait({
     }
   }, [
     rawSVG,
-    visible,
     processSVGStructure,
     traitId,
     onLoad,
@@ -296,7 +293,7 @@ export function Trait({
 
   // Handle color changes with optimized scheduling
   useEffect(() => {
-    if (!hasColorableContent || !visible || !isLoaded) return;
+    if (!hasColorableContent || !isLoaded) return;
 
     colorScheduler.schedule(traitId, throttledUpdate);
 
@@ -307,7 +304,6 @@ export function Trait({
     bodyColor,
     eyeColor,
     hairColor,
-    visible,
     hasColorableContent,
     isLoaded,
     traitId,
@@ -315,7 +311,7 @@ export function Trait({
   ]);
 
   // Early return for non-visible traits
-  if (!visible || !traitId) return null;
+  if (!traitId) return null;
 
   return (
     <div

@@ -52,7 +52,7 @@ export function VirtualCreatorsGrid({
             <div className="grid gap-4 pb-4 sm:grid-cols-2">
               {row.map((creator) => {
                 const creatorStats = stats[creator.username] ?? {
-                  count: 0,
+                  collectiblesCount: 0,
                   revenue: 0,
                 };
                 return (

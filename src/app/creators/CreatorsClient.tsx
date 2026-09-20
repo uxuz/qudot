@@ -1,48 +1,12 @@
 "use client";
 
-import { useState, useCallback, useEffect } from "react";
-import { usePathname } from "next/navigation";
 import { useMediaQuery } from "usehooks-ts";
 
 import { VirtualCreatorsGrid } from "./VirtualCreatorsGrid";
-import { FilterBar, SortDir, SortOption } from "@/components/shared/FilterBar";
+import { ViewControls } from "@/components/shared/ViewControls";
 import { Creator, CreatorStats } from "@/data/data.types";
-
-type SortKey = "name" | "collectibles" | "revenue";
-
-const SORT_OPTIONS: SortOption<SortKey>[] = [
-  { key: "revenue", label: "Revenue" },
-  { key: "collectibles", label: "Collection Size" },
-  { key: "name", label: "Name" },
-];
-
-const VALID_SORT_KEYS = new Set<SortKey>(["name", "collectibles", "revenue"]);
-
-type ViewState = {
-  search: string;
-  sort: SortKey;
-  dir: SortDir;
-};
-
-function getInitialState(): ViewState {
-  if (typeof window === "undefined") {
-    return {
-      search: "",
-      sort: "revenue",
-      dir: "desc",
-    };
-  }
-
-  const p = new URLSearchParams(window.location.search);
-  const rawSort = p.get("sort") ?? "revenue";
-  return {
-    search: p.get("q") ?? "",
-    sort: VALID_SORT_KEYS.has(rawSort as SortKey)
-      ? (rawSort as SortKey)
-      : "revenue",
-    dir: p.get("dir") === "asc" ? "asc" : "desc",
-  };
-}
+import { useQueryViewState } from "@/lib/useQueryViewState";
+import { CREATOR_SORT_OPTIONS, creatorsViewSchema } from "@/lib/view-params";
 
 export default function Creators({
   creators,
@@ -51,73 +15,13 @@ export default function Creators({
   creators: Creator[];
   creatorStats: CreatorStats;
 }) {
-  const pathname = usePathname();
-  const [view, setView] = useState<ViewState>(getInitialState);
+  const [view, setField] = useQueryViewState(creatorsViewSchema);
   const { search, sort, dir } = view;
-
-  useEffect(() => {
-    const syncViewFromLocation = () => {
-      setView(getInitialState());
-    };
-
-    syncViewFromLocation();
-    window.addEventListener("popstate", syncViewFromLocation);
-    return () => window.removeEventListener("popstate", syncViewFromLocation);
-  }, [pathname]);
 
   const isSmUp = useMediaQuery("(min-width: 640px)", {
     initializeWithValue: false,
   });
   const columns = isSmUp ? 2 : 1;
-
-  const updateURL = useCallback(
-    (q: string, s: SortKey, d: SortDir) => {
-      const params = new URLSearchParams();
-      if (q) params.set("q", q);
-      if (s !== "revenue") params.set("sort", s);
-      if (d !== "desc") params.set("dir", d);
-      const query = params.toString();
-      const nextUrl = `${pathname}${query ? `?${query}` : ""}`;
-      window.history.replaceState(null, "", nextUrl);
-    },
-    [pathname],
-  );
-
-  const handleSearchChange = useCallback(
-    (value: string) => {
-      const next: ViewState = {
-        ...view,
-        search: value,
-      };
-      setView(next);
-      updateURL(next.search, next.sort, next.dir);
-    },
-    [view, updateURL],
-  );
-
-  const handleSortChange = useCallback(
-    (key: SortKey) => {
-      const next: ViewState = {
-        ...view,
-        sort: key,
-      };
-      setView(next);
-      updateURL(next.search, next.sort, next.dir);
-    },
-    [view, updateURL],
-  );
-
-  const handleDirChange = useCallback(
-    (newDir: SortDir) => {
-      const next: ViewState = {
-        ...view,
-        dir: newDir,
-      };
-      setView(next);
-      updateURL(next.search, next.sort, next.dir);
-    },
-    [view, updateURL],
-  );
 
   const query = search.trim().toLowerCase();
   const filtered = query
@@ -157,15 +61,15 @@ export default function Creators({
 
   return (
     <div>
-      <FilterBar
+      <ViewControls
         search={search}
-        onSearchChange={handleSearchChange}
+        onSearchChange={(value) => setField("search", value)}
         searchPlaceholder="Search Creators"
-        sortOptions={SORT_OPTIONS}
+        sortOptions={CREATOR_SORT_OPTIONS}
         activeSort={sort}
-        onSortChange={handleSortChange}
+        onSortChange={(key) => setField("sort", key)}
         dir={dir}
-        onDirChange={handleDirChange}
+        onDirChange={(next) => setField("dir", next)}
         highlightId="creators-sort"
       />
 

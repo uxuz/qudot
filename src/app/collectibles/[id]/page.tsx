@@ -9,9 +9,11 @@ import { Avatar } from "@/components/shared/Avatar";
 import { LinkButton } from "@/components/shared/LinkButton";
 import { createPageMetadata } from "@/lib/metadata";
 import { BadgeGenAI } from "@/components/shared/Badges";
+import { Chip } from "@/components/shared/Chip";
+import { StatRow } from "@/components/shared/StatRow";
 
 interface PageProps {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }
 
 export async function generateStaticParams() {
@@ -56,18 +58,18 @@ export default async function CollectiblePage({ params }: PageProps) {
     (item) => item.username === collectible.creator,
   );
 
-  // Special reddit "Test Gray" handling, as it technically doesn't have any traits to begin with
-  if (creator?.username === "reddit") {
-    collectible.traits = [];
-    collectible.backgroundUrl = collectible.previewUrl;
-  }
+  // Special reddit "Test Gray" handling, as it technically doesn't have any traits
+  // to begin with. Derived rather than assigned: `collectible` is a shared object
+  // owned by the dataset module, so mutating it leaks into every other consumer.
+  const isTestGray = creator?.username === "reddit";
+  const traitIds = isTestGray ? [] : collectible.traits;
+  const backgroundUrl = isTestGray
+    ? collectible.previewUrl
+    : collectible.backgroundUrl;
 
   return (
     <>
-      <CollectibleViewer
-        traitIds={collectible.traits}
-        backgroundUrl={collectible.backgroundUrl}
-      />
+      <CollectibleViewer traitIds={traitIds} backgroundUrl={backgroundUrl} />
 
       <section className="border-dim/10 px-horizontal grid border-y py-3">
         <h1 className="flex h-10 items-center text-xl font-bold">
@@ -79,39 +81,25 @@ export default async function CollectiblePage({ params }: PageProps) {
 
       <section className="px-horizontal py-3">
         <dl className="mb-4 grid grid-cols-2 gap-x-6 gap-y-1">
-          <div className="flex items-baseline justify-between gap-2">
-            <dt className="text-dim">Retailed At</dt>
-            <dd className="tabular-nums">
-              {new Intl.NumberFormat("en-US", {
-                style: "currency",
-                currency: "USD",
-              }).format(collectible.price / 100)}
-            </dd>
-          </div>
+          <StatRow label="Retailed At">
+            {new Intl.NumberFormat("en-US", {
+              style: "currency",
+              currency: "USD",
+            }).format(collectible.price / 100)}
+          </StatRow>
 
-          <div className="flex items-baseline justify-between gap-2">
-            <dt className="text-dim">Units Sold</dt>
-            <dd className="tabular-nums">
-              {collectible.sold.toLocaleString()}
-            </dd>
-          </div>
+          <StatRow label="Units Sold">{collectible.sold.toLocaleString()}</StatRow>
 
-          <div className="flex items-baseline justify-between gap-2">
-            <dt className="text-dim">Supply Of</dt>
-            <dd className="tabular-nums">
-              {collectible.supply.toLocaleString()}
-            </dd>
-          </div>
+          <StatRow label="Supply Of">
+            {collectible.supply.toLocaleString()}
+          </StatRow>
 
-          <div className="flex items-baseline justify-between gap-2">
-            <dt className="text-dim">Revenue</dt>
-            <dd className="tabular-nums">
-              {new Intl.NumberFormat("en-US", {
-                style: "currency",
-                currency: "USD",
-              }).format((collectible.sold * collectible.price) / 100)}
-            </dd>
-          </div>
+          <StatRow label="Revenue">
+            {new Intl.NumberFormat("en-US", {
+              style: "currency",
+              currency: "USD",
+            }).format((collectible.sold * collectible.price) / 100)}
+          </StatRow>
         </dl>
 
         <LinkButton
@@ -140,12 +128,9 @@ export default async function CollectiblePage({ params }: PageProps) {
         <div className="text-dim flex w-full flex-wrap justify-end gap-1">
           {collectible.tags.length > 0 &&
             collectible.tags.map((tag) => (
-              <div
-                key={tag}
-                className="border-dim/5 bg-dim/5 flex rounded-lg border px-2"
-              >
+              <Chip key={tag} className="flex">
                 {tag.toUpperCase()}
-              </div>
+              </Chip>
             ))}
         </div>
       </section>

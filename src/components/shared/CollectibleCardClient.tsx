@@ -8,14 +8,14 @@ export function CollectibleCardClient({
   productId,
   name,
   creatorUsername,
-  ceratorDisplayName,
+  creatorDisplayName,
   previewUrl,
   blur,
 }: {
   productId: string;
   name: string;
   creatorUsername: string;
-  ceratorDisplayName: string;
+  creatorDisplayName: string;
   previewUrl: string;
   blur: boolean;
 }) {
@@ -29,7 +29,7 @@ export function CollectibleCardClient({
             className={`absolute inset-0 h-full w-full scale-120 transform object-cover object-bottom transition ${
               blur && !revealed ? "blur-sm" : ""
             }`}
-            alt={`${name} by ${ceratorDisplayName} (@${creatorUsername})`}
+            alt={`${name} by ${creatorDisplayName} (@${creatorUsername})`}
             src={previewUrl}
             width={552}
             height={736}

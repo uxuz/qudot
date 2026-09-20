@@ -3,6 +3,7 @@ import { Suspense } from "react";
 import { creators, creatorStats } from "@/data/data";
 import Creators from "./CreatorsClient";
 import { createPageMetadata } from "@/lib/metadata";
+import { PageIntro } from "@/components/shared/PageIntro";
 
 export const metadata = createPageMetadata({
   title: "Creators | Qudot",
@@ -13,15 +14,10 @@ export const metadata = createPageMetadata({
 export default function CreatorsPage() {
   return (
     <>
-      <section className="px-horizontal my-12 space-y-3">
-        <h1 className="text-xl font-bold tracking-tight text-balance">
-          Every creator, all of them, all at once.
-        </h1>
-        <p className="text-dim text-pretty">
-          Browse and explore every creator. Search by display name or username,
-          sort and reorder the results to find exactly who you are looking for.
-        </p>
-      </section>
+      <PageIntro
+        title="Every creator, all of them, all at once."
+        description="Browse and explore every creator. Search by display name or username, sort and reorder the results to find exactly who you are looking for."
+      />
       <Suspense>
         <Creators creators={creators} creatorStats={creatorStats} />
       </Suspense>

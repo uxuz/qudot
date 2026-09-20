@@ -1,177 +1,34 @@
 "use client";
 
-import { useState, useMemo, useCallback, useEffect } from "react";
-import { usePathname } from "next/navigation";
+import { useMemo } from "react";
 
 import { collectibles } from "@/data/data";
 import { VirtualCollectiblesGallery } from "./VirtualCollectiblesGallery";
+import { ViewControls } from "@/components/shared/ViewControls";
+import { useQueryViewState } from "@/lib/useQueryViewState";
 import {
-  FilterBar,
-  SortDir,
-  SortOption,
-  Generation,
-} from "@/components/shared/FilterBar";
-
-export type SortCategory = "default" | "revenue" | "price" | "supply" | "date";
-
-const SORT_OPTIONS: SortOption<SortCategory>[] = [
-  { key: "default", label: "Featured" },
-  { key: "revenue", label: "Revenue" },
-  { key: "price", label: "Price" },
-  { key: "supply", label: "Supply" },
-  { key: "date", label: "Date" },
-];
-
-const VALID_CATEGORIES = new Set<SortCategory>([
-  "default",
-  "revenue",
-  "price",
-  "supply",
-  "date",
-]);
-
-const VALID_GENERATIONS = new Set<Generation>([
-  "all",
-  "gen1",
-  "gen2",
-  "gen3",
-  "gen4",
-]);
-
-type ViewState = {
-  search: string;
-  category: SortCategory;
-  dir: SortDir;
-  generation: Generation;
-};
-
-export type CollectiblesViewState = ViewState;
+  COLLECTIBLE_SORT_OPTIONS,
+  collectiblesViewSchema,
+  generationTag,
+  type CollectiblesView,
+} from "@/lib/view-params";
 
 interface CollectiblesClientProps extends React.ComponentProps<"div"> {
-  initialView?: ViewState;
+  initialView?: Partial<CollectiblesView>;
 }
-
-const DEFAULT_VIEW: ViewState = {
-  search: "",
-  category: "default",
-  dir: "desc",
-  generation: "all",
-};
 
 const normalize = (str: string | undefined) =>
   (str ?? "").toLowerCase().replace(/•/g, "");
-
-const parseViewFromLocation = (): ViewState => {
-  if (typeof window === "undefined") return DEFAULT_VIEW;
-
-  const params = new URLSearchParams(window.location.search);
-  const rawSort = params.get("sort") ?? "default";
-  const rawGeneration = params.get("gen") ?? "all";
-
-  return {
-    search: params.get("q") ?? "",
-    category: VALID_CATEGORIES.has(rawSort as SortCategory)
-      ? (rawSort as SortCategory)
-      : DEFAULT_VIEW.category,
-    dir: params.get("dir") === "asc" ? "asc" : DEFAULT_VIEW.dir,
-    generation:
-      rawGeneration && VALID_GENERATIONS.has(rawGeneration as Generation)
-        ? (rawGeneration as Generation)
-        : DEFAULT_VIEW.generation,
-  };
-};
 
 export function CollectiblesClient({
   initialView,
   ...divProps
 }: CollectiblesClientProps) {
-  const pathname = usePathname();
-
-  const safeInitialView: ViewState = initialView
-    ? {
-        search: initialView.search ?? DEFAULT_VIEW.search,
-        category: VALID_CATEGORIES.has(initialView.category)
-          ? initialView.category
-          : DEFAULT_VIEW.category,
-        dir: initialView.dir === "asc" ? "asc" : "desc",
-        generation: initialView.generation ?? DEFAULT_VIEW.generation,
-      }
-    : DEFAULT_VIEW;
-
-  const [view, setView] = useState<ViewState>(safeInitialView);
+  const [view, setField] = useQueryViewState(
+    collectiblesViewSchema,
+    initialView,
+  );
   const { search, category, dir, generation } = view;
-
-  useEffect(() => {
-    const syncViewFromLocation = () => {
-      setView(parseViewFromLocation());
-    };
-
-    syncViewFromLocation();
-    window.addEventListener("popstate", syncViewFromLocation);
-    return () => window.removeEventListener("popstate", syncViewFromLocation);
-  }, [pathname]);
-
-  const updateURL = useCallback(
-    (q: string, sort: SortCategory, d: SortDir, gen: Generation) => {
-      const params = new URLSearchParams();
-      if (q) params.set("q", q);
-      if (sort !== "default") params.set("sort", sort);
-      if (d !== "desc") params.set("dir", d);
-      if (gen !== "all") params.set("gen", gen);
-      const query = params.toString();
-      const nextUrl = `${pathname}${query ? `?${query}` : ""}`;
-      window.history.replaceState(null, "", nextUrl);
-    },
-    [pathname],
-  );
-
-  const handleSearchChange = useCallback(
-    (value: string) => {
-      const next: ViewState = {
-        ...view,
-        search: value,
-      };
-      setView(next);
-      updateURL(next.search, next.category, next.dir, next.generation);
-    },
-    [view, updateURL],
-  );
-
-  const handleSortChange = useCallback(
-    (key: SortCategory) => {
-      const next: ViewState = {
-        ...view,
-        category: key,
-      };
-      setView(next);
-      updateURL(next.search, next.category, next.dir, next.generation);
-    },
-    [view, updateURL],
-  );
-
-  const handleDirChange = useCallback(
-    (newDir: SortDir) => {
-      const next: ViewState = {
-        ...view,
-        dir: newDir,
-      };
-      setView(next);
-      updateURL(next.search, next.category, next.dir, next.generation);
-    },
-    [view, updateURL],
-  );
-
-  const handleGenerationChange = useCallback(
-    (newGen: Generation) => {
-      const next: ViewState = {
-        ...view,
-        generation: newGen,
-      };
-      setView(next);
-      updateURL(next.search, next.category, next.dir, next.generation);
-    },
-    [view, updateURL],
-  );
 
   const filtered = useMemo(() => {
     const query = normalize(search.trim());
@@ -185,16 +42,9 @@ export function CollectiblesClient({
       : collectibles;
 
     // Filter by generation
-    if (generation !== "all") {
-      const genTag =
-        generation === "gen1"
-          ? "cp1"
-          : generation === "gen2"
-            ? "cp2"
-            : generation === "gen3"
-              ? "cp3"
-              : "cp4";
-      result = result.filter((c) => c.tags?.includes(genTag));
+    const tag = generationTag(generation);
+    if (tag) {
+      result = result.filter((c) => c.tags?.includes(tag));
     }
 
     if (category === "default") {
@@ -227,17 +77,17 @@ export function CollectiblesClient({
 
   return (
     <div {...divProps}>
-      <FilterBar
+      <ViewControls
         search={search}
-        onSearchChange={handleSearchChange}
+        onSearchChange={(value) => setField("search", value)}
         searchPlaceholder="Search Collectibles"
-        sortOptions={SORT_OPTIONS}
+        sortOptions={COLLECTIBLE_SORT_OPTIONS}
         activeSort={category}
-        onSortChange={handleSortChange}
+        onSortChange={(key) => setField("category", key)}
         dir={dir}
-        onDirChange={handleDirChange}
+        onDirChange={(next) => setField("dir", next)}
         generation={generation}
-        onGenerationChange={handleGenerationChange}
+        onGenerationChange={(next) => setField("generation", next)}
         highlightId="collectibles-sort"
       />
 

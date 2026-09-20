@@ -7,21 +7,25 @@ import {
   LucideArrowUpNarrowWide,
   LucideArrowDownWideNarrow,
 } from "@/components/icons/Lucide";
+import {
+  GENERATION_OPTIONS,
+  type Generation,
+  type SortDir,
+  type SortOption,
+} from "@/lib/view-params";
+import {
+  IconButton,
+  controlSurface,
+  interactiveSurface,
+} from "@/components/shared/IconButton";
+import { cn } from "@/lib/utils";
 
-export type SortDir = "asc" | "desc";
-export type Generation = "all" | "gen1" | "gen2" | "gen3" | "gen4";
-
-export interface SortOption<T extends string> {
-  key: T;
-  label: string;
-}
-
-interface FilterBarProps<T extends string> {
+interface ViewControlsProps<T extends string> {
   search: string;
   onSearchChange: (value: string) => void;
   searchPlaceholder?: string;
 
-  sortOptions: SortOption<T>[];
+  sortOptions: readonly SortOption<T>[];
   activeSort: T;
   onSortChange: (key: T) => void;
 
@@ -34,7 +38,7 @@ interface FilterBarProps<T extends string> {
   highlightId?: string;
 }
 
-export function FilterBar<T extends string>({
+export function ViewControls<T extends string>({
   search,
   onSearchChange,
   searchPlaceholder = "Search...",
@@ -46,10 +50,10 @@ export function FilterBar<T extends string>({
   generation,
   onGenerationChange,
   highlightId = "sortHighlight",
-}: FilterBarProps<T>) {
+}: ViewControlsProps<T>) {
   const anchorRef = useRef<HTMLDivElement>(null);
 
-  const scrollToFilter = () => {
+  const scrollToControls = () => {
     if (anchorRef.current) {
       const rect = anchorRef.current.getBoundingClientRect();
       if (rect.top < 0) {
@@ -63,7 +67,12 @@ export function FilterBar<T extends string>({
       <div ref={anchorRef} className="pointer-events-none h-0 scroll-mt-16" />
       <section className="bg-background sticky top-16 isolate z-30 -mt-3 mb-3 space-y-3 pt-3">
         <div className="px-horizontal flex gap-2">
-          <div className="border-dim/5 text-dim bg-dim/5 focus-within:border-dim/10 focus-within:bg-dim/10 relative flex h-10 flex-1 items-center gap-2 rounded-xl border px-3">
+          <div
+            className={cn(
+              controlSurface,
+              "focus-within:border-dim/10 focus-within:bg-dim/10 relative flex h-10 flex-1 items-center gap-2 px-3",
+            )}
+          >
             <LucideSearch className="shrink-0" />
             <input
               maxLength={24}
@@ -81,24 +90,26 @@ export function FilterBar<T extends string>({
               onChange={(e) =>
                 onGenerationChange?.(e.target.value as Generation)
               }
-              className="border-dim/5 bg-dim/5 text-dim hover:text-foreground hover:bg-dim/10 h-10 shrink-0 cursor-pointer appearance-none rounded-xl border px-3 text-center outline-0 transition-colors"
+              className={cn(
+                interactiveSurface,
+                "hover:text-foreground h-10 shrink-0 appearance-none px-3 text-center outline-0",
+              )}
             >
-              <option value="all">All</option>
-              <option value="gen1">Gen 1</option>
-              <option value="gen2">Gen 2</option>
-              <option value="gen3">Gen 3</option>
-              <option value="gen4">Gen 4</option>
+              {GENERATION_OPTIONS.map(({ key, label }) => (
+                <option key={key} value={key}>
+                  {label}
+                </option>
+              ))}
             </select>
           )}
-          <button
+          <IconButton
             onClick={() => onDirChange(dir === "asc" ? "desc" : "asc")}
-            className="border-dim/5 bg-dim/5 text-dim hover:text-foreground hover:bg-dim/10 flex size-10 shrink-0 cursor-pointer items-center justify-center rounded-xl border transition-colors [&_svg]:text-xl"
             aria-label={dir === "asc" ? "Sort ascending" : "Sort descending"}
           >
             <AnimatePresence mode="popLayout" initial={false}>
               <motion.div
                 key={dir}
-                onClick={() => scrollToFilter()}
+                onClick={() => scrollToControls()}
                 initial={{ opacity: 0, scale: 0.25, filter: "blur(4px)" }}
                 animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
                 exit={{ opacity: 0, scale: 0.25, filter: "blur(4px)" }}
@@ -115,7 +126,7 @@ export function FilterBar<T extends string>({
                 )}
               </motion.div>
             </AnimatePresence>
-          </button>
+          </IconButton>
         </div>
 
         <div className="border-dim/10 px-horizontal flex items-center gap-2 border-b">
@@ -124,7 +135,7 @@ export function FilterBar<T extends string>({
               <button
                 key={key}
                 onClick={() => {
-                  scrollToFilter();
+                  scrollToControls();
                   onSortChange(key);
                 }}
                 className="hover:text-foreground relative mx-2 flex h-10 flex-1 cursor-pointer items-center justify-center text-sm transition-colors select-none"
