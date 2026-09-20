@@ -25,6 +25,8 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
+import { controlSurface } from "@/components/shared/IconButton";
+import { cn } from "@/lib/utils";
 
 type TraitKey =
   | "rightHand"
@@ -385,7 +387,7 @@ export default function CollectibleViewer({
             </DrawerContent>
           </Drawer>
         </div>
-        <div className="bg-dim/5 border-dim/5 hidden h-full w-full rounded-xl border sm:block">
+        <div className={cn(controlSurface, "hidden h-full w-full sm:block")}>
           <ColorPicker
             onBodyChange={setBodyColor}
             onEyeChange={setEyeColor}

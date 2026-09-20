@@ -7,6 +7,7 @@ import {
   SimpleIconsGithub,
   SimpleIconsKofi,
 } from "@/components/icons/SimpleIcons";
+import { IconLink } from "@/components/shared/IconButton";
 
 const redditSans = Reddit_Sans({
   variable: "--font-reddit-sans",
@@ -72,22 +73,16 @@ export default function RootLayout({
               </span>
             </Link>
             <div className="ml-auto flex gap-2">
-              <Link
+              <IconLink
                 href="https://github.com/uxuz/qudot"
                 aria-label="GitHub repository"
                 target="_blank"
-                className="bg-dim/5 border-dim/5 text-dim hover:bg-dim/10 ml-auto flex size-10 items-center justify-center rounded-xl border transition-colors [&>svg]:text-xl"
               >
                 <SimpleIconsGithub />
-              </Link>
-              <Link
-                href="https://ko-fi.com/uxuz"
-                aria-label="Ko-Fi"
-                target="_blank"
-                className="bg-dim/5 border-dim/5 text-dim hover:bg-dim/10 ml-auto flex size-10 items-center justify-center rounded-xl border transition-colors [&>svg]:text-xl"
-              >
+              </IconLink>
+              <IconLink href="https://ko-fi.com/uxuz" aria-label="Ko-Fi" target="_blank">
                 <SimpleIconsKofi />
-              </Link>
+              </IconLink>
             </div>
           </header>
           <main>{children}</main>

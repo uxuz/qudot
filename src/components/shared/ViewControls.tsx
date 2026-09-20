@@ -13,6 +13,12 @@ import {
   type SortDir,
   type SortOption,
 } from "@/lib/view-params";
+import {
+  IconButton,
+  controlSurface,
+  interactiveSurface,
+} from "@/components/shared/IconButton";
+import { cn } from "@/lib/utils";
 
 interface ViewControlsProps<T extends string> {
   search: string;
@@ -61,7 +67,12 @@ export function ViewControls<T extends string>({
       <div ref={anchorRef} className="pointer-events-none h-0 scroll-mt-16" />
       <section className="bg-background sticky top-16 isolate z-30 -mt-3 mb-3 space-y-3 pt-3">
         <div className="px-horizontal flex gap-2">
-          <div className="border-dim/5 text-dim bg-dim/5 focus-within:border-dim/10 focus-within:bg-dim/10 relative flex h-10 flex-1 items-center gap-2 rounded-xl border px-3">
+          <div
+            className={cn(
+              controlSurface,
+              "focus-within:border-dim/10 focus-within:bg-dim/10 relative flex h-10 flex-1 items-center gap-2 px-3",
+            )}
+          >
             <LucideSearch className="shrink-0" />
             <input
               maxLength={24}
@@ -79,7 +90,10 @@ export function ViewControls<T extends string>({
               onChange={(e) =>
                 onGenerationChange?.(e.target.value as Generation)
               }
-              className="border-dim/5 bg-dim/5 text-dim hover:text-foreground hover:bg-dim/10 h-10 shrink-0 cursor-pointer appearance-none rounded-xl border px-3 text-center outline-0 transition-colors"
+              className={cn(
+                interactiveSurface,
+                "hover:text-foreground h-10 shrink-0 appearance-none px-3 text-center outline-0",
+              )}
             >
               {GENERATION_OPTIONS.map(({ key, label }) => (
                 <option key={key} value={key}>
@@ -88,9 +102,8 @@ export function ViewControls<T extends string>({
               ))}
             </select>
           )}
-          <button
+          <IconButton
             onClick={() => onDirChange(dir === "asc" ? "desc" : "asc")}
-            className="border-dim/5 bg-dim/5 text-dim hover:text-foreground hover:bg-dim/10 flex size-10 shrink-0 cursor-pointer items-center justify-center rounded-xl border transition-colors [&_svg]:text-xl"
             aria-label={dir === "asc" ? "Sort ascending" : "Sort descending"}
           >
             <AnimatePresence mode="popLayout" initial={false}>
@@ -113,7 +126,7 @@ export function ViewControls<T extends string>({
                 )}
               </motion.div>
             </AnimatePresence>
-          </button>
+          </IconButton>
         </div>
 
         <div className="border-dim/10 px-horizontal flex items-center gap-2 border-b">

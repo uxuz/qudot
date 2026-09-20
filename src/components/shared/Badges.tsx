@@ -1,15 +1,9 @@
-import { cn } from "@/lib/utils";
+import { Chip } from "./Chip";
 
-export function BadgeGenAI({ ...props }: React.ComponentProps<"span">) {
+export function BadgeGenAI(props: React.ComponentProps<"span">) {
   return (
-    <span
-      {...props}
-      className={cn(
-        "border-dim/10 bg-dim/10 text-dim rounded-lg border px-2",
-        props.className,
-      )}
-    >
+    <Chip tone="dim" {...props}>
       ✦
-    </span>
+    </Chip>
   );
 }

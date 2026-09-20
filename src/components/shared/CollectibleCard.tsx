@@ -3,6 +3,7 @@ import type { Collectible } from "@/data/data.types";
 import { creators } from "@/data/data";
 import { CollectibleCardClient } from "./CollectibleCardClient";
 import { BadgeGenAI } from "./Badges";
+import { Chip } from "./Chip";
 
 const creatorsByUsername = Object.fromEntries(
   creators.map((creator) => [creator.username, creator]),
@@ -39,16 +40,16 @@ export function CollectibleCard({ collectible }: { collectible: Collectible }) {
       </div>
 
       <div className="pointer-events-none absolute flex w-full justify-between gap-1 p-2 text-xs">
-        <span className="border-dim/10 bg-background/80 rounded-lg border px-1">
+        <Chip tone="overlay" className="px-1">
           {new Intl.NumberFormat("en-US", {
             style: "currency",
             currency: "USD",
           }).format(collectible.price / 100)}
-        </span>
+        </Chip>
 
-        <span className="border-dim/10 bg-background/80 rounded-lg border px-1">
+        <Chip tone="overlay" className="px-1">
           {collectible.sold}/{collectible.supply}
-        </span>
+        </Chip>
       </div>
     </div>
   );
